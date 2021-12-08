@@ -35,7 +35,12 @@ namespace Mediapipe.Unity
     public bool isFinished { get; private set; }
     private bool _isGlogInitialized;
 
-    private IEnumerator Start()
+	private void Awake()
+	{
+            Application.targetFrameRate = 60;
+	}
+
+		private IEnumerator Start()
     {
       Logger.SetLogger(new MemoizedLogger(100));
       Logger.minLogLevel = Logger.LogLevel.Debug;
