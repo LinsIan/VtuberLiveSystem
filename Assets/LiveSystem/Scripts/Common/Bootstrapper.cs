@@ -21,11 +21,11 @@ namespace LiveSystem
         Home3D,
     }
 
-    public class Bootsrapper : MonoBehaviour
+    public class Bootstrapper : MonoBehaviour
     {
-        private const string _TAG = nameof(Bootsrapper);
+        private const string _TAG = nameof(Bootstrapper);
 
-        [SerializeField] private Image screen;
+        [SerializeField] private Image consoleImage;
         [SerializeField] private GameObject consolePrefab;
         [SerializeField] private GameObject startMenu;
         [SerializeField] private ImageSource.SourceType defaultImageSource;
@@ -44,7 +44,7 @@ namespace LiveSystem
             Logger.minLogLevel = Logger.LogLevel.Debug;
 
             Logger.LogInfo(_TAG, "Starting console window...");
-            Instantiate(consolePrefab, screen.transform);
+            Instantiate(consolePrefab, consoleImage.transform);
             yield return new WaitForEndOfFrame();
 
             Logger.LogInfo(_TAG, "Setting global flags...");
@@ -80,8 +80,11 @@ namespace LiveSystem
             DontDestroyOnLoad(GameObject.Find("Image Source"));
             DontDestroyOnLoad(gameObject);
 
-            Logger.LogInfo(_TAG, "Show Start Menu");
+
+            Logger.LogInfo(_TAG, "Showing Start Menu...");
+            yield return new WaitForSeconds(1);
             startMenu.SetActive(true);
+            consoleImage.gameObject.SetActive(false);
         }
 
         //public IEnumerator LoadSceneAsync(int sceneBuildIndex)
