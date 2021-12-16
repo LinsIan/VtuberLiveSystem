@@ -23,6 +23,7 @@ namespace LiveSystem.UI
             {
                 liveModeDropdown.options.Add(new Dropdown.OptionData(item));
             }
+            liveModeDropdown.RefreshShownValue();
             startButton.onClick.AddListener(() => { StartCoroutine(LoadSceneAsync(liveModeDropdown.value + 1)); });
         }
 
