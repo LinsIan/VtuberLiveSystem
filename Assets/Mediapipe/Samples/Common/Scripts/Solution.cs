@@ -7,6 +7,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using LiveSystem;
 
 namespace Mediapipe.Unity
 {
@@ -17,21 +18,21 @@ namespace Mediapipe.Unity
     protected virtual string TAG => GetType().Name;
 #pragma warning restore IDE1006
 
-    protected Bootstrap bootstrap;
+    protected LiveSystem.Bootstrapper bootstrapper;
     protected bool isPaused;
 
     protected virtual IEnumerator Start()
     {
-      var bootstrapObj = GameObject.Find("Bootstrap");
+      var bootstrapObj = GameObject.Find("Boostrapper");
 
       if (bootstrapObj == null)
       {
-        Logger.LogError(TAG, "Bootstrap is not found. Please play 'Start Scene' first");
+        Logger.LogError(TAG, "Boostrapper is not found. Please play 'Start Scene' first");
         yield break;
       }
 
-      bootstrap = bootstrapObj.GetComponent<Bootstrap>();
-      yield return new WaitUntil(() => bootstrap.isFinished);
+      bootstrapper = bootstrapObj.GetComponent<LiveSystem.Bootstrapper>();
+      yield return new WaitUntil(() => bootstrapper.isFinished);
 
       Play();
     }

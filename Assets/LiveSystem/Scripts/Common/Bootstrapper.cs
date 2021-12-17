@@ -33,8 +33,8 @@ namespace LiveSystem
         [SerializeField] private bool enableGlog = true;
 
         public InferenceMode inferenceMode { get; private set; }
-
-        private bool _isGlogInitialized;
+        public bool isFinished { get; private set; }
+        private bool isGlogInitialized;
 
         private IEnumerator Start()
         {
@@ -61,7 +61,7 @@ namespace LiveSystem
                     Logger.LogVerbose(_TAG, $"Glog will output files under {Glog.LogDir}");
                 }
                 Glog.Initialize("MediaPipeUnityPlugin");
-                _isGlogInitialized = true;
+                isGlogInitialized = true;
             }
 
             Logger.LogInfo(_TAG, "Initializing AssetLoader...");
@@ -79,7 +79,7 @@ namespace LiveSystem
 
             DontDestroyOnLoad(GameObject.Find("Image Source"));
             DontDestroyOnLoad(gameObject);
-
+            isFinished = true;
 
             Logger.LogInfo(_TAG, "Showing Start Menu...");
             yield return new WaitForSeconds(1);
@@ -110,7 +110,7 @@ namespace LiveSystem
         {
             GpuManager.Shutdown();
 
-            if (_isGlogInitialized)
+            if (isGlogInitialized)
             {
                 Glog.Shutdown();
             }
