@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace LiveSystem
 {
-    public class Calculater<T>
+    public abstract class Calculater<T>
     {
 
         public virtual void OnDataOutput(T data)
