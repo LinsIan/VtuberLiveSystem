@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mediapipe.Unity.FaceMesh;
 
 namespace LiveSystem
 {
     public class Live2DFaceSystem : LiveSystem
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        private FaceMeshGraph graph;
+        private FaceLandmarksCalculater landmarksCalculater;
 
+        protected override void Start()
+        {
+            landmarksCalculater = new FaceLandmarksCalculater();
+            graph = solution?.GetComponent<FaceMeshGraph>();
+            graph.OnMultiFaceLandmarksOutput.AddListener(landmarksCalculater.OnMultiDataOutput);
         }
 
-        // Update is called once per frame
-        void Update()
-        {
 
-        }
     }
 }

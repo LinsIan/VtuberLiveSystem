@@ -6,7 +6,7 @@ using Mediapipe.Unity;
 
 namespace LiveSystem
 {
-    public class LiveSystem : MonoBehaviour
+    public abstract class LiveSystem : MonoBehaviour
     {
         [SerializeField] protected Solution solution; //抓graph、操作solution
         [SerializeField] protected ModelController modelController;//2D、3D控制
@@ -21,8 +21,9 @@ namespace LiveSystem
         protected readonly List<int> InnerLipsPoints = new List<int> { 78, 95, 88, 178, 87, 14, 317, 402, 318, 324, 308, 191, 80, 81, 82, 13, 312, 311, 310, 415 };
         protected readonly List<int> OuterLipsPoints = new List<int> { 61, 146, 91, 181, 84, 17, 314, 405, 321, 375, 291, 61, 185, 40, 39, 37, 0, 267, 269, 270, 409 };
 
-        virtual protected void Init()
+        virtual protected void Start()
         {
+            
         }
 
         virtual protected void Pause()
@@ -32,6 +33,7 @@ namespace LiveSystem
 
         virtual protected void Stop()
         {
+
         }
 
     }
