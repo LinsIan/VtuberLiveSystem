@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1663d4d6a7ce17fdbad3dcb3e667ee85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
   _landmarkListAnnotation: {fileID: 8525746990267350913}
   _circleAnnotation: {fileID: 6589080662169022602}
 --- !u!1001 &699405928064242038

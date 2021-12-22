@@ -173,6 +173,10 @@ namespace Mediapipe.Unity
     {
       _landmarkListAnnotation.Fill(_LandmarkCount);
       _connectionListAnnotation.Fill(_connections, _landmarkListAnnotation);
+      for (int i = 0; i < _LandmarkCount; i++)
+      {
+         _landmarkListAnnotation[i].ID = i;
+      }
     }
 
     public void SetLandmarkColor(Color landmarkColor)

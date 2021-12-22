@@ -6,20 +6,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mediapipe.Unity.FaceMesh;
+using Mediapipe.Unity.IrisTracking;
 
 namespace LiveSystem
 {
     public class Live2DFaceSystem : LiveSystem
     {
-        private FaceMeshGraph graph;
-        private FaceLandmarksCalculater landmarksCalculater;
+        private IrisTrackingGraph graph;
+        private FaceModelDataCalculater faceModelCalculater;
 
         protected override void Start()
         {
-            landmarksCalculater = new FaceLandmarksCalculater();
-            graph = solution?.GetComponent<FaceMeshGraph>();
-            graph.OnMultiFaceLandmarksOutput.AddListener(landmarksCalculater.OnMultiDataOutput);
+            faceModelCalculater = new FaceModelDataCalculater();
+            graph = solution?.GetComponent<IrisTrackingGraph>();
+            graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
         }
 
 

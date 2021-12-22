@@ -7,10 +7,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mediapipe;
+using LiveSystem.ModelData;
 
 namespace LiveSystem
 {
-    public class FaceLandmarksCalculater : Calculater<NormalizedLandmarkList>
+    public class FaceModelDataCalculater : Calculater<NormalizedLandmarkList>
     {
         //TODO:從這裡面找出關鍵點
         protected readonly List<int> FaceOvalPoints = new List<int> { 10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109 };
@@ -21,10 +22,17 @@ namespace LiveSystem
         protected readonly List<int> InnerLipsPoints = new List<int> { 78, 95, 88, 178, 87, 14, 317, 402, 318, 324, 308, 191, 80, 81, 82, 13, 312, 311, 310, 415 };
         protected readonly List<int> OuterLipsPoints = new List<int> { 61, 146, 91, 181, 84, 17, 314, 405, 321, 375, 291, 61, 185, 40, 39, 37, 0, 267, 269, 270, 409 };
 
+        protected readonly int FaceMeshCount = 468;
+        protected readonly int IrisCount = 5;
+
+        //關鍵點，算出FaceModelData
+        protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0 };
+        protected readonly int NosePoint = 1;
+
+
         public override void OnDataOutput(NormalizedLandmarkList data)
         {
-            //算出CubismParameter
-            
+
         }
 
         public override void OnMultiDataOutput(List<NormalizedLandmarkList> data)
