@@ -31,6 +31,8 @@ namespace Mediapipe.Unity
       }
       protected set => _root = value;
     }
+    public int ID;
+
 
     public RectTransform GetAnnotationLayer()
     {

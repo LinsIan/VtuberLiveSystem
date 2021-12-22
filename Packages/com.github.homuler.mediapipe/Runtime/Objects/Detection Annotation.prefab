@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a82b9904ff34cc4fb66157217fe48a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
   _locationDataAnnotation: {fileID: 8241125562864823516}
   _relativeKeypointsAnnotation: {fileID: 6447834089412636778}
   _labelAnnotation: {fileID: 7310817467319291998}
