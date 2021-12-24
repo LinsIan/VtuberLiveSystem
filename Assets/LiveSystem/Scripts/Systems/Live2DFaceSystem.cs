@@ -20,8 +20,16 @@ namespace LiveSystem
             faceModelCalculater = new FaceModelDataCalculater();
             graph = solution?.GetComponent<IrisTrackingGraph>();
             graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
+
+            //用強轉型給ModelController設delegate
+            if (modelController is Live2DModelController controller)
+            {
+                faceModelCalculater.OnFaceModelDataOutput += controller.OnFaceModelDataOutput;
+            }
+            else
+            {
+                //轉型失敗
+            }
         }
-
-
     }
 }

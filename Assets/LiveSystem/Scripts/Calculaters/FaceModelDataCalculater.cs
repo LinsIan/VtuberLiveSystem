@@ -3,6 +3,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,9 @@ namespace LiveSystem
 {
     public class FaceModelDataCalculater : Calculater<NormalizedLandmarkList>
     {
-        //TODO:從這裡面找出關鍵點
+        public Action<FaceModelData> OnFaceModelDataOutput { get; set; }
+
+        //TODO:從這裡面找出關鍵
         protected readonly List<int> FaceOvalPoints = new List<int> { 10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109 };
         protected readonly List<int> LeftEyePoints = new List<int> { 33, 7, 163, 144, 145, 153, 154, 155, 133, 33, 246, 161, 160, 159, 158, 157, 173 };
         protected readonly List<int> LeftEyebrowPoints = new List<int> { 46, 53, 52, 65, 55, 70, 63, 105, 66, 107 };
@@ -29,7 +32,7 @@ namespace LiveSystem
         protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0, 17 };
         protected readonly List<int> InnerLipsKeyPoints = new List<int> { 13, 14 };
         protected readonly List<int> HorizonMouthKeyPoints = new List<int> { 61, 291 };
-        protected readonly List<int> LeftEyeKeyPoints = new List<int> { 33, 133, 145, 159, };
+        protected readonly List<int> LeftEyeKeyPoints = new List<int> { 33, 133, 145, 159 };
         protected readonly List<int> RightEyeKeyPoints = new List<int> { 263, 362, 373, 386};
         protected readonly int NosePoint = 1;
         protected readonly int ChinPoint = 152;
@@ -39,7 +42,7 @@ namespace LiveSystem
 
         public override void OnDataOutput(NormalizedLandmarkList data)
         {
-
+            
         }
 
         public override void OnMultiDataOutput(List<NormalizedLandmarkList> data)

@@ -7,17 +7,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModelController : MonoBehaviour //這個就可以用狀態模式
+namespace LiveSystem
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public class ModelController : MonoBehaviour
     {
-        
+        [SerializeField] protected GameObject modelPrefab;
+
+        public virtual IEnumerator Start()
+        {
+            //TODO:載入模型等操作
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        public virtual void UpdateModel()
+        {
+        }
+
+        public virtual void SetModel()
+        {
+            //TODO:切換模型的功能
+        }
+
     }
 }

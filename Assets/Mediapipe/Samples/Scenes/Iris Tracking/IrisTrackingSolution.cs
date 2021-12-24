@@ -130,7 +130,7 @@ namespace Mediapipe.Unity.IrisTracking
         yield return new WaitForEndOfFrame();
       }
     }
-
+            
     private void OnFaceDetectionsOutput(List<Detection> faceDetections)
     {
       _faceDetectionsAnnotationController.DrawLater(faceDetections);

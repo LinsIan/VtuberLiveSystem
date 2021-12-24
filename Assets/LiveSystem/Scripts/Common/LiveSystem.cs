@@ -14,25 +14,33 @@ namespace LiveSystem
     public abstract class LiveSystem : MonoBehaviour
     {
         [SerializeField] protected Solution solution; //抓graph、操作solution
-        [SerializeField] protected ModelController modelController;//2D、3D控制
+        [SerializeField] protected ModelController modelController;//2D、3D控制器
         [SerializeField] protected LiveMode liveMode;
 
-        //protected const int LandmarkCount = 468;
-
-        virtual protected void Start()
+        protected virtual void Start()
         {
             
         }
 
-        virtual protected void Pause()
+        protected virtual void Pause()
         {
             solution.Pause();
         }
 
-        virtual protected void Stop()
+        protected virtual void Stop()
         {
 
         }
 
+        protected virtual void Update()
+        {
+            modelController.UpdateModel();
+        }
+
+        public void SetMode(LiveMode mode, ModelController controller)
+        {
+            liveMode = mode;
+            modelController = controller;
+        }
     }
 }
