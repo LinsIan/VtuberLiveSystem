@@ -42,7 +42,12 @@ namespace LiveSystem
 
         public override void OnDataOutput(NormalizedLandmarkList data)
         {
-            
+            var modelData = new FaceModelData();
+            var leftEyeX = (data.Landmark[33].X + data.Landmark[133].X + data.Landmark[145].X + data.Landmark[159].X) / 4;
+            var rightEyeX = (data.Landmark[263].X + data.Landmark[362].X + data.Landmark[373].X + data.Landmark[386].X) / 4;
+            var noseX = data.Landmark[NosePoint].X;
+            modelData.AngleX = (leftEyeX - noseX) + (rightEyeX - noseX);
+            OnFaceModelDataOutput?.Invoke(modelData);
         }
 
         public override void OnMultiDataOutput(List<NormalizedLandmarkList> data)

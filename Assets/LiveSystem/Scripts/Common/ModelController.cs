@@ -13,10 +13,11 @@ namespace LiveSystem
     public class ModelController : MonoBehaviour
     {
         [SerializeField] protected GameObject modelPrefab;
+        [SerializeField] protected GameObject modelObj; //這邊先用在場景拉關係，之後改成controller生成
 
         public virtual IEnumerator Start()
         {
-            //TODO:載入模型等操作
+            //TODO:載入模型、設置初始位置等操作
 
             yield return new WaitForEndOfFrame();
         }
