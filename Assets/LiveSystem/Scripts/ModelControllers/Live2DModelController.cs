@@ -18,36 +18,40 @@ namespace LiveSystem
             AngleX = 0
         }
 
+        private CubismModel cubismModel;
         private CubismParameter[] parameters;
+        private Queue<FaceModelData> dataQue = new Queue<FaceModelData>();
+        private FaceModelData currentData;
 
-        public override IEnumerator Start()
+        public override void Start()
         {
-            yield return base.Start();
-            var cubismModel = modelObj.GetComponent<CubismModel>();
+            base.Start();
+            cubismModel = modelObj.GetComponent<CubismModel>();
             parameters = cubismModel.Parameters;
         }
 
-
-        float speed = 10;
         public override void UpdateModel()
         {
-            var par = parameters[0];
-            par.Value += speed * Time.deltaTime;
-            if (par.Value >= par.MaximumValue)
+            lock (dataQue)
             {
-                speed = -10;
+                if (dataQue.Count != 0)
+                {
+                    currentData = dataQue.Dequeue();
+                }
             }
-            else if (par.Value <= par.MinimumValue)
-            {
-                speed = 10;
-            }
+
+            //TODO:平滑移動
+            parameters[(int)ParameterIndex.AngleX].Value = currentData.AngleX * 400;
+
         }
 
         public void OnFaceModelDataOutput(FaceModelData data)
         {
-            //Debug.Log(data.AngleX * 500);
             //parameters[((int)ParameterIndex.AngleX)].Value = data.AngleX * 300;
-            
+            lock(dataQue)
+            {
+                dataQue.Enqueue(data);
+            }
         }
 
 

@@ -14,21 +14,21 @@ namespace LiveSystem
     {
         [SerializeField] protected GameObject modelPrefab;
         [SerializeField] protected GameObject modelObj; //這邊先用在場景拉關係，之後改成controller生成
+        public bool Initialized { get; set; }
 
-        public virtual IEnumerator Start()
+        public virtual void Start()
         {
             //TODO:載入模型、設置初始位置等操作
-
-            yield return new WaitForEndOfFrame();
         }
 
         public virtual void UpdateModel()
         {
+
         }
 
         public virtual void SetModel()
         {
-            //TODO:切換模型的功能
+            //TODO:切換模型的功能，可能要coroutine(載入模型資料然後生成等等)
         }
 
     }
