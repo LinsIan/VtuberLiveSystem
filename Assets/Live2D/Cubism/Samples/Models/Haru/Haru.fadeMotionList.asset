@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403ae2dd693bb1d4b924f6b8d206b053, type: 3}
+  m_Name: Haru.fadeMotionList
+  m_EditorClassIdentifier: 
+  MotionInstanceIds: f450ffff0c51ffff2c51ffffbc50ffffe450ffff4451ffffdc50ffff1451ffff3c51ffffc450ffff2451ffffec50ffff0451fffffc50ffff3451ffff9450ffff9c50ffff8450ffff8c50ffff1c51ffffd450ffffa450ffffac50ffffb450ffffcc50ffff
+  CubismFadeMotionObjects:
+  - {fileID: 11400000, guid: 28d817db7d27b4331bc9ec21d70279e3, type: 2}
+  - {fileID: 11400000, guid: 586aa7f0840844cbb92e6821f14e6e9c, type: 2}
+  - {fileID: 11400000, guid: 6db6e39c555f04b6caaee5c3bc18add1, type: 2}
+  - {fileID: 11400000, guid: a44bd58cc2d8144f2b5f9b9d81020a1f, type: 2}
+  - {fileID: 11400000, guid: 19771f38f7ced490b90a5b71610eb0b5, type: 2}
+  - {fileID: 11400000, guid: 6da357f1e25ac4f15a5a947240394b6c, type: 2}
+  - {fileID: 11400000, guid: 9cbb7c32ee3154c0badcf4766b0f990b, type: 2}
+  - {fileID: 11400000, guid: a87dabc73b21f401aadd5dd60b6a6b74, type: 2}
+  - {fileID: 11400000, guid: 19629141f64894d5c91e60937f09fe44, type: 2}
+  - {fileID: 11400000, guid: caf9aa89cb1894a72a8600a6b758ce17, type: 2}
+  - {fileID: 11400000, guid: c42caf1999075451db676882c72cf987, type: 2}
+  - {fileID: 11400000, guid: efa6654ff69ec4398b85b0da9343aa55, type: 2}
+  - {fileID: 11400000, guid: bd50936e5175e4138a4d70928ad201eb, type: 2}
+  - {fileID: 11400000, guid: 77031e210940c4bb487da990916b4f2c, type: 2}
+  - {fileID: 11400000, guid: e85e0e3cb615d409b859ef0860e93918, type: 2}
+  - {fileID: 11400000, guid: 127e0bdf0d3e646689b04a655bba8228, type: 2}
+  - {fileID: 11400000, guid: 513f8cc0c19aa4e67bcf90b4b2e3f43c, type: 2}
+  - {fileID: 11400000, guid: 21ffa7286e30b4196a0380d286322fa5, type: 2}
+  - {fileID: 11400000, guid: fe8260f8b2a4a483f8161b9c3e181d91, type: 2}
+  - {fileID: 11400000, guid: c2f35510ea6c54baaa6dcab46648981f, type: 2}
+  - {fileID: 11400000, guid: 241072377a31f49a5ad716bc53422d46, type: 2}
+  - {fileID: 11400000, guid: 7c6d212707cef44659ca994fe0a680fc, type: 2}
+  - {fileID: 11400000, guid: b9c625531d54a49b6b887a367ec630f5, type: 2}
+  - {fileID: 11400000, guid: b74f3aa77bb284725b1bc0a6d69d53fc, type: 2}
+  - {fileID: 11400000, guid: 94dd0e7ba982f48d591a12bec7221862, type: 2}
