@@ -42,17 +42,40 @@ namespace LiveSystem
 
         public override void OnDataOutput(NormalizedLandmarkList data)
         {
+            if (data == null)
+            {
+                return;
+            }
+
+            var landmarks = data.Landmark;
             var modelData = new FaceModelData();
-            var leftEyeX = (data.Landmark[33].X + data.Landmark[133].X + data.Landmark[145].X + data.Landmark[159].X) / 4;
-            var rightEyeX = (data.Landmark[263].X + data.Landmark[362].X + data.Landmark[373].X + data.Landmark[386].X) / 4;
+            var leftEye = (X: 0f, Y: 0f, Z: 0f);
+
+            GetKeyPoint(ref leftEye, LeftEyeKeyPoints, data);
+            var rightEye = (X: 0f, Y: 0f, Z: 0f);
+            GetKeyPoint(ref rightEye, RightEyeKeyPoints, data);
             var noseX = data.Landmark[NosePoint].X;
-            modelData.AngleX = (leftEyeX - noseX) + (rightEyeX - noseX);
+
+            modelData.AngleX = (leftEye.X - noseX) + (rightEye.X - noseX);
             OnFaceModelDataOutput?.Invoke(modelData);
         }
 
         public override void OnMultiDataOutput(List<NormalizedLandmarkList> data)
         {
 
+        }
+
+        private void GetKeyPoint(ref (float X, float Y, float Z) keypoint ,List<int> keypoints, NormalizedLandmarkList data)
+        {
+            foreach (var point in keypoints)
+            {
+				keypoint.X += data.Landmark[point].X;
+                keypoint.Y += data.Landmark[point].Y;
+                keypoint.Z += data.Landmark[point].Z;
+			}
+            keypoint.X /= keypoints.Count;
+            keypoint.Y /= keypoints.Count;
+            keypoint.Z /= keypoints.Count;
         }
     }
 }
