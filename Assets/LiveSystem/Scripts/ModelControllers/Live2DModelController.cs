@@ -13,9 +13,12 @@ namespace LiveSystem
 {
     public class Live2DModelController : ModelController
     {
+        //TODO:改成用Parameters.FindById
         private enum ParameterIndex
         {
-            AngleX = 0
+            AngleX = 0,
+            AngleY = 1,
+            AngleZ = 2
         }
 
         private CubismModel cubismModel;
@@ -28,6 +31,11 @@ namespace LiveSystem
             base.Start();
             cubismModel = modelObj.GetComponent<CubismModel>();
             parameters = cubismModel.Parameters;
+
+            foreach (var par in parameters)
+            {
+                Debug.Log(par.Id);
+            }
         }
 
         public override void UpdateModel()
@@ -40,20 +48,20 @@ namespace LiveSystem
                 }
             }
 
-            //TODO:平滑移動
+            //TODO:平滑移動、敏感度數值
             parameters[(int)ParameterIndex.AngleX].Value = currentData.AngleX * 400;
+
 
         }
 
         public void OnFaceModelDataOutput(FaceModelData data)
         {
-            //parameters[((int)ParameterIndex.AngleX)].Value = data.AngleX * 300;
+            //call form thread
             lock(dataQue)
             {
                 dataQue.Enqueue(data);
             }
         }
-
 
     }
 

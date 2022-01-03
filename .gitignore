@@ -83,5 +83,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# Live2D motion
+/[Aa]ssets/Live2D/Cubism/Samples/Models/Haru/motion/*
 
 
