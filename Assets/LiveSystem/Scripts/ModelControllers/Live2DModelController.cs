@@ -13,6 +13,8 @@ namespace LiveSystem
 {
     public class Live2DModelController : ModelController
     {
+        [SerializeField] Transform test;
+
         //TODO:改成用Parameters.FindById
         private enum ParameterIndex
         {
@@ -49,7 +51,8 @@ namespace LiveSystem
             }
 
             //TODO:平滑移動、敏感度數值
-            parameters[(int)ParameterIndex.AngleX].Value = currentData.AngleX * 400;
+            //parameters[(int)ParameterIndex.AngleX].Value = currentData.AngleX.Value * 400;
+            test.transform.rotation = Quaternion.Euler(currentData.AngleX.Value, currentData.AngleY.Value, currentData.AngleZ.Value);
 
 
         }

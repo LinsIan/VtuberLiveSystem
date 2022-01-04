@@ -28,6 +28,7 @@ namespace LiveSystem
         protected readonly int IrisCount = 5;
 
         //關鍵點，算出FaceModelData
+        protected readonly List<int> FaceDirectionKeyPoints = new List<int> { 6, 127, 356 };
         protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0, 17 };
         protected readonly List<int> InnerLipsKeyPoints = new List<int> { 13, 14 };
         protected readonly List<int> HorizonMouthKeyPoints = new List<int> { 61, 291 };
@@ -37,7 +38,7 @@ namespace LiveSystem
         protected readonly int ChinPoint = 152;
         protected readonly int LeftPupilPoint = 468;
         protected readonly int RightPupilPoint = 473;
-    
+        
 
         public override void OnDataOutput(NormalizedLandmarkList data)
         {
@@ -47,17 +48,27 @@ namespace LiveSystem
             }
 
             var landmarks = data.Landmark;
-            var modelData = new FaceModelData();
             var leftEye = GetKeyPoint(LeftEyeKeyPoints, data);
             var rightEye = GetKeyPoint(RightEyeKeyPoints, data);
             var nose = data.Landmark[NosePoint];
+            var angle = GetFaceEulerAngle(landmarks[FaceDirectionKeyPoints[0]], landmarks[FaceDirectionKeyPoints[1]], landmarks[FaceDirectionKeyPoints[2]]);
 
-            modelData.AngleX = (leftEye.X - nose.X) + (rightEye.X - nose.X);
-            modelData.AngleY = ((leftEye.Y + rightEye.Y) / 2.0f) - nose.Y;
-            modelData.AngleZ = rightEye.Y - leftEye.Y;
+            //Debug.Log(angle);
 
-            //modelData.BodyAngleX = 
+            //var angleX = (leftEye.X - nose.X) + (rightEye.X - nose.X);
+            //var angleY = ((leftEye.Y + rightEye.Y) / 2.0f) - nose.Y;
+            //var angleZ = rightEye.Y - leftEye.Y;
 
+            var eyeLOpen = 1f;
+            var eyeROpen = 1f;
+            var eyeBallX = 0f;
+            var eyeBallY = 0f;
+            var mouthOpenY = 0f;
+            var bodyAngleX = angle.x / 2;
+            var bodyAngleY = angle.y / 2;
+            var bodyAngleZ = angle.z / 2;
+
+            var modelData = new FaceModelData(angle.x,angle.y,angle.z,eyeLOpen,eyeROpen,eyeBallX,eyeBallY,mouthOpenY,bodyAngleX,bodyAngleY,bodyAngleZ);
             OnFaceModelDataOutput?.Invoke(modelData);
         }
 
@@ -65,7 +76,7 @@ namespace LiveSystem
         {
 
         }
-
+        
         private (float X, float Y, float Z) GetKeyPoint(List<int> keypoints, NormalizedLandmarkList data)
         {
             var keypoint = (X: 0f, Y: 0f, Z: 0f);
@@ -81,6 +92,26 @@ namespace LiveSystem
             keypoint.Z /= keypoints.Count;
 
             return keypoint;
+        }
+
+        private Vector3 GetFaceEulerAngle(NormalizedLandmark midPoint, NormalizedLandmark rightPoint, NormalizedLandmark leftPoint)
+        {
+            var mid = new Vector3(midPoint.X, midPoint.Y, midPoint.Z);
+            var right = new Vector3(rightPoint.X, rightPoint.Y, rightPoint.Z);
+            var left = new Vector3(leftPoint.X, leftPoint.Y, leftPoint.Z);
+
+            //angle X&Y
+            var faceDirection = mid - (right + left) / 2;
+            var angle = Quaternion.FromToRotation(Vector3.forward, faceDirection.normalized).eulerAngles;
+
+            //angle Z
+            var skewVector = left - right;
+            skewVector.z = 0;
+            angle.z = Quaternion.FromToRotation(Vector3.right, skewVector).eulerAngles.z;
+
+            //Debug.Log(angle);
+
+            return angle;
         }
     }
 }
