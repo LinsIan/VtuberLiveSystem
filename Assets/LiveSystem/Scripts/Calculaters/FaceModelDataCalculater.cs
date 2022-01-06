@@ -27,7 +27,7 @@ namespace LiveSystem
         protected readonly int FaceMeshCount = 468;
         protected readonly int IrisCount = 5;
 
-        //關鍵點，算出FaceModelData
+        //Keypoints
         protected readonly List<int> FaceDirectionKeyPoints = new List<int> { 6, 127, 356 };
         protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0, 17 };
         protected readonly List<int> InnerLipsKeyPoints = new List<int> { 13, 14 };
@@ -51,19 +51,13 @@ namespace LiveSystem
             var leftEye = GetKeyPoint(LeftEyeKeyPoints, data);
             var rightEye = GetKeyPoint(RightEyeKeyPoints, data);
             var nose = data.Landmark[NosePoint];
-            var angle = GetFaceEulerAngle(landmarks[FaceDirectionKeyPoints[0]], landmarks[FaceDirectionKeyPoints[1]], landmarks[FaceDirectionKeyPoints[2]]);
 
-            //Debug.Log(angle);
-
-            //var angleX = (leftEye.X - nose.X) + (rightEye.X - nose.X);
-            //var angleY = ((leftEye.Y + rightEye.Y) / 2.0f) - nose.Y;
-            //var angleZ = rightEye.Y - leftEye.Y;
-
+            var angle = GetFaceEulerAngles(landmarks[FaceDirectionKeyPoints[0]], landmarks[FaceDirectionKeyPoints[1]], landmarks[FaceDirectionKeyPoints[2]]);
             var eyeLOpen = 1f;
             var eyeROpen = 1f;
             var eyeBallX = 0f;
             var eyeBallY = 0f;
-            var mouthOpenY = 0f;
+            var mouthOpenY = 0;//landmarks[InnerLipsKeyPoints[0]] - ;
             var bodyAngleX = angle.x / 2;
             var bodyAngleY = angle.y / 2;
             var bodyAngleZ = angle.z / 2;
@@ -94,7 +88,7 @@ namespace LiveSystem
             return keypoint;
         }
 
-        private Vector3 GetFaceEulerAngle(NormalizedLandmark midPoint, NormalizedLandmark rightPoint, NormalizedLandmark leftPoint)
+        private Vector3 GetFaceEulerAngles(NormalizedLandmark midPoint, NormalizedLandmark rightPoint, NormalizedLandmark leftPoint)
         {
             var mid = new Vector3(midPoint.X, midPoint.Y, midPoint.Z);
             var right = new Vector3(rightPoint.X, rightPoint.Y, rightPoint.Z);
@@ -105,11 +99,10 @@ namespace LiveSystem
             var angle = Quaternion.FromToRotation(Vector3.forward, faceDirection.normalized).eulerAngles;
 
             //angle Z
+            //angle.z = 0;
             var skewVector = left - right;
             skewVector.z = 0;
             angle.z = Quaternion.FromToRotation(Vector3.right, skewVector).eulerAngles.z;
-
-            //Debug.Log(angle);
 
             return angle;
         }

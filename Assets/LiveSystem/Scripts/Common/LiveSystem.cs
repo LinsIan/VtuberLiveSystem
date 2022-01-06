@@ -19,7 +19,7 @@ namespace LiveSystem
 
         protected virtual void Start()
         {
-            
+            //可能要考慮等solution、modelController都初始化完
         }
 
         protected virtual void Pause()

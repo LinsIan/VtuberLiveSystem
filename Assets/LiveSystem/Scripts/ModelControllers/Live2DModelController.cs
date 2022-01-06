@@ -15,14 +15,6 @@ namespace LiveSystem
     {
         [SerializeField] Transform test;
 
-        //TODO:改成用Parameters.FindById
-        private enum ParameterIndex
-        {
-            AngleX = 0,
-            AngleY = 1,
-            AngleZ = 2
-        }
-
         private CubismModel cubismModel;
         private CubismParameter[] parameters;
         private Queue<FaceModelData> dataQue = new Queue<FaceModelData>();
@@ -42,24 +34,30 @@ namespace LiveSystem
 
         public override void UpdateModel()
         {
+
+            if (dataQue.Count == 0) return;
+
             lock (dataQue)
             {
-                if (dataQue.Count != 0)
-                {
-                    currentData = dataQue.Dequeue();
-                }
+                currentData = dataQue.Dequeue();
             }
 
-            //TODO:平滑移動、敏感度數值
-            //parameters[(int)ParameterIndex.AngleX].Value = currentData.AngleX.Value * 400;
-            test.transform.rotation = Quaternion.Euler(currentData.AngleX.Value, currentData.AngleY.Value, currentData.AngleZ.Value);
+            //TODO:平滑移動、套用敏感度數值
+            parameters.FindById(FaceModelData.AngleXParamID).Value = currentData.AngleX;
+            parameters.FindById(FaceModelData.AngleYParamID).Value = currentData.AngleY;
+            parameters.FindById(FaceModelData.AngleZParamID).Value = currentData.AngleZ;
 
+            parameters.FindById(FaceModelData.BodyAngleXParamID).Value = currentData.BodyAngleX;    
+            parameters.FindById(FaceModelData.BodyAngleYParamID).Value = currentData.BodyAngleY;
+            parameters.FindById(FaceModelData.BodyAngleZParamID).Value = currentData.BodyAngleZ;
 
+            //test obj
+            test.transform.rotation = Quaternion.Euler(currentData.AngleX, currentData.AngleY, currentData.AngleZ);
         }
 
+        //call form thread
         public void OnFaceModelDataOutput(FaceModelData data)
         {
-            //call form thread
             lock(dataQue)
             {
                 dataQue.Enqueue(data);

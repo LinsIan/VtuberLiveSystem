@@ -14,7 +14,6 @@ namespace LiveSystem
     {
         [SerializeField] protected GameObject modelPrefab;
         [SerializeField] protected GameObject modelObj; //這邊先用在場景拉關係，之後改成controller生成
-        public bool Initialized { get; set; }
 
         public virtual void Start()
         {
