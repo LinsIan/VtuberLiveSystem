@@ -62,7 +62,7 @@ namespace LiveSystem
             var bodyAngleY = angle.y / 2;
             var bodyAngleZ = angle.z / 2;
 
-            var modelData = new FaceModelData(angle.x,angle.y,angle.z,eyeLOpen,eyeROpen,eyeBallX,eyeBallY,mouthOpenY,bodyAngleX,bodyAngleY,bodyAngleZ);
+            var modelData = new FaceModelData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
             OnFaceModelDataOutput?.Invoke(modelData);
         }
 

@@ -9,14 +9,14 @@ using UnityEngine;
 
 namespace LiveSystem
 {
-    public abstract class Calculater<T>
+    public abstract class Calculater<TData>
     {
 
-        public virtual void OnDataOutput(T data)
+        public virtual void OnDataOutput(TData data)
         {
         }
 
-        public virtual void OnMultiDataOutput(List<T> data)
+        public virtual void OnMultiDataOutput(List<TData> data)
         {
         }
 

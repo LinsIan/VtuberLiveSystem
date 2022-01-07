@@ -10,21 +10,10 @@ using UnityEngine;
 
 namespace LiveSystem.ModelData
 {
+
     [System.Serializable]
     public struct FaceModelData
     {
-        public static readonly string AngleXParamID = "ParamAngleX";
-        public static readonly string AngleYParamID = "ParamAngleY";
-        public static readonly string AngleZParamID = "ParamAngleZ";
-        public static readonly string EyeLOpenParamID = "ParamEyeLOpen";
-        public static readonly string EyeROpenParamID = "ParamEyeROpen";
-        public static readonly string EyeBallXParamID = "ParamEyeBallX";
-        public static readonly string EyeBallYParamID = "ParamEyeBallY";
-        public static readonly string MouthOpenYParamID = "ParamMouthOpenY";
-        public static readonly string BodyAngleXParamID = "ParamBodyAngleX";
-        public static readonly string BodyAngleYParamID = "ParamBodyAngleY";
-        public static readonly string BodyAngleZParamID = "ParamBodyAngleZ";
-
         public readonly float AngleX;
         public readonly float AngleY;
         public readonly float AngleZ;

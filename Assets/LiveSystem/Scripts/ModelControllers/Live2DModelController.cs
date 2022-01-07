@@ -3,6 +3,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,24 +12,55 @@ using Live2D.Cubism.Core;
 
 namespace LiveSystem
 {
+    public enum Live2DParamId
+    {
+        ParamAngleX = 0,
+        ParamAngleY,
+        ParamAngleZ,
+        ParamEyeLOpen,
+        ParamEyeROpen,
+        ParamEyeBallX,
+        ParamMouthOpenY,
+        ParamBodyAngleX,
+        ParamBodyAngleY,
+        ParamBodyAngleZ
+    }
+
+    public class Live2DParamIdComparer : IEqualityComparer<Live2DParamId>
+    {
+        public bool Equals(Live2DParamId x, Live2DParamId y)
+        {
+            Debug.Log("yeee");
+            return ((int)x) == ((int)y);
+        }
+
+        public int GetHashCode(Live2DParamId obj)
+        {
+            Debug.Log("126");
+            return ((int)obj);
+        }
+    }
+
     public class Live2DModelController : ModelController
     {
+        //test
         [SerializeField] Transform test;
 
         private CubismModel cubismModel;
-        private CubismParameter[] parameters;
+        private Dictionary<Live2DParamId, CubismParameter> parameters = new Dictionary<Live2DParamId, CubismParameter>(new Live2DParamIdComparer());
         private Queue<FaceModelData> dataQue = new Queue<FaceModelData>();
         private FaceModelData currentData;
 
         public override void Start()
         {
             base.Start();
-            cubismModel = modelObj.GetComponent<CubismModel>();
-            parameters = cubismModel.Parameters;
+            cubismModel = modelObj.GetComponent<CubismModel>(); 
+            var modelParamteters = cubismModel.Parameters;
 
-            foreach (var par in parameters)
+            foreach (var live2DParamID in (Live2DParamId[])Enum.GetValues(typeof(Live2DParamId)))
             {
-                Debug.Log(par.Id);
+                string id = Enum.GetName(typeof(Live2DParamId), live2DParamID);
+                parameters.Add(live2DParamID, modelParamteters.FindById(id));
             }
         }
 
@@ -43,19 +75,20 @@ namespace LiveSystem
             }
 
             //TODO:平滑移動、套用敏感度數值
-            parameters.FindById(FaceModelData.AngleXParamID).Value = currentData.AngleX;
-            parameters.FindById(FaceModelData.AngleYParamID).Value = currentData.AngleY;
-            parameters.FindById(FaceModelData.AngleZParamID).Value = currentData.AngleZ;
+            parameters[Live2DParamId.ParamAngleX].Value = currentData.AngleX;
+            parameters[Live2DParamId.ParamAngleY].Value = currentData.AngleY;
+            parameters[Live2DParamId.ParamAngleZ].Value = currentData.AngleZ;
 
-            parameters.FindById(FaceModelData.BodyAngleXParamID).Value = currentData.BodyAngleX;    
-            parameters.FindById(FaceModelData.BodyAngleYParamID).Value = currentData.BodyAngleY;
-            parameters.FindById(FaceModelData.BodyAngleZParamID).Value = currentData.BodyAngleZ;
+            parameters[Live2DParamId.ParamBodyAngleX].Value = currentData.BodyAngleX;    
+            parameters[Live2DParamId.ParamBodyAngleY].Value = currentData.BodyAngleY;
+            parameters[Live2DParamId.ParamBodyAngleZ].Value = currentData.BodyAngleZ;
+
 
             //test obj
             test.transform.rotation = Quaternion.Euler(currentData.AngleX, currentData.AngleY, currentData.AngleZ);
         }
-
-        //call form thread
+        
+        //called from thread
         public void OnFaceModelDataOutput(FaceModelData data)
         {
             lock(dataQue)
