@@ -94,9 +94,10 @@ namespace LiveSystem
             var right = new Vector3(rightPoint.X, rightPoint.Y, rightPoint.Z);
             var left = new Vector3(leftPoint.X, leftPoint.Y, leftPoint.Z);
 
+
             //angle X&Y
             var faceDirection = mid - (right + left) / 2;
-            var angle = Quaternion.FromToRotation(Vector3.forward, faceDirection.normalized).eulerAngles;
+            var angle = Quaternion.FromToRotation(Vector3.back, faceDirection.normalized).eulerAngles;
 
             //angle Z
             //angle.z = 0;

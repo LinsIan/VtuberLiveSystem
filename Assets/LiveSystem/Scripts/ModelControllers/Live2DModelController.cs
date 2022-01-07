@@ -38,7 +38,10 @@ namespace LiveSystem
         public override void UpdateModel()
         {
 
-            if (dataQue.Count == 0) return;
+            if (dataQue.Count == 0)
+            {
+                return;
+            }
 
             lock (dataQue)
             {
@@ -46,19 +49,20 @@ namespace LiveSystem
             }
 
             //TODO:平滑移動、套用敏感度數值
+            Debug.Log((currentData.AngleX, currentData.AngleY, currentData.AngleZ));
             parameters[Live2DParamId.ParamAngleX].Value = currentData.AngleX;
             parameters[Live2DParamId.ParamAngleY].Value = currentData.AngleY;
             parameters[Live2DParamId.ParamAngleZ].Value = currentData.AngleZ;
 
-            parameters[Live2DParamId.ParamBodyAngleX].Value = currentData.BodyAngleX;    
-            parameters[Live2DParamId.ParamBodyAngleY].Value = currentData.BodyAngleY;
-            parameters[Live2DParamId.ParamBodyAngleZ].Value = currentData.BodyAngleZ;
+            //parameters[Live2DParamId.ParamBodyAngleX].Value = currentData.BodyAngleX;    
+            //parameters[Live2DParamId.ParamBodyAngleY].Value = currentData.BodyAngleY;
+            //parameters[Live2DParamId.ParamBodyAngleZ].Value = currentData.BodyAngleZ;
 
 
             //test obj
             test.transform.rotation = Quaternion.Euler(currentData.AngleX, currentData.AngleY, currentData.AngleZ);
         }
-        
+      
         //called from thread
         public void OnFaceModelDataOutput(FaceModelData data)
         {
