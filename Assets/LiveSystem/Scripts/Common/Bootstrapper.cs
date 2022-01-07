@@ -14,13 +14,6 @@ using Logger = Mediapipe.Logger;
 
 namespace LiveSystem
 {
-    [System.Serializable]
-    public enum LiveMode
-    {
-        Live2DFace,
-        Home3DFace,
-        Home3DHolistic
-    }
 
     public class Bootstrapper : MonoBehaviour
     {

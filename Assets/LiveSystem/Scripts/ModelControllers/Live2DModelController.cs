@@ -12,35 +12,6 @@ using Live2D.Cubism.Core;
 
 namespace LiveSystem
 {
-    public enum Live2DParamId
-    {
-        ParamAngleX = 0,
-        ParamAngleY,
-        ParamAngleZ,
-        ParamEyeLOpen,
-        ParamEyeROpen,
-        ParamEyeBallX,
-        ParamMouthOpenY,
-        ParamBodyAngleX,
-        ParamBodyAngleY,
-        ParamBodyAngleZ
-    }
-
-    public class Live2DParamIdComparer : IEqualityComparer<Live2DParamId>
-    {
-        public bool Equals(Live2DParamId x, Live2DParamId y)
-        {
-            Debug.Log("yeee");
-            return ((int)x) == ((int)y);
-        }
-
-        public int GetHashCode(Live2DParamId obj)
-        {
-            Debug.Log("126");
-            return ((int)obj);
-        }
-    }
-
     public class Live2DModelController : ModelController
     {
         //test
