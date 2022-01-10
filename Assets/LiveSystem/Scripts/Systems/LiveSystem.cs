@@ -37,6 +37,12 @@ namespace LiveSystem
             modelController.UpdateModel();
         }
 
+        protected void FixedUpdate()
+        {
+            //Debug.Log(Time.fixedDeltaTime);
+            //Debug.Log(Time.fixedTime);
+        }
+
         public void SetMode(LiveMode mode, ModelController controller)
         {
             liveMode = mode;

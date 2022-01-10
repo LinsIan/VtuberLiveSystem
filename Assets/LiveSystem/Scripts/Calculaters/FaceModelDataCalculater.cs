@@ -27,13 +27,13 @@ namespace LiveSystem
         protected readonly int FaceMeshCount = 468;
         protected readonly int IrisCount = 5;
 
-        //Keypoints
-        protected readonly List<int> FaceDirectionKeyPoints = new List<int> { 6, 127, 356 };
-        protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0, 17 };
-        protected readonly List<int> InnerLipsKeyPoints = new List<int> { 13, 14 };
-        protected readonly List<int> HorizonMouthKeyPoints = new List<int> { 61, 291 };
-        protected readonly List<int> LeftEyeKeyPoints = new List<int> { 33, 133, 145, 159 };
-        protected readonly List<int> RightEyeKeyPoints = new List<int> { 263, 362, 373, 386};
+        //Keypoints 把這幾個點註解一下位置
+        protected readonly List<int> FaceDirectionKeyPoints = new List<int> { 6, 127, 356 };//mid, left, right
+        protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0, 17 };//up, down
+        protected readonly List<int> InnerLipsKeyPoints = new List<int> { 13, 14 };//up, down
+        protected readonly List<int> HorizonMouthKeyPoints = new List<int> { 61, 291 };//left, right
+        protected readonly List<int> LeftEyeKeyPoints = new List<int> { 33, 133, 145, 159 };//left, right, down, up
+        protected readonly List<int> RightEyeKeyPoints = new List<int> { 263, 362, 373, 386};// right, left, down, up
         protected readonly int NosePoint = 1;
         protected readonly int ChinPoint = 152;
         protected readonly int LeftPupilPoint = 468;
@@ -46,21 +46,20 @@ namespace LiveSystem
             {
                 return;
             }
-
             var landmarks = data.Landmark;
             var leftEye = GetKeyPoint(LeftEyeKeyPoints, data);
             var rightEye = GetKeyPoint(RightEyeKeyPoints, data);
-            var nose = data.Landmark[NosePoint];
+            var nose = landmarks[NosePoint];
 
             var angle = GetFaceEulerAngles(landmarks[FaceDirectionKeyPoints[0]], landmarks[FaceDirectionKeyPoints[1]], landmarks[FaceDirectionKeyPoints[2]]);
-            var eyeLOpen = 1f;
-            var eyeROpen = 1f;
-            var eyeBallX = 0f;
-            var eyeBallY = 0f;
-            var mouthOpenY = 0;//landmarks[InnerLipsKeyPoints[0]] - ;
-            var bodyAngleX = angle.x / 2;
-            var bodyAngleY = angle.y / 2;
-            var bodyAngleZ = angle.z / 2;
+            var eyeLOpen = 1f + landmarks[LeftEyeKeyPoints[3]].Y - landmarks[LeftEyeKeyPoints[2]].Y;
+            var eyeROpen = 1f + landmarks[RightEyeKeyPoints[3]].Y - landmarks[RightEyeKeyPoints[2]].Y;
+            var eyeBallX = landmarks[LeftPupilPoint].X - leftEye.X;
+            var eyeBallY = landmarks[LeftPupilPoint].Y - leftEye.Y;
+            var mouthOpenY = landmarks[InnerLipsKeyPoints[0]].Y - landmarks[InnerLipsKeyPoints[1]].Y;
+            var bodyAngleX = angle.x / 3;
+            var bodyAngleY = angle.y / 3;
+            var bodyAngleZ = angle.z / 3;
 
             var modelData = new FaceModelData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
             OnFaceModelDataOutput?.Invoke(modelData);
@@ -93,7 +92,6 @@ namespace LiveSystem
             var mid = new Vector3(midPoint.X, midPoint.Y, midPoint.Z);
             var right = new Vector3(rightPoint.X, rightPoint.Y, rightPoint.Z);
             var left = new Vector3(leftPoint.X, leftPoint.Y, leftPoint.Z);
-
 
             //angle X&Y
             var faceDirection = mid - (right + left) / 2;
