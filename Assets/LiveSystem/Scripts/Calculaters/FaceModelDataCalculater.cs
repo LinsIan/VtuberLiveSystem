@@ -27,7 +27,7 @@ namespace LiveSystem
         protected readonly int FaceMeshCount = 468;
         protected readonly int IrisCount = 5;
 
-        //Keypoints 把這幾個點註解一下位置
+        //Keypoints
         protected readonly List<int> FaceDirectionKeyPoints = new List<int> { 6, 127, 356 };//mid, left, right
         protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0, 17 };//up, down
         protected readonly List<int> InnerLipsKeyPoints = new List<int> { 13, 14 };//up, down

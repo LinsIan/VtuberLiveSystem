@@ -16,8 +16,6 @@ namespace LiveSystem
     {
         //test
         [SerializeField] Transform test;
-        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-        //test
 
         private CubismModel cubismModel;
         private Dictionary<Live2DParamId, CubismParameter> parameters = new Dictionary<Live2DParamId, CubismParameter>(new Live2DParamIdComparer());
@@ -35,9 +33,6 @@ namespace LiveSystem
                 string id = Enum.GetName(typeof(Live2DParamId), live2DParamID);
                 parameters.Add(live2DParamID, modelParamteters.FindById(id));
             }
-
-            sw.Reset();
-            sw.Start();
         }
 
         public override void UpdateModel()
@@ -73,11 +68,6 @@ namespace LiveSystem
             {
                 dataQue.Enqueue(data);
             }
-
-            sw.Stop();
-            Debug.Log(sw.Elapsed.TotalSeconds.ToString());
-            sw.Reset();
-            sw.Start();
         }
 
         private void UpdateCurrentFaceData()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,13 +11,15 @@ namespace LiveSystem
 
         private readonly int MaxArrayNum = 2;
 
+        private Func<T, T, float, T> Lerp;
         private Stopwatch stopwatch;
         private double[] lastUpdateTimes;
         private T[] lastData;
         private int newIndex;
 
-        public Interpolator()
+        public Interpolator(Func<T, T, float, T> lerp)
         {
+            Lerp = lerp;
             stopwatch = new Stopwatch();
             stopwatch.Start();
             lastUpdateTimes = new double[MaxArrayNum];
@@ -31,7 +34,7 @@ namespace LiveSystem
             lastUpdateTimes[newIndex] = stopwatch.Elapsed.TotalSeconds;
         }
 
-        public void Update()
+        public T GetCurrentData()
         {
             var newTime = lastUpdateTimes[newIndex];
             var oldTime = lastUpdateTimes[GetOldIndex()];
@@ -44,6 +47,11 @@ namespace LiveSystem
             {
                 InterpolationFactor = 1;
             }
+
+            var newData = lastData[newIndex];
+            var oldData = lastData[GetOldIndex()];
+
+            return Lerp(oldData, newData, InterpolationFactor);
         }
 
         private int GetOldIndex()

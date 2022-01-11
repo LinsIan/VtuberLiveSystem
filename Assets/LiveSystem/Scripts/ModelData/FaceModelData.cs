@@ -56,7 +56,6 @@ namespace LiveSystem.ModelData
             var bodyAngleY = Mathf.Lerp(a.BodyAngleY, b.BodyAngleY, t);
             var bodyAngleZ = Mathf.Lerp(a.BodyAngleZ, b.BodyAngleZ, t);
 
-
             return new FaceModelData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
     }
