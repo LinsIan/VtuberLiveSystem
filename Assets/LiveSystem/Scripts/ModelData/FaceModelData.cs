@@ -10,7 +10,6 @@ using UnityEngine;
 
 namespace LiveSystem.ModelData
 {
-
     [System.Serializable]
     public struct FaceModelData
     {
@@ -41,6 +40,24 @@ namespace LiveSystem.ModelData
             BodyAngleX = bodyAngleX;
             BodyAngleY = bodyAngleY;
             BodyAngleZ = bodyAngleZ;
+        }
+
+        public static FaceModelData Lerp(FaceModelData a, FaceModelData b, float t)
+        {
+            var angleX = Mathf.Lerp(a.AngleX, b.AngleX, t);
+            var angleY = Mathf.Lerp(a.AngleY, b.AngleY, t);
+            var angleZ = Mathf.Lerp(a.AngleZ, b.AngleZ, t);
+            var eyeLOpen = Mathf.Lerp(a.EyeLOpen, b.EyeLOpen, t);
+            var eyeROpen = Mathf.Lerp(a.EyeROpen, b.EyeROpen, t);
+            var eyeBallX = Mathf.Lerp(a.EyeBallX, b.EyeBallX, t);
+            var eyeBallY = Mathf.Lerp(a.EyeBallY, b.EyeBallY, t);
+            var mouthOpenY = Mathf.Lerp(a.MouthOpenY, b.MouthOpenY, t);
+            var bodyAngleX = Mathf.Lerp(a.BodyAngleX, b.BodyAngleX, t);
+            var bodyAngleY = Mathf.Lerp(a.BodyAngleY, b.BodyAngleY, t);
+            var bodyAngleZ = Mathf.Lerp(a.BodyAngleZ, b.BodyAngleZ, t);
+
+
+            return new FaceModelData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
     }
 
