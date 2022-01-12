@@ -1,6 +1,9 @@
+// Copyright (c) 2021 Lins Ian
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace LiveSystem
@@ -29,16 +32,27 @@ namespace LiveSystem
 
         public void OnDataUpdate(T data)
         {
-            newIndex = GetOldIndex();
-            lastData[newIndex] = data;
-            lastUpdateTimes[newIndex] = stopwatch.Elapsed.TotalSeconds;
+            lock(lastData) lock(lastUpdateTimes)
+                {
+                    newIndex = GetOldIndex();
+                    lastData[newIndex] = data;
+                    lastUpdateTimes[newIndex] = stopwatch.Elapsed.TotalSeconds;
+                }
         }
 
         public T GetCurrentData()
         {
-            var newTime = lastUpdateTimes[newIndex];
-            var oldTime = lastUpdateTimes[GetOldIndex()];
+            double newTime, oldTime;
+            T newData, oldData;
 
+            lock (lastData) lock (lastUpdateTimes)
+                {
+                    newTime = lastUpdateTimes[newIndex];
+                    oldTime = lastUpdateTimes[GetOldIndex()];
+                    newData = lastData[newIndex];
+                    oldData = lastData[GetOldIndex()];
+                }
+                    
             if (newTime != oldTime)
             {
                 InterpolationFactor = (float)((stopwatch.Elapsed.TotalSeconds - newTime) / (newTime - oldTime));
@@ -47,9 +61,6 @@ namespace LiveSystem
             {
                 InterpolationFactor = 1;
             }
-
-            var newData = lastData[newIndex];
-            var oldData = lastData[GetOldIndex()];
 
             return Lerp(oldData, newData, InterpolationFactor);
         }
