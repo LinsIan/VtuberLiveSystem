@@ -10,20 +10,21 @@ using UnityEngine;
 
 namespace LiveSystem.ModelData
 {
-    [System.Serializable]
-    public struct FaceModelData
+    [Serializable]
+    public readonly struct FaceModelData
     {
-        public readonly float AngleX;
-        public readonly float AngleY;
-        public readonly float AngleZ;
-        public readonly float EyeLOpen;
-        public readonly float EyeROpen;
-        public readonly float EyeBallX;
-        public readonly float EyeBallY;
-        public readonly float MouthOpenY;
-        public readonly float BodyAngleX;
-        public readonly float BodyAngleY;
-        public readonly float BodyAngleZ;
+        public float AngleX { get; }
+        public float AngleY { get; }
+        public float AngleZ { get; }
+        public float EyeLOpen { get; }
+        public float EyeROpen { get; }
+        public float EyeBallX { get; }
+        public float EyeBallY { get; }
+        public float MouthOpenY { get; }
+        public float BodyAngleX { get; }
+        public float BodyAngleY { get; }
+        public float BodyAngleZ { get; }
+
         //public float Breath; //應該是程式or動畫控制
 
         public FaceModelData(float angleX, float angleY, float angleZ, float eyeLOpen, float eyeROpen, float eyeBallX, float eyeBallY,
@@ -42,7 +43,7 @@ namespace LiveSystem.ModelData
             BodyAngleZ = bodyAngleZ;
         }
 
-        public static FaceModelData Lerp(FaceModelData a, FaceModelData b, float t)
+        public static FaceModelData Lerp(in FaceModelData a, in FaceModelData b, float t = 1)
         {
             var angleX = Mathf.Lerp(a.AngleX, b.AngleX, t);
             var angleY = Mathf.Lerp(a.AngleY, b.AngleY, t);

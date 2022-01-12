@@ -18,38 +18,38 @@ namespace LiveSystem
         [SerializeField] Transform test;
 
         private CubismModel cubismModel;
-        private Dictionary<Live2DParamId, CubismParameter> parameters = new Dictionary<Live2DParamId, CubismParameter>(new Live2DParamIdComparer());
-        private Queue<FaceModelData> dataQue = new Queue<FaceModelData>();
-        private FaceModelData currentFaceData = default;
+        private Dictionary<Live2DParamId, CubismParameter> parameters;
+        private FaceModelData currentFaceData;
+        private Interpolator<FaceModelData> interpolator;
+        private bool isStartOutputData;
 
         public override void Start()
         {
             base.Start();
-            cubismModel = modelObj.GetComponent<CubismModel>(); 
+            interpolator = new Interpolator<FaceModelData>(FaceModelData.Lerp);
+            cubismModel = modelObj.GetComponent<CubismModel>();
+            parameters = new Dictionary<Live2DParamId, CubismParameter>(new Live2DParamIdComparer());
             var modelParamteters = cubismModel.Parameters;
-
             foreach (var live2DParamID in (Live2DParamId[])Enum.GetValues(typeof(Live2DParamId)))
             {
                 string id = Enum.GetName(typeof(Live2DParamId), live2DParamID);
                 parameters.Add(live2DParamID, modelParamteters.FindById(id));
             }
-        }
+            isStartOutputData = false;
+        }   
 
         public override void UpdateModel()
         {
-            if (dataQue.Count > 0)
-            {
-                UpdateCurrentFaceData();
-            }
+            if (!isStartOutputData) return;
 
-            //TODO:平滑移動、套用敏感度數值
-            //TODO:角度要變成能套在模型的數值，像AngleY要套在live2d的anglex
-            //Debug.Log((currentData.AngleX, currentData.AngleY, currentData.AngleZ));
+            //TODO:套用敏感度數值
+            currentFaceData = interpolator.GetCurrentData();
+
             parameters[Live2DParamId.ParamAngleX].Value = currentFaceData.AngleX;
             parameters[Live2DParamId.ParamAngleY].Value = currentFaceData.AngleY;
             parameters[Live2DParamId.ParamAngleZ].Value = currentFaceData.AngleZ;
 
-            
+
             //Debug.Log(currentData.MouthOpenY);
 
             //parameters[Live2DParamId.ParamBodyAngleX].Value = currentData.BodyAngleX;
@@ -60,29 +60,12 @@ namespace LiveSystem
             test.transform.rotation = Quaternion.Euler(currentFaceData.AngleX, currentFaceData.AngleY, currentFaceData.AngleZ);
         }
 
-
         //called from thread
         public void OnFaceModelDataOutput(FaceModelData data)
         {
-            lock(dataQue)
-            {
-                dataQue.Enqueue(data);
-            }
+            isStartOutputData = true;
+            interpolator.UpdateData(data);
         }
-
-        private void UpdateCurrentFaceData()
-        {
-            FaceModelData newData;
-            lock (dataQue)
-            {
-                newData = dataQue.Dequeue();
-            }
-
-            //Convers to Live2D Face Data
-
-            currentFaceData = newData;
-        }
-
     }
 
 }
