@@ -7309,7 +7309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unmanagedIndex: 0
-  Value: 30
+  Value: 0
 --- !u!114 &9047456856619006501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26476,7 +26476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Opacity: 1
-  _lastOpacity: 1
+  _lastOpacity: 0
   _sortingLayerId: 0
   _sortingMode: 0
   _sortingOrder: 0
@@ -26510,7 +26510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967223d908bf07b4f90945995bdca68f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maskTexture: {fileID: 11400000, guid: 16bf142754640ab4487bb625c30931fd, type: 2}
+  _maskTexture: {fileID: 0}
 --- !u!114 &114923722679382164
 MonoBehaviour:
   m_ObjectHideFlags: 0

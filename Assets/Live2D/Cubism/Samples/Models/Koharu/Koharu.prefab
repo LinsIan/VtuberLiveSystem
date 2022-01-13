@@ -1756,7 +1756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Opacity: 1
-  _lastOpacity: 1
+  _lastOpacity: 0
   _sortingLayerId: 0
   _sortingMode: 0
   _sortingOrder: 0
@@ -9929,7 +9929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unmanagedIndex: 0
-  Value: -1
+  Value: 0
 --- !u!1 &1681085378368446
 GameObject:
   m_ObjectHideFlags: 0
@@ -10966,7 +10966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unmanagedIndex: 4
-  Value: 0.43
+  Value: 0
 --- !u!1 &1740683973432420
 GameObject:
   m_ObjectHideFlags: 0
@@ -12074,7 +12074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unmanagedIndex: 2
-  Value: 1
+  Value: 0
 --- !u!1 &1846539294426440
 GameObject:
   m_ObjectHideFlags: 0

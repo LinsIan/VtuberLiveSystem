@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 403ae2dd693bb1d4b924f6b8d206b053, type: 3}
   m_Name: Haru.fadeMotionList
   m_EditorClassIdentifier: 
-  MotionInstanceIds: f450ffff0c51ffff2c51ffffbc50ffffe450ffff4451ffffdc50ffff1451ffff3c51ffffc450ffff2451ffffec50ffff0451fffffc50ffff3451ffff9450ffff9c50ffff8450ffff8c50ffff1c51ffffd450ffffa450ffffac50ffffb450ffffcc50ffff
+  MotionInstanceIds: ec6700002068000076670000106800007c680000b66700006a67000048680000c267000088680000fc670000646800006c6800008a670000ba67000082670000146800008e67000018680000726700000068000096670000e4670000a6670000c66700007a670000f4670000
   CubismFadeMotionObjects:
   - {fileID: 11400000, guid: 28d817db7d27b4331bc9ec21d70279e3, type: 2}
   - {fileID: 11400000, guid: 586aa7f0840844cbb92e6821f14e6e9c, type: 2}
@@ -39,3 +39,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b9c625531d54a49b6b887a367ec630f5, type: 2}
   - {fileID: 11400000, guid: b74f3aa77bb284725b1bc0a6d69d53fc, type: 2}
   - {fileID: 11400000, guid: 94dd0e7ba982f48d591a12bec7221862, type: 2}
+  - {fileID: 11400000, guid: c9d62c20b95f24f0abd78443b85aeec7, type: 2}
+  - {fileID: 11400000, guid: 446ea6316c89b431c8aedb4df2b43501, type: 2}

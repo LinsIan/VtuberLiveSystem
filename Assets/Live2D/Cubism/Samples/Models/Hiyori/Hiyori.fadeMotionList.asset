@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 403ae2dd693bb1d4b924f6b8d206b053, type: 3}
   m_Name: Hiyori.fadeMotionList
   m_EditorClassIdentifier: 
-  MotionInstanceIds: 8cc3ffff
+  MotionInstanceIds: 806800009cc3ffff60c3ffff38680000da6700008c680000ae670000306800002468000090680000
   CubismFadeMotionObjects:
   - {fileID: 11400000, guid: e09646956ddc84ca5a4dbc66b29a0c79, type: 2}
+  - {fileID: 11400000, guid: 9ad329b63c3ba4020806fc038e3fb56c, type: 2}
+  - {fileID: 11400000, guid: 99feb44a099974649b7afacaa872aced, type: 2}
+  - {fileID: 11400000, guid: ed4c69810c82a42c29e832ec29c8d541, type: 2}
+  - {fileID: 11400000, guid: 073f5461c43b6427cac4ee56b9340ea4, type: 2}
+  - {fileID: 11400000, guid: 340134bfef4f24bfba4eb129f564a8f0, type: 2}
+  - {fileID: 11400000, guid: a137e803c31304be19031a5c4ff5e7fd, type: 2}
+  - {fileID: 11400000, guid: cf24350c061a74a159690c7b2afa2071, type: 2}
+  - {fileID: 11400000, guid: 65ad4eb5a708646f69d418bc475a9186, type: 2}
+  - {fileID: 11400000, guid: fdfb0fc15b02c4c789c7d51646396a88, type: 2}

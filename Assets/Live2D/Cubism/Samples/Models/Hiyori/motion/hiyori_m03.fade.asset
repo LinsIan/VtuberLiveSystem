@@ -47,8 +47,8 @@ MonoBehaviour:
   - ParamHandL
   - ParamHandR
   - ParamHairAhoge
-  - 
-  - 
+  - PartArmA
+  - PartArmB
   ParameterCurves:
   - serializedVersion: 2
     m_Curve:
@@ -1988,12 +1988,48 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   - serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 4.2
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   - serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 4.2
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -2029,8 +2065,8 @@ MonoBehaviour:
   - -1
   - -1
   - -1
-  - 0
-  - 0
+  - 0.5
+  - 0.5
   ParameterFadeOutTimes:
   - -1
   - -1
@@ -2063,6 +2099,6 @@ MonoBehaviour:
   - -1
   - -1
   - -1
-  - 0
-  - 0
+  - -1
+  - -1
   MotionLength: 4.2

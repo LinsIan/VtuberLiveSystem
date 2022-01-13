@@ -3712,7 +3712,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 4.5
+    m_StopTime: 4.97
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -6977,5 +6977,5 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: -44836
+    intParameter: 26474
     messageOptions: 1
