@@ -30,10 +30,11 @@ namespace LiveSystem
             cubismModel = modelObj.GetComponent<CubismModel>();
             parameters = new Dictionary<Live2DParamId, CubismParameter>(new Live2DParamIdComparer());
             var modelParamteters = cubismModel.Parameters;
-            foreach (var live2DParamID in (Live2DParamId[])Enum.GetValues(typeof(Live2DParamId)))
+            var values = (Live2DParamId[])Enum.GetValues(typeof(Live2DParamId));
+            foreach (var item in values)
             {
-                string id = Enum.GetName(typeof(Live2DParamId), live2DParamID);
-                parameters.Add(live2DParamID, modelParamteters.FindById(id));
+                string id = Enum.GetName(typeof(Live2DParamId), item);
+                parameters.Add(item, modelParamteters.FindById(id));
             }
             isStartOutputData = false;
         }   
