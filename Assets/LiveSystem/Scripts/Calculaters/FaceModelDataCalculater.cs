@@ -28,12 +28,19 @@ namespace LiveSystem
         protected readonly int IrisCount = 5;
 
         //Keypoints
-        protected readonly List<int> FaceDirectionKeyPoints = new List<int> { 6, 127, 356 };//mid, left, right
-        protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0, 17 };//up, down
-        protected readonly List<int> InnerLipsKeyPoints = new List<int> { 13, 14 };//up, down
-        protected readonly List<int> HorizonMouthKeyPoints = new List<int> { 61, 291 };//left, right
-        protected readonly List<int> LeftEyeKeyPoints = new List<int> { 33, 133, 145, 159 };//left, right, down, up
-        protected readonly List<int> RightEyeKeyPoints = new List<int> { 263, 362, 373, 386};// right, left, down, up
+        protected readonly (int mid, int left, int right) FaceDirectionPointIds = (6, 127, 356);
+        protected readonly (int up, int down) OuterLipsPointIds = (0, 17);
+        protected readonly (int up, int down) InnerLipsPointIds = (13, 14);
+        protected readonly (int left, int right) HorizonMouthPointIds = (61, 291);
+        protected readonly (int left, int right, int down, int up) LeftEyePointIds = (33, 133, 145, 159);
+        protected readonly (int left, int right, int down, int up) RightEyePointIds = (362, 263, 373, 386);
+
+        //protected readonly List<int> FaceDirectionKeyPoints = new List<int> { 6, 127, 356 };
+        //protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0, 17 };
+        //protected readonly List<int> InnerLipsKeyPoints = new List<int> { 13, 14 };
+        //protected readonly List<int> HorizonMouthKeyPoints = new List<int> { 61, 291 };
+        //protected readonly List<int> LeftEyeKeyPoints = new List<int> { 33, 133, 145, 159 };
+        //protected readonly List<int> RightEyeKeyPoints = new List<int> { 263, 362, 373, 386};
         protected readonly int NosePoint = 1;
         protected readonly int ChinPoint = 152;
         protected readonly int LeftPupilPoint = 468;
@@ -46,39 +53,56 @@ namespace LiveSystem
             {
                 return;
             }
-            var landmarks = data.Landmark;
-            var leftEye = GetKeyPoint(LeftEyeKeyPoints, data);
-            var rightEye = GetKeyPoint(RightEyeKeyPoints, data);
-            var nose = landmarks[NosePoint];
 
-            var angle = GetFaceEulerAngles(landmarks[FaceDirectionKeyPoints[0]], landmarks[FaceDirectionKeyPoints[1]], landmarks[FaceDirectionKeyPoints[2]]);
-            var eyeLOpen = 1f + landmarks[LeftEyeKeyPoints[3]].Y - landmarks[LeftEyeKeyPoints[2]].Y;
-            var eyeROpen = 1f + landmarks[RightEyeKeyPoints[3]].Y - landmarks[RightEyeKeyPoints[2]].Y;
-            var eyeBallX = landmarks[LeftPupilPoint].X - leftEye.X;
-            var eyeBallY = landmarks[LeftPupilPoint].Y - leftEye.Y;
-            var mouthOpenY = landmarks[InnerLipsKeyPoints[0]].Y - landmarks[InnerLipsKeyPoints[1]].Y;
-            var bodyAngleX = angle.x / 3;
-            var bodyAngleY = angle.y / 3;
-            var bodyAngleZ = angle.z / 3;
 
-            var modelData = new FaceModelData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
-            OnFaceModelDataOutput?.Invoke(modelData);
+            OnFaceModelDataOutput?.Invoke(Calculate(data));
         }
 
         public override void OnMultiDataOutput(List<NormalizedLandmarkList> data)
         {
 
         }
-        
-        private (float X, float Y, float Z) GetKeyPoint(List<int> keypoints, NormalizedLandmarkList data)
+
+        protected virtual FaceModelData Calculate(NormalizedLandmarkList data)
+        {
+            var landmarks = data.Landmark;
+
+            var leftEye = GetKeyPoint(new List<NormalizedLandmark> {
+                landmarks[LeftEyePointIds.left],
+                landmarks[LeftEyePointIds.right],
+                landmarks[LeftEyePointIds.down],
+                landmarks[LeftEyePointIds.up]
+            });
+            var rightEye = GetKeyPoint(new List<NormalizedLandmark> {
+                landmarks[RightEyePointIds.left],
+                landmarks[RightEyePointIds.right],
+                landmarks[RightEyePointIds.down],
+                landmarks[RightEyePointIds.up]
+            });
+            var nose = landmarks[NosePoint];
+
+            var angle = GetFaceEulerAngles(landmarks[FaceDirectionPointIds.mid], landmarks[FaceDirectionPointIds.left], landmarks[FaceDirectionPointIds.right]);
+            var eyeLOpen = 1f + landmarks[LeftEyePointIds.up].Y - landmarks[LeftEyePointIds.down].Y;
+            var eyeROpen = 1f + landmarks[RightEyePointIds.up].Y - landmarks[RightEyePointIds.down].Y;
+            var eyeBallX = landmarks[LeftPupilPoint].X - leftEye.X;
+            var eyeBallY = landmarks[LeftPupilPoint].Y - leftEye.Y;
+            var mouthOpenY = landmarks[InnerLipsPointIds.up].Y - landmarks[InnerLipsPointIds.down].Y;
+            var bodyAngleX = angle.x / 3;
+            var bodyAngleY = angle.y / 3;
+            var bodyAngleZ = angle.z / 3;
+            return new FaceModelData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
+
+        }
+
+        protected (float X, float Y, float Z) GetKeyPoint(List<NormalizedLandmark> keypoints)
         {
             var keypoint = (X: 0f, Y: 0f, Z: 0f);
 
             foreach (var point in keypoints)
             {
-				keypoint.X += data.Landmark[point].X;
-                keypoint.Y += data.Landmark[point].Y;
-                keypoint.Z += data.Landmark[point].Z;
+				keypoint.X += point.X;
+                keypoint.Y += point.Y;
+                keypoint.Z += point.Z;
 			}
             keypoint.X /= keypoints.Count;
             keypoint.Y /= keypoints.Count;
@@ -86,8 +110,8 @@ namespace LiveSystem
 
             return keypoint;
         }
-
-        private Vector3 GetFaceEulerAngles(NormalizedLandmark midPoint, NormalizedLandmark rightPoint, NormalizedLandmark leftPoint)
+       
+        protected Vector3 GetFaceEulerAngles(NormalizedLandmark midPoint, NormalizedLandmark rightPoint, NormalizedLandmark leftPoint)
         {
             var mid = new Vector3(midPoint.X, midPoint.Y, midPoint.Z);
             var right = new Vector3(rightPoint.X, rightPoint.Y, rightPoint.Z);
@@ -102,7 +126,6 @@ namespace LiveSystem
             var skewVector = left - right;
             skewVector.z = 0;
             angle.z = Quaternion.FromToRotation(Vector3.right, skewVector).eulerAngles.z;
-
             return angle;
         }
     }
