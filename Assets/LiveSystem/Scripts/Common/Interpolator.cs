@@ -8,16 +8,16 @@ using System.Diagnostics;
 
 namespace LiveSystem
 {
-    public class Interpolator<T> where T : struct
+    public class Interpolator<TData> where TData : struct
     {
-        public delegate T LerpMethod(in T a, in T b, float t);
+        public delegate TData LerpMethod(in TData a, in TData b, float t);
         public float InterpolationFactor { get; private set; }
 
         private readonly int MaxArrayNum = 2;
         private LerpMethod Lerp;
         private Stopwatch stopwatch;
         private double[] lastUpdateTimes;
-        private T[] lastData;
+        private TData[] lastData;
         private int newIndex;
 
         public Interpolator(LerpMethod lerp)
@@ -26,11 +26,11 @@ namespace LiveSystem
             stopwatch = new Stopwatch();
             stopwatch.Start();
             lastUpdateTimes = new double[MaxArrayNum];
-            lastData = new T[MaxArrayNum];
+            lastData = new TData[MaxArrayNum];
             newIndex = 0;
         }
 
-        public void UpdateData(in T data)
+        public void UpdateData(in TData data)
         {
             lock(lastData) lock(lastUpdateTimes)
                 {
@@ -40,7 +40,7 @@ namespace LiveSystem
                 }
         }
 
-        public T GetCurrentData()
+        public TData GetCurrentData()
         {
             double newTime, oldTime;
 
