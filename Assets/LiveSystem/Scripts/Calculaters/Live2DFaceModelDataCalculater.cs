@@ -13,28 +13,18 @@ namespace LiveSystem
     {
         protected override FaceModelData Calculate(NormalizedLandmarkList data)
         {
-            var landmarks = data.Landmark;
-            
-            var leftEye = GetKeyPoint(new List<NormalizedLandmark> {
-                landmarks[LeftEyePointIds.left],
-                landmarks[LeftEyePointIds.right],
-                landmarks[LeftEyePointIds.down],
-                landmarks[LeftEyePointIds.up]
-            });
-            var rightEye = GetKeyPoint(new List<NormalizedLandmark> {
-                landmarks[RightEyePointIds.left],
-                landmarks[RightEyePointIds.right],
-                landmarks[RightEyePointIds.down],
-                landmarks[RightEyePointIds.up]
-            });
-            var nose = landmarks[NosePoint];
+            var landmark = data.Landmark;
 
-            var angle = GetFaceEulerAngles(landmarks[FaceDirectionPointIds.mid], landmarks[FaceDirectionPointIds.left], landmarks[FaceDirectionPointIds.right]);
-            var eyeLOpen = 1f + landmarks[LeftEyePointIds.up].Y - landmarks[LeftEyePointIds.down].Y;
-            var eyeROpen = 1f + landmarks[RightEyePointIds.up].Y - landmarks[RightEyePointIds.down].Y;
-            var eyeBallX = landmarks[LeftPupilPoint].X - leftEye.X;
-            var eyeBallY = landmarks[LeftPupilPoint].Y - leftEye.Y;
-            var mouthOpenY = landmarks[InnerLipsPointIds.up].Y - landmarks[InnerLipsPointIds.down].Y;
+            var leftEye = GetCentralPoint(LeftEyeKeyPointIds, data);
+            var rightEye = GetCentralPoint(RightEyeKeyPointIds, data);
+            var nose = landmark[NosePoint];
+
+            var angle = GetFaceEulerAngles(landmark[FaceDirectionPointIds.mid], landmark[FaceDirectionPointIds.left], landmark[FaceDirectionPointIds.right]);
+            var eyeLOpen = 1f + landmark[LeftEyePointIds.up].Y - landmark[LeftEyePointIds.down].Y;
+            var eyeROpen = 1f + landmark[RightEyePointIds.up].Y - landmark[RightEyePointIds.down].Y;
+            var eyeBallX = landmark[LeftPupilPoint].X - leftEye.X;
+            var eyeBallY = landmark[LeftPupilPoint].Y - leftEye.Y;
+            var mouthOpenY = landmark[InnerLipsPointIds.up].Y - landmark[InnerLipsPointIds.down].Y;
             var bodyAngleX = angle.x / 3;
             var bodyAngleY = angle.y / 3;
             var bodyAngleZ = angle.z / 3;

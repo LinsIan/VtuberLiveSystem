@@ -28,14 +28,7 @@ namespace LiveSystem
             base.Start();
             interpolator = new Interpolator<FaceModelData>(FaceModelData.Lerp);
             cubismModel = modelObj.GetComponent<CubismModel>();
-            parameters = new Dictionary<Live2DParamId, CubismParameter>(new Live2DParamIdComparer());
-            var modelParamteters = cubismModel.Parameters;
-            var values = (Live2DParamId[])Enum.GetValues(typeof(Live2DParamId));
-            foreach (var item in values)
-            {
-                string id = Enum.GetName(typeof(Live2DParamId), item);
-                parameters.Add(item, modelParamteters.FindById(id));
-            }
+            InitParameters();
             isStartOutputData = false;
         }   
 
@@ -66,6 +59,18 @@ namespace LiveSystem
         {
             isStartOutputData = true;
             interpolator.UpdateData(data);
+        }
+
+        private void InitParameters()
+        {
+            parameters = new Dictionary<Live2DParamId, CubismParameter>(new Live2DParamIdComparer());
+            var modelParamteters = cubismModel.Parameters;
+            var values = (Live2DParamId[])Enum.GetValues(typeof(Live2DParamId));
+            foreach (var item in values)
+            {
+                string id = Enum.GetName(typeof(Live2DParamId), item);
+                parameters.Add(item, modelParamteters.FindById(id));
+            }
         }
     }
 

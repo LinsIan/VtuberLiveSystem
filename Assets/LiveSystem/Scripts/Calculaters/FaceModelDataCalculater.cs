@@ -34,17 +34,17 @@ namespace LiveSystem
         protected readonly (int left, int right) HorizonMouthPointIds = (61, 291);
         protected readonly (int left, int right, int down, int up) LeftEyePointIds = (33, 133, 145, 159);
         protected readonly (int left, int right, int down, int up) RightEyePointIds = (362, 263, 373, 386);
-
         //protected readonly List<int> FaceDirectionKeyPoints = new List<int> { 6, 127, 356 };
         //protected readonly List<int> OuterLipsKeyPoints = new List<int> { 0, 17 };
         //protected readonly List<int> InnerLipsKeyPoints = new List<int> { 13, 14 };
         //protected readonly List<int> HorizonMouthKeyPoints = new List<int> { 61, 291 };
-        //protected readonly List<int> LeftEyeKeyPoints = new List<int> { 33, 133, 145, 159 };
-        //protected readonly List<int> RightEyeKeyPoints = new List<int> { 263, 362, 373, 386};
+        protected readonly List<int> LeftEyeKeyPointIds = new List<int> { 33, 133, 145, 159 };
+        protected readonly List<int> RightEyeKeyPointIds = new List<int> { 362, 263, 373, 386};
         protected readonly int NosePoint = 1;
         protected readonly int ChinPoint = 152;
         protected readonly int LeftPupilPoint = 468;
         protected readonly int RightPupilPoint = 473;
+
         
 
         public override void OnDataOutput(NormalizedLandmarkList data)
@@ -65,28 +65,18 @@ namespace LiveSystem
 
         protected virtual FaceModelData Calculate(NormalizedLandmarkList data)
         {
-            var landmarks = data.Landmark;
+            var landmark = data.Landmark;
 
-            var leftEye = GetKeyPoint(new List<NormalizedLandmark> {
-                landmarks[LeftEyePointIds.left],
-                landmarks[LeftEyePointIds.right],
-                landmarks[LeftEyePointIds.down],
-                landmarks[LeftEyePointIds.up]
-            });
-            var rightEye = GetKeyPoint(new List<NormalizedLandmark> {
-                landmarks[RightEyePointIds.left],
-                landmarks[RightEyePointIds.right],
-                landmarks[RightEyePointIds.down],
-                landmarks[RightEyePointIds.up]
-            });
-            var nose = landmarks[NosePoint];
+            var leftEye = GetCentralPoint(LeftEyeKeyPointIds, data);
+            var rightEye = GetCentralPoint(RightEyeKeyPointIds, data);
+            var nose = landmark[NosePoint];
 
-            var angle = GetFaceEulerAngles(landmarks[FaceDirectionPointIds.mid], landmarks[FaceDirectionPointIds.left], landmarks[FaceDirectionPointIds.right]);
-            var eyeLOpen = 1f + landmarks[LeftEyePointIds.up].Y - landmarks[LeftEyePointIds.down].Y;
-            var eyeROpen = 1f + landmarks[RightEyePointIds.up].Y - landmarks[RightEyePointIds.down].Y;
-            var eyeBallX = landmarks[LeftPupilPoint].X - leftEye.X;
-            var eyeBallY = landmarks[LeftPupilPoint].Y - leftEye.Y;
-            var mouthOpenY = landmarks[InnerLipsPointIds.up].Y - landmarks[InnerLipsPointIds.down].Y;
+            var angle = GetFaceEulerAngles(landmark[FaceDirectionPointIds.mid], landmark[FaceDirectionPointIds.left], landmark[FaceDirectionPointIds.right]);
+            var eyeLOpen = 1f + landmark[LeftEyePointIds.up].Y - landmark[LeftEyePointIds.down].Y;
+            var eyeROpen = 1f + landmark[RightEyePointIds.up].Y - landmark[RightEyePointIds.down].Y;
+            var eyeBallX = landmark[LeftPupilPoint].X - leftEye.X;
+            var eyeBallY = landmark[LeftPupilPoint].Y - leftEye.Y;
+            var mouthOpenY = landmark[InnerLipsPointIds.up].Y - landmark[InnerLipsPointIds.down].Y;
             var bodyAngleX = angle.x / 3;
             var bodyAngleY = angle.y / 3;
             var bodyAngleZ = angle.z / 3;
@@ -94,21 +84,22 @@ namespace LiveSystem
 
         }
 
-        protected (float X, float Y, float Z) GetKeyPoint(List<NormalizedLandmark> keypoints)
+        protected (float X, float Y, float Z) GetCentralPoint(List<int> pointIds, NormalizedLandmarkList data)
         {
-            var keypoint = (X: 0f, Y: 0f, Z: 0f);
+            var landmark = data.Landmark;
+            var centralPoint = (X: 0f, Y: 0f, Z: 0f);
 
-            foreach (var point in keypoints)
+            foreach (int id in pointIds)
             {
-				keypoint.X += point.X;
-                keypoint.Y += point.Y;
-                keypoint.Z += point.Z;
+				centralPoint.X += landmark[id].X;
+                centralPoint.Y += landmark[id].Y;
+                centralPoint.Z += landmark[id].Z;
 			}
-            keypoint.X /= keypoints.Count;
-            keypoint.Y /= keypoints.Count;
-            keypoint.Z /= keypoints.Count;
+            centralPoint.X /= pointIds.Count;
+            centralPoint.Y /= pointIds.Count;
+            centralPoint.Z /= pointIds.Count;
 
-            return keypoint;
+            return centralPoint;
         }
        
         protected Vector3 GetFaceEulerAngles(NormalizedLandmark midPoint, NormalizedLandmark rightPoint, NormalizedLandmark leftPoint)
