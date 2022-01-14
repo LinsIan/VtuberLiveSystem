@@ -17,7 +17,7 @@ namespace LiveSystem
 
         protected override void Start()
         {
-            faceModelCalculater = new FaceModelDataCalculater();
+            faceModelCalculater = new Live2DFaceModelDataCalculater();
             graph = solution?.GetComponent<IrisTrackingGraph>();
             graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
 

@@ -22,7 +22,7 @@ namespace LiveSystem
         private FaceModelData currentFaceData;
         private Interpolator<FaceModelData> interpolator;
         private bool isStartOutputData;
-
+            
         public override void Start()
         {
             base.Start();
@@ -46,12 +46,13 @@ namespace LiveSystem
 
             //Debug.Log(currentData.MouthOpenY);
 
-            //parameters[Live2DParamId.ParamBodyAngleX].Value = currentData.BodyAngleX;
-            //parameters[Live2DParamId.ParamBodyAngleY].Value = currentData.BodyAngleY;
-            //parameters[Live2DParamId.ParamBodyAngleZ].Value = currentData.BodyAngleZ;
+            parameters[Live2DParamId.ParamBodyAngleX].Value = currentFaceData.BodyAngleX;
+            parameters[Live2DParamId.ParamBodyAngleY].Value = currentFaceData.BodyAngleY;
+            parameters[Live2DParamId.ParamBodyAngleZ].Value = currentFaceData.BodyAngleZ;
 
             //test obj
-            test.transform.rotation = Quaternion.Euler(currentFaceData.AngleX, currentFaceData.AngleY, currentFaceData.AngleZ);
+            Debug.Log("CurrentFaceData: " + currentFaceData.AngleX + " , " + currentFaceData.AngleY + " , " + currentFaceData.AngleZ);
+            //test.transform.rotation = Quaternion.Euler(currentFaceData.AngleX, 0, 0);
         }
 
         //called from thread
