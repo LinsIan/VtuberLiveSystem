@@ -57,8 +57,7 @@ namespace LiveSystem
                     {
                         InterpolationFactor = 1;
                     }
-
-                    return Lerp(lastData[newIndex], lastData[GetOldIndex()], InterpolationFactor);
+                    return Lerp(lastData[GetOldIndex()], lastData[newIndex], InterpolationFactor);
                 }
         }
 
