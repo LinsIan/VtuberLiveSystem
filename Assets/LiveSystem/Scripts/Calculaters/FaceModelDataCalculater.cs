@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mediapipe;
+using LiveSystem.ExtensionMethods;
 using LiveSystem.ModelData;
 
 namespace LiveSystem
@@ -16,6 +17,10 @@ namespace LiveSystem
     {
         public Action<FaceModelData> OnFaceModelDataOutput { get; set; }
 
+        protected readonly int Digits = 6;
+        protected readonly int FaceMeshCount = 468;
+        protected readonly int IrisCount = 5;
+
         protected readonly List<int> FaceOvalPoints = new List<int> { 10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109 };
         protected readonly List<int> LeftEyePoints = new List<int> { 33, 7, 163, 144, 145, 153, 154, 155, 133, 33, 246, 161, 160, 159, 158, 157, 173 };
         protected readonly List<int> LeftEyebrowPoints = new List<int> { 46, 53, 52, 65, 55, 70, 63, 105, 66, 107 };
@@ -23,9 +28,6 @@ namespace LiveSystem
         protected readonly List<int> RightEyebrowPoints = new List<int> { 276, 283, 282, 295, 285, 300, 293, 334, 296, 336 };
         protected readonly List<int> InnerLipsPoints = new List<int> { 78, 95, 88, 178, 87, 14, 317, 402, 318, 324, 308, 191, 80, 81, 82, 13, 312, 311, 310, 415 };
         protected readonly List<int> OuterLipsPoints = new List<int> { 61, 146, 91, 181, 84, 17, 314, 405, 321, 375, 291, 185, 40, 39, 37, 0, 267, 269, 270, 409 };
-
-        protected readonly int FaceMeshCount = 468;
-        protected readonly int IrisCount = 5;
 
         //Keypoints
         protected readonly (int mid, int left, int right) FaceDirectionPointIds = (6, 127, 356);
@@ -91,9 +93,9 @@ namespace LiveSystem
 
             foreach (int id in pointIds)
             {
-				centralPoint.X += landmark[id].X;
-                centralPoint.Y += landmark[id].Y;
-                centralPoint.Z += landmark[id].Z;
+				centralPoint.X += landmark[id].Round(Digits).X;
+                centralPoint.Y += landmark[id].Round(Digits).Y;
+                centralPoint.Z += landmark[id].Round(Digits).Z;
 			}
             centralPoint.X /= pointIds.Count;
             centralPoint.Y /= pointIds.Count;
