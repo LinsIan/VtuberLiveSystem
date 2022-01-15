@@ -24,6 +24,7 @@ namespace LiveSystem
         ParamEyeLOpen,
         ParamEyeROpen,
         ParamEyeBallX,
+        ParamEyeBallY,
         ParamMouthOpenY,
         ParamBodyAngleX,
         ParamBodyAngleY,
