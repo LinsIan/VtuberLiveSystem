@@ -39,19 +39,26 @@ namespace LiveSystem
             //TODO:套用敏感度數值
             currentFaceData = interpolator.GetCurrentData();
 
-            parameters[Live2DParamId.ParamAngleX].Value = currentFaceData.AngleX;
-            parameters[Live2DParamId.ParamAngleY].Value = currentFaceData.AngleY;
-            parameters[Live2DParamId.ParamAngleZ].Value = currentFaceData.AngleZ;
+			//parameters[Live2DParamId.ParamAngleX].Value = currentFaceData.AngleX;
+			//parameters[Live2DParamId.ParamAngleY].Value = currentFaceData.AngleY;
+			//parameters[Live2DParamId.ParamAngleZ].Value = currentFaceData.AngleZ;
 
+			//parameters[Live2DParamId.ParamBodyAngleX].Value = currentFaceData.BodyAngleX;
+			//parameters[Live2DParamId.ParamBodyAngleY].Value = currentFaceData.BodyAngleY;
+			//parameters[Live2DParamId.ParamBodyAngleZ].Value = currentFaceData.BodyAngleZ;
 
-            //Debug.Log(currentData.MouthOpenY);
+			//parameters[Live2DParamId.ParamEyeBallX].Value = currentFaceData.EyeBallX;
+			//parameters[Live2DParamId.ParamEyeBallY].Value = currentFaceData.EyeBallY;
 
-            parameters[Live2DParamId.ParamBodyAngleX].Value = currentFaceData.BodyAngleX;
-            parameters[Live2DParamId.ParamBodyAngleY].Value = currentFaceData.BodyAngleY;
-            parameters[Live2DParamId.ParamBodyAngleZ].Value = currentFaceData.BodyAngleZ;
+			//parameters[Live2DParamId.ParamEyeROpen].Value = currentFaceData.EyeROpen;
+			//parameters[Live2DParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
+
+			parameters[Live2DParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
+            Debug.Log(currentFaceData.MouthOpenY);
 
             //test obj
-            Debug.Log("CurrentFaceData: " + currentFaceData.AngleX + " , " + currentFaceData.AngleY + " , " + currentFaceData.AngleZ);
+            //Debug.Log(currentData.MouthOpenY);
+            //Debug.Log("CurrentFaceData: " + currentFaceData.AngleX + " , " + currentFaceData.AngleY + " , " + currentFaceData.AngleZ);
             //test.transform.rotation = Quaternion.Euler(currentFaceData.AngleX, 0, 0);
         }
 

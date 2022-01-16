@@ -22,14 +22,12 @@ namespace LiveSystem
 
             var leftEye = GetCentralPoint(LeftEyeKeyPointIds, data);
             var rightEye = GetCentralPoint(RightEyeKeyPointIds, data);
-
             //Debug.Log(landmark[NosePoint].ToString());
             var nose = landmark[NosePoint].Round(Digits);
             //Debug.Log(nose.ToString());
 
             var eulerAngle = GetFaceEulerAngles(landmark[FaceDirectionPointIds.mid].Round(Digits), landmark[FaceDirectionPointIds.left].Round(Digits), landmark[FaceDirectionPointIds.right].Round(Digits));
             //Debug.Log("EulerAngle : " + eulerAngle.x + " , " + eulerAngle.y + " , " + eulerAngle.z);
-
             if (eulerAngle.y > 180)
             {
                 eulerAngle.y -= 360;
@@ -51,12 +49,16 @@ namespace LiveSystem
             angle.y = eulerAngle.x;
             angle.z = eulerAngle.z;
 
-            var eyeLOpen = 1f + landmark[LeftEyePointIds.up].Round(Digits).Y - landmark[LeftEyePointIds.down].Round(Digits).Y;
-            var eyeROpen = 1f + landmark[RightEyePointIds.up].Round(Digits).Y - landmark[RightEyePointIds.down].Round(Digits).Y;
+            var eyeLOpen = 1f + landmark[LeftEyePointIds.down].Round(Digits).Y - landmark[LeftEyePointIds.up].Round(Digits).Y;
+            var eyeROpen = 1f + landmark[RightEyePointIds.down].Round(Digits).Y - landmark[RightEyePointIds.up].Round(Digits).Y;
+
             var eyeBallX = landmark[LeftPupilPoint].Round(Digits).X - leftEye.X;
             var eyeBallY = landmark[LeftPupilPoint].Round(Digits).Y - leftEye.Y;
-            var mouthOpenY = landmark[InnerLipsPointIds.up].Round(Digits).Y - landmark[InnerLipsPointIds.down].Round(Digits).Y;
-            var bodyAngleX = angle.x / 2;
+
+            var mouthOpenY = landmark[InnerLipsPointIds.down].Round(Digits).Y - landmark[InnerLipsPointIds.up].Round(Digits).Y;
+			//Debug.Log(landmark[InnerLipsPointIds.up].Y + " , " + landmark[InnerLipsPointIds.down].Y);
+
+			var bodyAngleX = angle.x / 2;
             var bodyAngleY = angle.y / 2;
             var bodyAngleZ = angle.z / 2;
 
