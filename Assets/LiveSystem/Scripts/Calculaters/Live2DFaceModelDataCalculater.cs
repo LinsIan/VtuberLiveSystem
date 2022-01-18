@@ -16,7 +16,7 @@ namespace LiveSystem
     {
         Vector3 angle = Vector3.zero;
 
-        float filtX = 0, noseX = 0;
+        Vector3 filtX, no;
 
         protected override FaceModelData Calculate(NormalizedLandmarkList data)
         {
@@ -27,11 +27,10 @@ namespace LiveSystem
             //Debug.Log(landmark[NosePoint].ToString());
             var nose = landmark[NosePoint].Round(Digits);
 
-
-            var fx = filter.Filt(nose.X);
-            Debug.Log((fx - filtX) + " , " + (nose.X - noseX));
-            filtX = fx; noseX = nose.X;
-            //Debug.Log(nose.ToString());
+            Vector3 n = new Vector3(nose.X, nose.Y, nose.Z);
+            var fx = filter.Filt(n);
+            Debug.Log("(" + (filtX.x - fx.x) + "," + (filtX.y - fx.y) + "," + (filtX.z - fx.z) + ") , (" + (no.x - n.x) + "," + (no.y - n.y) + "," + (no.z - n.z) + ")");
+            filtX = fx; no = n;
 
             var eulerAngle = GetFaceEulerAngles(landmark[FaceDirectionPointIds.mid].Round(Digits), landmark[FaceDirectionPointIds.left].Round(Digits), landmark[FaceDirectionPointIds.right].Round(Digits));
             //Debug.Log("EulerAngle : " + eulerAngle.x + " , " + eulerAngle.y + " , " + eulerAngle.z);

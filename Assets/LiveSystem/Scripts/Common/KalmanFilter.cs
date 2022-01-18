@@ -5,57 +5,49 @@ using UnityEngine;
 
 namespace LiveSystem
 {
-    public class KalmanFilter
+
+    public class ScalarKalmanFilter
     {
-        //TODO: 做一個純量卡爾曼濾波器，然後支援多個Vector，A和H都是1，然後把這個存起來．
-        struct KalmanInfo
+        private const float DefaultQ = 0.00001f;
+        private const float DefaultR = 0.01f;
+        private const float DefaultP = 1;
+
+        public Vector3 value;  // 系統的狀態量
+        public float k; // 卡爾曼增益
+        public float q; // 預測過程噪聲協方差
+        public float r; // 測量過程噪聲協方差
+        public float p; // 估計誤差協方差
+ 
+        public ScalarKalmanFilter(float predict_q = DefaultQ, float measured_r = DefaultR)
         {
-            public float filterValue;  // 系統的狀態量
-            public float gain;//卡爾曼增益
-            public float A;  // x(n)=A*x(n-1)+u(n),u(n)~N(0,q)
-            public float H;  // z(n)=H*x(n)+w(n),w(n)~N(0,r)
-            public float q;  // 預測過程噪聲協方差
-            public float r;  // 測量過程噪聲協方差
-            public float p;  // 估計誤差協方差
+            value = Vector3.zero;
+            q = predict_q;
+            r = measured_r;
+            p = DefaultP;
         }
 
-        private KalmanInfo kalmanInfo;
-
-        public KalmanFilter(float predict_q, float newMeasured_q)
+        //TODO:是否要有is first判斷
+        public Vector3 Filt(Vector3 lastMeasurement)
         {
-            kalmanInfo = new KalmanInfo();
-            kalmanInfo.filterValue = 0;//待測量的初始值，如有中值一般設成中值
-            kalmanInfo.A = 1;
-            kalmanInfo.H = 1;
-            kalmanInfo.q = predict_q;//預測（過程）噪聲方差 影響收斂速率，可以根據實際需求給出
-            kalmanInfo.r = newMeasured_q;//測量（觀測）噪聲方差 可以通過實驗手段獲得
-            kalmanInfo.p = 2;//後驗狀態估計值誤差的方差的初始值（不要爲0問題不大）
+            var predictValue = value;
+
+            var pminus = p + q;
+
+            k = pminus / (pminus +r);
+
+            value = predictValue + k * (lastMeasurement - predictValue);
+
+            p = (1 - k) *pminus;
+
+            return value;
         }
 
-        public float Filt(float lastMeasurement)
+        public void Reset()
         {
-            //預測下一時刻的值
-            float predictValue = kalmanInfo.A * kalmanInfo.filterValue;
-
-            //求協方差
-            kalmanInfo.p = kalmanInfo.A * kalmanInfo.A * kalmanInfo.p + kalmanInfo.q;
-
-            //記錄上次實際座標的值
-            float preValue = kalmanInfo.filterValue;
-
-            //計算增益
-            kalmanInfo.gain = kalmanInfo.p * kalmanInfo.H / (kalmanInfo.p * kalmanInfo.H * kalmanInfo.H + kalmanInfo.r);
-
-            //修正結果，計算濾波值
-            kalmanInfo.filterValue = predictValue + (lastMeasurement - predictValue) * kalmanInfo.gain;
-
-            //更新估計誤差協方差
-            kalmanInfo.p = (1 - kalmanInfo.gain * kalmanInfo.H) * kalmanInfo.p;
-
-            return kalmanInfo.filterValue;
+            p = DefaultP;
+            value = Vector3.zero;
+            k = 0;
         }
-
-
     }
 
 
