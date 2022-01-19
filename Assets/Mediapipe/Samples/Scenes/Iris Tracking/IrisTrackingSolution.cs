@@ -22,7 +22,7 @@ namespace Mediapipe.Unity.IrisTracking
     [SerializeField] private IrisTrackingGraph _graphRunner;
     [SerializeField] private TextureFramePool _textureFramePool;
 
-    [SerializeField] private float minDis = 0.003f;
+    [SerializeField] private float minDis = 0.005f;
 
     private Coroutine _coroutine; 
 
@@ -176,7 +176,7 @@ namespace Mediapipe.Unity.IrisTracking
         {
             if (faceLandmarkListWithIris == null) return;
 
-            //UpdateLL(faceLandmarkListWithIris);
+            UpdateLL(faceLandmarkListWithIris);
 
             _faceLandmarksWithIrisAnnotationController.DrawLater(faceLandmarkListWithIris);
         }

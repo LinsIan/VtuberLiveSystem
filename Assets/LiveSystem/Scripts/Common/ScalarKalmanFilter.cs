@@ -33,6 +33,7 @@ namespace LiveSystem
             if (dist > minDist)
             {
                 UnityEngine.Debug.Log(dist);
+                Reset();
                 value = lastMeasurement;
                 return value;
             }
