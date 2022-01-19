@@ -8,7 +8,7 @@ namespace LiveSystem
 
     public class ScalarKalmanFilter
     {
-        private const float DefaultQ = 0.00001f;
+        private  const float DefaultQ = 0.00001f;
         private const float DefaultR = 0.01f;
         private const float DefaultP = 1;
 
@@ -27,8 +27,16 @@ namespace LiveSystem
         }
 
         //TODO:是否要有is first判斷
-        public Vector3 Filt(Vector3 lastMeasurement)
+        public Vector3 Filt(Vector3 lastMeasurement , float minDist)
         {
+            var dist = Vector3.Distance(lastMeasurement, value);
+            if (dist > minDist)
+            {
+                UnityEngine.Debug.Log(dist);
+                value = lastMeasurement;
+                return value;
+            }
+
             var predictValue = value;
 
             var pminus = p + q;
@@ -50,6 +58,7 @@ namespace LiveSystem
         }
     }
 
+  
 
 }
 
