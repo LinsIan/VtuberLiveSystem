@@ -58,7 +58,53 @@ namespace LiveSystem
         }
     }
 
-  
+    public class NoiseFilter
+    {
+        private const int maxHist = 10;
+        private Vector3 ptLast;
+        private float ptMaxTol;
+        private Vector3[] hist = new Vector3[maxHist];
+        private int histHead, histSize;
+
+        public NoiseFilter(float maxTol = 0.0005f)
+        {
+            histHead = 0;
+            histSize = 0;
+            ptMaxTol = maxTol * maxTol;
+            ptLast = Vector3.zero;
+        }
+
+        public Vector3 Update(Vector3 ptNew)
+        {
+            float dist = Vector3.Distance(ptLast, ptNew);
+            
+            if (dist > ptMaxTol)
+            {
+                Debug.Log(dist);
+                histSize = 0;
+                histHead = 0;
+            }
+
+            hist[histHead] = ptNew; 
+            histHead = (histHead + 1) % maxHist;
+            if (histSize < maxHist) histSize++;
+            return getResult();
+        }
+
+        public Vector3 getResult()
+        {
+            Vector3 sum = Vector3.zero;
+            for (int i = 0; i < histSize; i++)
+            {
+                sum += hist[i];
+            }
+
+            ptLast = sum / histSize;
+
+            return ptLast;
+        }
+
+    }
 
 }
 
