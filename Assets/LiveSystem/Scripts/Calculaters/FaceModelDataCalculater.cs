@@ -17,11 +17,12 @@ namespace LiveSystem
     {
         public Action<FaceModelData> OnFaceModelDataOutput { get; set; }
 
-        protected readonly int Digits = 10;
+        protected readonly int Digits = 12;
         protected readonly int FaceMeshCount = 468;
         protected readonly int IrisCount = 5;
 
-        protected readonly ScalarKalmanFilter filter = new ScalarKalmanFilter();
+        protected readonly List<ScalarKalmanFilter> filters = new List<ScalarKalmanFilter>();
+        public float minDis = 0.005f;
 
         protected readonly List<int> FaceOvalPoints = new List<int> { 10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109 };
         protected readonly List<int> LeftEyePoints = new List<int> { 33, 7, 163, 144, 145, 153, 154, 155, 133, 33, 246, 161, 160, 159, 158, 157, 173 };
@@ -48,8 +49,6 @@ namespace LiveSystem
         protected readonly int ChinPoint = 152;
         protected readonly int LeftPupilPoint = 468;
         protected readonly int RightPupilPoint = 473;
-
-        
 
         public override void OnDataOutput(NormalizedLandmarkList data)
         {

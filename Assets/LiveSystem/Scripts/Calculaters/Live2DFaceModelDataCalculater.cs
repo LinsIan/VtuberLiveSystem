@@ -16,14 +16,35 @@ namespace LiveSystem
     {
         Vector3 angle = Vector3.zero;
 
+        bool isFirst = true;
+
         protected override FaceModelData Calculate(NormalizedLandmarkList data)
         {
             var landmark = data.Landmark;
 
+            if (isFirst)
+            {
+                foreach(var mark in landmark)
+                {
+                    filters.Add(new ScalarKalmanFilter());
+                }
+                isFirst = false;
+            }
+
+            for (int i = 0; i < landmark.Count; i++)
+            {
+                Vector3 point = new Vector3(landmark[i].X, landmark[i].Y, landmark[i].Z);
+                var filt = filters[i].Filt(point, minDis);
+                landmark[i].X = filt.x;
+                landmark[i].Y = filt.y;
+                landmark[i].Z = filt.z;
+            }
+
             var leftEye = GetCentralPoint(LeftEyeKeyPointIds, data);
             var rightEye = GetCentralPoint(RightEyeKeyPointIds, data);
-            //Debug.Log(landmark[NosePoint].ToString());
             var nose = landmark[NosePoint].Round(Digits);
+
+            Vector3 n = new Vector3(nose.X, nose.Y, nose.Z);
 
             var eulerAngle = GetFaceEulerAngles(landmark[FaceDirectionPointIds.mid].Round(Digits), landmark[FaceDirectionPointIds.left].Round(Digits), landmark[FaceDirectionPointIds.right].Round(Digits));
             //Debug.Log("EulerAngle : " + eulerAngle.x + " , " + eulerAngle.y + " , " + eulerAngle.z);

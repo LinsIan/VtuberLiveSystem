@@ -22,8 +22,6 @@ namespace Mediapipe.Unity.IrisTracking
     [SerializeField] private IrisTrackingGraph _graphRunner;
     [SerializeField] private TextureFramePool _textureFramePool;
 
-    [SerializeField] private float minDis = 0.005f;
-
     private Coroutine _coroutine; 
 
     public RunningMode runningMode;
@@ -144,41 +142,10 @@ namespace Mediapipe.Unity.IrisTracking
     {
       _faceRectAnnotationController.DrawLater(faceRect);
     }
-
-        private List<ScalarKalmanFilter> scalarKalmanFilters = new List<ScalarKalmanFilter>();
-        //private List<NoiseFilter> noiseFilters = new List<NoiseFilter>();
-        private bool isFirst = true;
-
-        private void UpdateLL(NormalizedLandmarkList faceLandmarkListWithIris)
-        {
-            if (isFirst)
-            {
-                for (int i = 0; i < faceLandmarkListWithIris.Landmark.Count; i++)
-                {
-                    scalarKalmanFilters.Add(new ScalarKalmanFilter());
-                    //noiseFilters.Add(new NoiseFilter());
-                }
-                isFirst = false;
-            }
-
-            for (int i = 0; i < scalarKalmanFilters.Count; i++)
-            {
-                var landmark = faceLandmarkListWithIris.Landmark[i];
-                Vector3 point = new Vector3(landmark.X, landmark.Y, landmark.Z);
-                var filt = scalarKalmanFilters[i].Filt(point, minDis);
-                landmark.X = filt.x;
-                landmark.Y = filt.y;
-                landmark.Z = filt.z;
-            }
-        }
-
-        private void OnFaceLandmarksWithIrisOutput(NormalizedLandmarkList faceLandmarkListWithIris)
-        {
-            if (faceLandmarkListWithIris == null) return;
-
-            UpdateLL(faceLandmarkListWithIris);
-
-            _faceLandmarksWithIrisAnnotationController.DrawLater(faceLandmarkListWithIris);
-        }
+  
+    private void OnFaceLandmarksWithIrisOutput(NormalizedLandmarkList faceLandmarkListWithIris)
+    {
+        _faceLandmarksWithIrisAnnotationController.DrawLater(faceLandmarkListWithIris);
+    }
   }
 }

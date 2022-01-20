@@ -35,7 +35,7 @@ namespace LiveSystem
                 UnityEngine.Debug.Log(dist);
                 Reset();
                 value = lastMeasurement;
-                return value;
+                //return value;
             }
 
             var predictValue = value;

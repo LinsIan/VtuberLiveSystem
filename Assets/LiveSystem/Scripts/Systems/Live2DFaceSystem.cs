@@ -15,6 +15,8 @@ namespace LiveSystem
         private IrisTrackingGraph graph;
         private FaceModelDataCalculater faceModelCalculater;
 
+        [SerializeField] protected float minDis = 0.005f;
+
         protected override void Start()
         {
             faceModelCalculater = new Live2DFaceModelDataCalculater();
@@ -30,6 +32,12 @@ namespace LiveSystem
             {
                 //轉型失敗
             }
+        }
+
+        protected override void Update()
+        {
+            faceModelCalculater.minDis = minDis;
+            base.Update();
         }
     }
 }

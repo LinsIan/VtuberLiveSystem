@@ -57,9 +57,19 @@ namespace LiveSystem.ModelData
             var bodyAngleY = Mathf.Lerp(a.BodyAngleY, b.BodyAngleY, t);
             var bodyAngleZ = Mathf.Lerp(a.BodyAngleZ, b.BodyAngleZ, t);
 
-            //angleX = (float)Math.Round(angleX, 2);
-            //angleY = (float)Math.Round(angleY, 2);
-            //angleZ = (float)Math.Round(angleZ, 2);
+            var digit = 2;
+
+            angleX = (float)Math.Round(angleX, digit);
+            angleY = (float)Math.Round(angleY, digit);
+            angleZ = (float)Math.Round(angleZ, digit);
+            eyeLOpen = (float)Math.Round(eyeLOpen, digit);
+            eyeROpen = (float)Math.Round(eyeROpen, digit);
+            eyeBallX = (float)Math.Round(eyeBallX, digit);
+            eyeBallY = (float)Math.Round(eyeBallY, digit);
+            mouthOpenY = (float)Math.Round(mouthOpenY, digit);
+            bodyAngleX = (float)Math.Round(bodyAngleX, digit);
+            bodyAngleY = (float)Math.Round(bodyAngleY, digit);
+            bodyAngleZ = (float)Math.Round(bodyAngleZ, digit);
 
             return new FaceModelData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
