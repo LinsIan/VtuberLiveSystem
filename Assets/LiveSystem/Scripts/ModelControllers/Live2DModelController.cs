@@ -14,9 +14,6 @@ namespace LiveSystem
 {
     public class Live2DModelController : ModelController
     {
-        //test
-        [SerializeField] Transform test;
-
         private CubismModel cubismModel;
         private Dictionary<Live2DParamId, CubismParameter> parameters;
         private FaceModelData currentFaceData;
@@ -55,12 +52,6 @@ namespace LiveSystem
             //parameters[Live2DParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
 
             parameters[Live2DParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
-
-            //test obj
-            //Debug.Log(currentFaceData.EyeROpen + " , " + currentFaceData.EyeLOpen);
-            //Debug.Log(currentData.MouthOpenY);
-            //Debug.Log("CurrentFaceData: " + currentFaceData.AngleX + " , " + currentFaceData.AngleY + " , " + currentFaceData.AngleZ);
-            //test.transform.rotation = Quaternion.Euler(currentFaceData.AngleX, 0, 0);
         }
         
         //called from thread
