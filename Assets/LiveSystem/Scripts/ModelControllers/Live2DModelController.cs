@@ -19,7 +19,8 @@ namespace LiveSystem
         private FaceModelData currentFaceData;
         private Interpolator<FaceModelData> interpolator;
         private bool isStartOutputData;
-            
+        private int breathingRate = 12;
+
         public override void Start()
         {
             base.Start();
@@ -31,29 +32,9 @@ namespace LiveSystem
 
         public override void UpdateModel()
         {
-            if (!isStartOutputData) return;
-
-            //TODO:套用敏感度數值
-            currentFaceData = interpolator.GetCurrentData();
-
-            parameters[Live2DParamId.ParamAngleX].Value = currentFaceData.AngleX;
-            parameters[Live2DParamId.ParamAngleY].Value = currentFaceData.AngleY;
-            parameters[Live2DParamId.ParamAngleZ].Value = currentFaceData.AngleZ;
-
-            parameters[Live2DParamId.ParamBodyAngleX].Value = currentFaceData.BodyAngleX;
-            parameters[Live2DParamId.ParamBodyAngleY].Value = currentFaceData.BodyAngleY;
-            parameters[Live2DParamId.ParamBodyAngleZ].Value = currentFaceData.BodyAngleZ;
-
-            parameters[Live2DParamId.ParamEyeBallX].Value = currentFaceData.EyeBallX;
-            parameters[Live2DParamId.ParamEyeBallY].Value = currentFaceData.EyeBallY;
-
-
-            //parameters[Live2DParamId.ParamEyeROpen].Value = currentFaceData.EyeROpen;
-            //parameters[Live2DParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
-
-            parameters[Live2DParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
+            UpdateFaceData();
         }
-        
+
         //called from thread
         public void OnFaceModelDataOutput(FaceModelData data)
         {
@@ -72,6 +53,31 @@ namespace LiveSystem
                 parameters.Add(item, modelParamteters.FindById(id));
             }
         }
+
+        private void UpdateFaceData()
+        {
+            if (!isStartOutputData) return;
+
+            currentFaceData = interpolator.GetCurrentData();
+
+            parameters[Live2DParamId.ParamAngleX].Value = currentFaceData.AngleX;
+            parameters[Live2DParamId.ParamAngleY].Value = currentFaceData.AngleY;
+            parameters[Live2DParamId.ParamAngleZ].Value = currentFaceData.AngleZ;
+
+            parameters[Live2DParamId.ParamBodyAngleX].Value = currentFaceData.BodyAngleX;
+            parameters[Live2DParamId.ParamBodyAngleY].Value = currentFaceData.BodyAngleY;
+            parameters[Live2DParamId.ParamBodyAngleZ].Value = currentFaceData.BodyAngleZ;
+
+            parameters[Live2DParamId.ParamEyeBallX].Value = currentFaceData.EyeBallX;
+            parameters[Live2DParamId.ParamEyeBallY].Value = currentFaceData.EyeBallY;
+
+            //parameters[Live2DParamId.ParamEyeROpen].Value = currentFaceData.EyeROpen;
+            //parameters[Live2DParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
+
+            parameters[Live2DParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
+
+        }
+
     }
 
 }

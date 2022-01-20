@@ -28,6 +28,7 @@ namespace LiveSystem
         ParamMouthOpenY,
         ParamBodyAngleX,
         ParamBodyAngleY,
-        ParamBodyAngleZ
+        ParamBodyAngleZ,
+        ParamBreath
     }
 }
