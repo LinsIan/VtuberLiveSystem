@@ -34,7 +34,7 @@ namespace LiveSystem
             for (int i = 0; i < landmark.Count; i++)
             {
                 Vector3 point = new Vector3(landmark[i].X, landmark[i].Y, landmark[i].Z);
-                var filt = filters[i].Filt(point, minDis);
+                var filt = filters[i].Filt(point);
                 landmark[i].X = filt.x;
                 landmark[i].Y = filt.y;
                 landmark[i].Z = filt.z;
@@ -42,11 +42,9 @@ namespace LiveSystem
 
             var leftEye = GetCentralPoint(LeftEyeKeyPointIds, data);
             var rightEye = GetCentralPoint(RightEyeKeyPointIds, data);
-            var nose = landmark[NosePoint].Round(Digits);
+            var nose = landmark[NosePoint];
 
-            Vector3 n = new Vector3(nose.X, nose.Y, nose.Z);
-
-            var eulerAngle = GetFaceEulerAngles(landmark[FaceDirectionPointIds.mid].Round(Digits), landmark[FaceDirectionPointIds.left].Round(Digits), landmark[FaceDirectionPointIds.right].Round(Digits));
+            var eulerAngle = GetFaceEulerAngles(landmark[FaceDirectionPointIds.mid], landmark[FaceDirectionPointIds.left], landmark[FaceDirectionPointIds.right]);
             //Debug.Log("EulerAngle : " + eulerAngle.x + " , " + eulerAngle.y + " , " + eulerAngle.z);
             if (eulerAngle.y > 180)
             {
@@ -69,13 +67,13 @@ namespace LiveSystem
             angle.y = eulerAngle.x;
             angle.z = eulerAngle.z;
 
-            var eyeLOpen = Mathf.Clamp01((landmark[LeftEyePointIds.down].Round(Digits).Y - landmark[LeftEyePointIds.up].Round(Digits).Y) * 100 - 0.75f);
-            var eyeROpen = Mathf.Clamp01((landmark[RightEyePointIds.down].Round(Digits).Y - landmark[RightEyePointIds.up].Round(Digits).Y) * 100 - 0.75f);
+            var eyeLOpen = Mathf.Clamp01((landmark[LeftEyePointIds.down].Y - landmark[LeftEyePointIds.up].Y) * 100 - 0.75f);
+            var eyeROpen = Mathf.Clamp01((landmark[RightEyePointIds.down].Y - landmark[RightEyePointIds.up].Y) * 100 - 0.75f);
 
-            var eyeBallX = (landmark[LeftPupilPoint].Round(Digits).X - leftEye.X) * -200;
-            var eyeBallY = (landmark[LeftPupilPoint].Round(Digits).Y - leftEye.Y) * -200;
+            var eyeBallX = (landmark[LeftPupilPoint].X - leftEye.X) * -200;
+            var eyeBallY = (landmark[LeftPupilPoint].Y - leftEye.Y) * -200;
             
-            var mouthOpenY = (landmark[InnerLipsPointIds.down].Round(Digits).Y - landmark[InnerLipsPointIds.up].Round(Digits).Y) * 100 - 0.4f;
+            var mouthOpenY = (landmark[InnerLipsPointIds.down].Y - landmark[InnerLipsPointIds.up].Y) * 100 - 0.4f;
             //Debug.Log(landmark[InnerLipsPointIds.up].Y + " , " + landmark[InnerLipsPointIds.down].Y);
 
             var bodyAngleX = angle.x / 2;

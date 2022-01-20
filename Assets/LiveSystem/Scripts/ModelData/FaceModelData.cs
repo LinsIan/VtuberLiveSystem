@@ -57,19 +57,22 @@ namespace LiveSystem.ModelData
             var bodyAngleY = Mathf.Lerp(a.BodyAngleY, b.BodyAngleY, t);
             var bodyAngleZ = Mathf.Lerp(a.BodyAngleZ, b.BodyAngleZ, t);
 
-            var digit = 2;
+            return new FaceModelData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
+        }
 
-            angleX = (float)Math.Round(angleX, digit);
-            angleY = (float)Math.Round(angleY, digit);
-            angleZ = (float)Math.Round(angleZ, digit);
-            eyeLOpen = (float)Math.Round(eyeLOpen, digit);
-            eyeROpen = (float)Math.Round(eyeROpen, digit);
-            eyeBallX = (float)Math.Round(eyeBallX, digit);
-            eyeBallY = (float)Math.Round(eyeBallY, digit);
-            mouthOpenY = (float)Math.Round(mouthOpenY, digit);
-            bodyAngleX = (float)Math.Round(bodyAngleX, digit);
-            bodyAngleY = (float)Math.Round(bodyAngleY, digit);
-            bodyAngleZ = (float)Math.Round(bodyAngleZ, digit);
+        public static FaceModelData Round(in FaceModelData data, int digit)
+        {
+            var angleX = (float)Math.Round(data.AngleX, digit);
+            var angleY = (float)Math.Round(data.AngleY, digit);
+            var angleZ = (float)Math.Round(data.AngleZ, digit);
+            var eyeLOpen = (float)Math.Round(data.EyeLOpen, digit);
+            var eyeROpen = (float)Math.Round(data.EyeROpen, digit);
+            var eyeBallX = (float)Math.Round(data.EyeBallX, digit);
+            var eyeBallY = (float)Math.Round(data.EyeBallY, digit);
+            var mouthOpenY = (float)Math.Round(data.MouthOpenY, digit);
+            var bodyAngleX = (float)Math.Round(data.BodyAngleX, digit);
+            var bodyAngleY = (float)Math.Round(data.BodyAngleY, digit);
+            var bodyAngleZ = (float)Math.Round(data.BodyAngleZ, digit);
 
             return new FaceModelData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
