@@ -55,7 +55,7 @@ namespace LiveSystem
 
         private void InitParameters()
         {
-            parameters = new Dictionary<Live2DParamId, CubismParameter>(new Live2DParamIdComparer());
+            parameters = new Dictionary<Live2DParamId, CubismParameter>(Live2DParamIdComparer.Instance);
             var modelParamteters = cubismModel.Parameters;
             var values = (Live2DParamId[])Enum.GetValues(typeof(Live2DParamId));
             foreach (var item in values)

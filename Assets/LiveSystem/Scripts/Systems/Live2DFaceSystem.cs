@@ -12,12 +12,14 @@ namespace LiveSystem
 {
     public class Live2DFaceSystem : LiveSystem
     {
+        [SerializeField]
+        private FaceLandmarkKeyPoints keyPoints;
         private IrisTrackingGraph graph;
         private FaceModelDataCalculater faceModelCalculater;
 
         protected override void Start()
         {
-            faceModelCalculater = new Live2DFaceModelDataCalculater();
+            faceModelCalculater = new Live2DFaceModelDataCalculater(keyPoints);
             graph = solution?.GetComponent<IrisTrackingGraph>();
             graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
 
@@ -30,11 +32,6 @@ namespace LiveSystem
             {
                 //轉型失敗
             }
-        }
-
-        protected override void Update()
-        {
-            base.Update();
         }
     }
 }
