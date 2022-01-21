@@ -31,4 +31,14 @@ namespace LiveSystem
         ParamBodyAngleZ,
         ParamBreath
     }
+
+    [System.Serializable]
+    public enum Direction
+    {
+        Up = 0,
+        Down,
+        Left,
+        Right,
+        Mid
+    }
 }
