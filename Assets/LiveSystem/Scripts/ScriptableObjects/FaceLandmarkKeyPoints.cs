@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -81,22 +82,22 @@ namespace LiveSystem
 
         private void OnEnable()
         {
+            Func<List<LandmarkPoint>, Dictionary<Direction, int>> InitPointDictionary = points =>
+            {
+                var dic = new Dictionary<Direction, int>(DirectionComparer.Instance);
+                foreach (var point in points)
+                {
+                    dic.Add(point.Direction, point.Index);
+                }
+                return dic;
+            };
+
             FaceDirectionPoints = InitPointDictionary(faceDirectionPoints);
             OuterLipsPoints = InitPointDictionary(outerLipsPoints);
             InnerLipsPoints = InitPointDictionary(innerLipsPoints);
             HorizonMouthPoints = InitPointDictionary(horizonMouthPoints);
             LeftEyePoints = InitPointDictionary(leftEyePoints);
             RightEyePoints = InitPointDictionary(rightEyePoints);
-        }
-
-        private Dictionary<Direction, int> InitPointDictionary(List<LandmarkPoint> points)
-        {
-            var dic = new Dictionary<Direction, int>(DirectionComparer.Instance);
-            foreach (var point in points)
-            {
-                dic.Add(point.Direction, point.Index);
-            }
-            return dic;
         }
     }
 }
