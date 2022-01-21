@@ -9,24 +9,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using LiveSystem.ModelData;
 using Live2D.Cubism.Core;
+using Live2D.Cubism.Framework.HarmonicMotion;
 
 namespace LiveSystem
 {
     public class Live2DModelController : ModelController
     {
+        [SerializeField, Range(0,10)]
+        private float breathingRate = 1;
+
         private CubismModel cubismModel;
+        private CubismHarmonicMotionController breathingController;
         private Dictionary<Live2DParamId, CubismParameter> parameters;
         private FaceModelData currentFaceData;
         private Interpolator<FaceModelData> interpolator;
         private bool isStartOutputData;
-        private int breathingRate = 12;
 
         public override void Start()
         {
             base.Start();
             interpolator = new Interpolator<FaceModelData>(FaceModelData.Lerp);
             cubismModel = modelObj.GetComponent<CubismModel>();
+            breathingController = modelObj.GetComponent<CubismHarmonicMotionController>();
             InitParameters();
+            SetBreathingRate(breathingRate);
             isStartOutputData = false;
         }   
 
@@ -40,6 +46,11 @@ namespace LiveSystem
         {
             isStartOutputData = true;
             interpolator.UpdateData(data);
+        }
+
+        public void SetBreathingRate(float rate)
+        {
+            breathingController.ChannelTimescales[0] = rate;
         }
 
         private void InitParameters()
