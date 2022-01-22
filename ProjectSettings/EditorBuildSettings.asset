@@ -54,4 +54,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Mediapipe/Samples/Scenes/MediaPipe Video/MediaPipe Video.unity
     guid: 16062faf4cda54140b781b925351b119
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: e1079dcf423294597999c63e3f6d1fa1,
+      type: 2}
