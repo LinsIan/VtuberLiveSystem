@@ -9,7 +9,7 @@ namespace LiveSystem
     public class ScalarKalmanFilter
     {
         private const float DefaultQ = 0.0001f;
-        private const float DefaultR = 0.003f;
+        private const float DefaultR = 0.002f;
         private const float DefaultP = 1;
 
         public Vector3 value;  // 系統的狀態量

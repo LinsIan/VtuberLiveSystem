@@ -1,5 +1,9 @@
-using System;
-using System.Collections;
+// Copyright (c) 2021 Lins Ian
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file
+
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,6 +41,9 @@ namespace LiveSystem
         //protected readonly int ChinPoint = 152;
         //protected readonly int LeftPupilPoint = 468;
         //protected readonly int RightPupilPoint = 473;
+
+        //protected readonly int FaceMeshCount = 468;
+        //protected readonly int IrisCount = 5;
 
         [field: SerializeField]
         private List<LandmarkPoint> faceDirectionPoints;
@@ -80,24 +87,31 @@ namespace LiveSystem
 
         public Dictionary<Direction, int> RightEyePoints { get; private set; }
 
+        public List<int> AllPoints { get; private set; }
+
         private void OnEnable()
         {
-            Func<List<LandmarkPoint>, Dictionary<Direction, int>> InitPointDictionary = points =>
-            {
-                var dic = new Dictionary<Direction, int>(DirectionComparer.Instance);
-                foreach (var point in points)
-                {
-                    dic.Add(point.Direction, point.Index);
-                }
-                return dic;
-            };
+            FaceDirectionPoints = faceDirectionPoints.ToDictionary(point => point.Direction, point => point.Index);
+            OuterLipsPoints = outerLipsPoints.ToDictionary(point => point.Direction, point => point.Index);
+            InnerLipsPoints = innerLipsPoints.ToDictionary(point => point.Direction, point => point.Index);
+            HorizonMouthPoints = horizonMouthPoints.ToDictionary(point => point.Direction, point => point.Index);
+            LeftEyePoints = leftEyePoints.ToDictionary(point => point.Direction, point => point.Index);
+            RightEyePoints = rightEyePoints.ToDictionary(point => point.Direction, point => point.Index);
 
-            FaceDirectionPoints = InitPointDictionary(faceDirectionPoints);
-            OuterLipsPoints = InitPointDictionary(outerLipsPoints);
-            InnerLipsPoints = InitPointDictionary(innerLipsPoints);
-            HorizonMouthPoints = InitPointDictionary(horizonMouthPoints);
-            LeftEyePoints = InitPointDictionary(leftEyePoints);
-            RightEyePoints = InitPointDictionary(rightEyePoints);
+            var points = new List<LandmarkPoint>();
+            points.AddRange(faceDirectionPoints);
+            points.AddRange(outerLipsPoints);
+            points.AddRange(innerLipsPoints);
+            points.AddRange(horizonMouthPoints);
+            points.AddRange(leftEyePoints);
+            points.AddRange(rightEyePoints);
+            AllPoints = points.Select(point => point.Index).ToList();
+            AllPoints.Add(NosePoint);
+            AllPoints.Add(ChinPoint);
+            AllPoints.Add(LeftIrisPoint);
+            AllPoints.Add(RightIrisPoint);
+
+            Debug.Log("on enable: " + AllPoints.Count);
         }
     }
 }

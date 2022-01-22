@@ -4,11 +4,10 @@
 // license that can be found in the LICENSE file
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Mediapipe;
-using LiveSystem.ExtensionMethods;
 using LiveSystem.ModelData;
 
 namespace LiveSystem
@@ -18,13 +17,16 @@ namespace LiveSystem
         public Action<FaceModelData> OnFaceModelDataOutput { get; set; }
 
         protected FaceLandmarkKeyPoints keyPoints;
-        protected readonly int FaceMeshCount = 468;
-        protected readonly int IrisCount = 5;
-        protected readonly List<ScalarKalmanFilter> filters = new List<ScalarKalmanFilter>();
+        protected readonly List<ScalarKalmanFilter> filters;
 
         public FaceModelDataCalculater(FaceLandmarkKeyPoints points)
         {
             keyPoints = points;
+            filters = new List<ScalarKalmanFilter>();
+            for (int i = 0; i < points.AllPoints.Count; i++)
+            {
+                filters.Add(new ScalarKalmanFilter());
+            }
         }
         
         public override void OnDataOutput(NormalizedLandmarkList data)
@@ -46,39 +48,30 @@ namespace LiveSystem
         {
             var landmark = data.Landmark;
 
-            var leftEye = GetCentralPoint(keyPoints.LeftEyePoints, data);
-            var rightEye = GetCentralPoint(keyPoints.RightEyePoints, data);
+            var leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
+            var rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
             var nose = landmark[keyPoints.NosePoint];
 
             var angle = GetFaceEulerAngles(landmark[keyPoints.FaceDirectionPoints[Direction.Mid]], landmark[keyPoints.FaceDirectionPoints[Direction.Left]], landmark[keyPoints.FaceDirectionPoints[Direction.Right]]);
             var eyeLOpen = 1f + landmark[keyPoints.LeftEyePoints[Direction.Up]].Y - landmark[keyPoints.LeftEyePoints[Direction.Down]].Y;
             var eyeROpen = 1f + landmark[keyPoints.RightEyePoints[Direction.Up]].Y - landmark[keyPoints.RightEyePoints[Direction.Down]].Y;
-            var eyeBallX = landmark[keyPoints.LeftIrisPoint].X - leftEye.X;
-            var eyeBallY = landmark[keyPoints.LeftIrisPoint].Y - leftEye.Y;
+            var eyeBallX = landmark[keyPoints.LeftIrisPoint].X - leftEye.x;
+            var eyeBallY = landmark[keyPoints.LeftIrisPoint].Y - leftEye.y;
             var mouthOpenY = landmark[keyPoints.InnerLipsPoints[Direction.Up]].Y - landmark[keyPoints.InnerLipsPoints[Direction.Down]].Y;
             var bodyAngleX = angle.x / 3;
             var bodyAngleY = angle.y / 3;
             var bodyAngleZ = angle.z / 3;
             return new FaceModelData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
-
         }
 
-        protected (float X, float Y, float Z) GetCentralPoint(Dictionary<Direction,int> points, NormalizedLandmarkList data)
+        protected Vector3 GetCenterPoint(Dictionary<Direction,int> points, NormalizedLandmarkList data)
         {
-            var landmark = data.Landmark;
-            var centralPoint = (X: 0f, Y: 0f, Z: 0f);
+            var landmarks = data.Landmark;
+            var sum = points
+                .Select(point => new Vector3(landmarks[point.Value].X, landmarks[point.Value].Y, landmarks[point.Value].Z))
+                .Aggregate((result, point) => result + point);
 
-            foreach (KeyValuePair<Direction,int> point in points)
-            {
-				centralPoint.X += landmark[point.Value].X;
-                centralPoint.Y += landmark[point.Value].Y;
-                centralPoint.Z += landmark[point.Value].Z;
-			}
-            centralPoint.X /= points.Count;
-            centralPoint.Y /= points.Count;
-            centralPoint.Z /= points.Count;
-
-            return centralPoint;
+            return sum / points.Count;
         }
        
         protected Vector3 GetFaceEulerAngles(NormalizedLandmark midPoint, NormalizedLandmark rightPoint, NormalizedLandmark leftPoint)
@@ -98,14 +91,18 @@ namespace LiveSystem
             return angle;
         }
 
-        protected void InitFilter()
+        protected void FiltData(NormalizedLandmarkList data)
         {
-
-        }
-
-        protected void FiltData()
-        {
-            
+            var landmarks = data.Landmark;
+            for (int i = 0; i < keyPoints.AllPoints.Count; i++)
+            {
+                var point = keyPoints.AllPoints[i];
+                var landmark = landmarks[point];
+                Vector3 filt = filters[i].Filt(new Vector3(landmark.X, landmark.Y, landmark.Z));
+                landmark.X = filt.x;
+                landmark.Y = filt.y;
+                landmark.Z = filt.z;
+            }
 
         }
     }
