@@ -23,6 +23,7 @@ namespace LiveSystem
         {
             keyPoints = points;
             filters = new List<ScalarKalmanFilter>();
+            //for (int i = 0; i < points.FaceDirectionPoints.Count; i++)
             for (int i = 0; i < points.AllPoints.Count; i++)
             {
                 filters.Add(new ScalarKalmanFilter());
@@ -103,6 +104,16 @@ namespace LiveSystem
                 landmark.Y = filt.y;
                 landmark.Z = filt.z;
             }
+
+            //int i = 0;
+            //foreach (var point in keyPoints.FaceDirectionPoints)
+            //{
+            //    var landmark = landmarks[point.Value];
+            //    Vector3 filt = filters[i++].Filt(new Vector3(landmark.X, landmark.Y, landmark.Z));
+            //    landmark.X = filt.x;
+            //    landmark.Y = filt.y;
+            //    landmark.Z = filt.z;
+            //}
 
         }
     }

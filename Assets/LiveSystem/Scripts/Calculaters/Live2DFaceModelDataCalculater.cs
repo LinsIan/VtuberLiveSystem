@@ -41,10 +41,21 @@ namespace LiveSystem
             //    landmarks[i].Z = filt.z;
             //}
 
-            FiltData(data);
-
+            //TODO:眼睛開合、嘴巴開合等計算要在資料filt之前 然後算式
             var leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
             var rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
+
+            var eyeLOpen = Mathf.Clamp01(Mathf.Clamp01((landmarks[keyPoints.LeftEyePoints[Direction.Down]].Y - landmarks[keyPoints.LeftEyePoints[Direction.Up]].Y) * 100 - 0.7f) * 3 - 1f);
+            var eyeROpen = Mathf.Clamp01(Mathf.Clamp01((landmarks[keyPoints.RightEyePoints[Direction.Down]].Y - landmarks[keyPoints.RightEyePoints[Direction.Up]].Y) * 100 - 0.7f) * 3 - 1f);
+
+
+            var mouthOpenY = (landmarks[keyPoints.InnerLipsPoints[Direction.Down]].Y - landmarks[keyPoints.InnerLipsPoints[Direction.Up]].Y) * 100 - 0.4f;
+            Debug.Log((L: landmarks[keyPoints.LeftEyePoints[Direction.Down]].Y - landmarks[keyPoints.LeftEyePoints[Direction.Up]].Y, R: landmarks[keyPoints.RightEyePoints[Direction.Down]].Y - landmarks[keyPoints.RightEyePoints[Direction.Up]].Y));
+
+            FiltData(data);
+
+            leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
+            rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
             var nose = landmarks[keyPoints.NosePoint];
 
             var eulerAngle = GetFaceEulerAngles(landmarks[keyPoints.FaceDirectionPoints[Direction.Mid]], landmarks[keyPoints.FaceDirectionPoints[Direction.Left]], landmarks[keyPoints.FaceDirectionPoints[Direction.Right]]);
@@ -70,13 +81,8 @@ namespace LiveSystem
             angle.y = eulerAngle.x;
             angle.z = eulerAngle.z;
 
-            var eyeLOpen = Mathf.Clamp01((landmarks[keyPoints.LeftEyePoints[Direction.Down]].Y - landmarks[keyPoints.LeftEyePoints[Direction.Up]].Y) * 100 - 0.75f);
-            var eyeROpen = Mathf.Clamp01((landmarks[keyPoints.RightEyePoints[Direction.Down]].Y - landmarks[keyPoints.RightEyePoints[Direction.Up]].Y) * 100 - 0.75f);
-
             var eyeBallX = (landmarks[keyPoints.LeftIrisPoint].X - leftEye.x) * -200;
             var eyeBallY = (landmarks[keyPoints.LeftIrisPoint].Y - leftEye.y) * -200;
-            
-            var mouthOpenY = (landmarks[keyPoints.InnerLipsPoints[Direction.Down]].Y - landmarks[keyPoints.InnerLipsPoints[Direction.Up]].Y) * 100 - 0.4f;
 
             var bodyAngleX = angle.x / 3;
             var bodyAngleY = angle.y / 3;

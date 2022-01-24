@@ -82,8 +82,8 @@ namespace LiveSystem
             parameters[Live2DParamId.ParamEyeBallX].Value = currentFaceData.EyeBallX;
             parameters[Live2DParamId.ParamEyeBallY].Value = currentFaceData.EyeBallY;
 
-            //parameters[Live2DParamId.ParamEyeROpen].Value = currentFaceData.EyeROpen;
-            //parameters[Live2DParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
+            parameters[Live2DParamId.ParamEyeROpen].Value = currentFaceData.EyeROpen;
+            parameters[Live2DParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
 
             parameters[Live2DParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
 
