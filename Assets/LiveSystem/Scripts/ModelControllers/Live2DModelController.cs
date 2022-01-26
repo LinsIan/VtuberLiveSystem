@@ -7,7 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using LiveSystem.ModelData;
+using LiveSystem.Data;
 using Live2D.Cubism.Core;
 using Live2D.Cubism.Framework.HarmonicMotion;
 
@@ -21,14 +21,14 @@ namespace LiveSystem
         private CubismModel cubismModel;
         private CubismHarmonicMotionController breathingController;
         private Dictionary<Live2DParamId, CubismParameter> parameters;
-        private FaceModelData currentFaceData;
-        private Interpolator<FaceModelData> interpolator;
+        private FaceData currentFaceData;
+        private Interpolator<FaceData> interpolator;
         private bool isStartOutputData;
 
         public override void Start()
         {
             base.Start();
-            interpolator = new Interpolator<FaceModelData>(FaceModelData.Lerp);
+            interpolator = new Interpolator<FaceData>(FaceData.Lerp);
             cubismModel = modelObj.GetComponent<CubismModel>();
             breathingController = modelObj.GetComponent<CubismHarmonicMotionController>();
             InitParameters();
@@ -42,7 +42,7 @@ namespace LiveSystem
         }
 
         //called from thread
-        public void OnFaceModelDataOutput(FaceModelData data)
+        public void OnFaceModelDataOutput(FaceData data)
         {
             isStartOutputData = true;
             interpolator.UpdateData(data);

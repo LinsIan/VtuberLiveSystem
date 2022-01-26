@@ -8,10 +8,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LiveSystem.ModelData
+namespace LiveSystem.Data
 {
     [Serializable]
-    public readonly struct FaceModelData
+    public readonly struct FaceData
     {
         public float AngleX { get; }
         public float AngleY { get; }
@@ -25,9 +25,7 @@ namespace LiveSystem.ModelData
         public float BodyAngleY { get; }
         public float BodyAngleZ { get; }
 
-        //public float Breath; //應該是程式or動畫控制
-
-        public FaceModelData(float angleX, float angleY, float angleZ, float eyeLOpen, float eyeROpen, float eyeBallX, float eyeBallY,
+        public FaceData(float angleX, float angleY, float angleZ, float eyeLOpen, float eyeROpen, float eyeBallX, float eyeBallY,
             float mouthOpenY, float bodyAngleX, float bodyAngleY, float bodyAngleZ)
         {
             AngleX = angleX;
@@ -43,7 +41,7 @@ namespace LiveSystem.ModelData
             BodyAngleZ = bodyAngleZ;
         }
 
-        public static FaceModelData Lerp(in FaceModelData a, in FaceModelData b, float t = 1)
+        public static FaceData Lerp(in FaceData a, in FaceData b, float t = 1)
         {
             var angleX = Mathf.Lerp(a.AngleX, b.AngleX, t);
             var angleY = Mathf.Lerp(a.AngleY, b.AngleY, t);
@@ -57,10 +55,10 @@ namespace LiveSystem.ModelData
             var bodyAngleY = Mathf.Lerp(a.BodyAngleY, b.BodyAngleY, t);
             var bodyAngleZ = Mathf.Lerp(a.BodyAngleZ, b.BodyAngleZ, t);
 
-            return new FaceModelData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
+            return new FaceData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
 
-        public static FaceModelData Round(in FaceModelData data, int digit)
+        public static FaceData Round(in FaceData data, int digit)
         {
             var angleX = (float)Math.Round(data.AngleX, digit);
             var angleY = (float)Math.Round(data.AngleY, digit);
@@ -74,7 +72,7 @@ namespace LiveSystem.ModelData
             var bodyAngleY = (float)Math.Round(data.BodyAngleY, digit);
             var bodyAngleZ = (float)Math.Round(data.BodyAngleZ, digit);
 
-            return new FaceModelData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
+            return new FaceData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
     }
 

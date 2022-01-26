@@ -5,7 +5,7 @@
 
 using UnityEngine;
 using Mediapipe;
-using LiveSystem.ModelData;
+using LiveSystem.Data;
 
 namespace LiveSystem
 {
@@ -19,7 +19,7 @@ namespace LiveSystem
         {
         }
 
-        protected override FaceModelData Calculate(NormalizedLandmarkList data)
+        protected override FaceData Calculate(NormalizedLandmarkList data)
         {
             var landmarks = data.Landmark;
 
@@ -40,8 +40,8 @@ namespace LiveSystem
             //    landmarks[i].Y = filt.y;
             //    landmarks[i].Z = filt.z;
             //}
-
-            //TODO:眼睛開合、嘴巴開合等計算要在資料filt之前 然後算式
+            
+            //TODO:眼睛開合計算要在資料filt之前
             var leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
             var rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
 
@@ -88,7 +88,7 @@ namespace LiveSystem
             var bodyAngleY = angle.y / 3;
             var bodyAngleZ = angle.z / 3;
 
-            return new FaceModelData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
+            return new FaceData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
     }
 

@@ -45,22 +45,22 @@ namespace LiveSystem
         //protected readonly int FaceMeshCount = 468;
         //protected readonly int IrisCount = 5;
 
-        [field: SerializeField]
+        [SerializeField]
         private List<LandmarkPoint> faceDirectionPoints;
 
-        [field: SerializeField]
+        [SerializeField]
         private List<LandmarkPoint> outerLipsPoints;
 
-        [field: SerializeField]
+        [SerializeField]
         private List<LandmarkPoint> innerLipsPoints;
 
-        [field: SerializeField]
+        [SerializeField]
         private List<LandmarkPoint> horizonMouthPoints;
 
-        [field: SerializeField]
+        [SerializeField]
         private List<LandmarkPoint> leftEyePoints;
 
-        [field: SerializeField]
+        [SerializeField]
         private List<LandmarkPoint> rightEyePoints;
 
         [field: SerializeField]

@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mediapipe;
-using LiveSystem.ModelData;
+using LiveSystem.Data;
 
 namespace LiveSystem
 {
     public class FaceModelDataCalculater : Calculater<NormalizedLandmarkList>
     {
-        public Action<FaceModelData> OnFaceModelDataOutput { get; set; }
+        public Action<FaceData> OnFaceModelDataOutput { get; set; }
 
         protected FaceLandmarkKeyPoints keyPoints;
         protected readonly List<ScalarKalmanFilter> filters;
@@ -45,7 +45,7 @@ namespace LiveSystem
 
         }
 
-        protected virtual FaceModelData Calculate(NormalizedLandmarkList data)
+        protected virtual FaceData Calculate(NormalizedLandmarkList data)
         {
             var landmark = data.Landmark;
 
@@ -62,7 +62,7 @@ namespace LiveSystem
             var bodyAngleX = angle.x / 3;
             var bodyAngleY = angle.y / 3;
             var bodyAngleZ = angle.z / 3;
-            return new FaceModelData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
+            return new FaceData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
 
         protected Vector3 GetCenterPoint(Dictionary<Direction,int> points, NormalizedLandmarkList data)
