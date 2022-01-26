@@ -6,19 +6,10 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using LiveSystem.Data;
 
 namespace LiveSystem
 {
-    [System.Serializable]
-    public class LandmarkPoint
-    {
-        [field: SerializeField]
-        public Direction Direction { get; private set; }
-
-        [field: SerializeField]
-        public int Index { get; private set; }
-    }
-
     [CreateAssetMenu(fileName = "FaceLandmarkKeyPoints", menuName = "ScriptableObjects/FaceLandmarkKeyPoints", order = 1)]
     public class FaceLandmarkKeyPoints : ScriptableObject
     {
@@ -110,8 +101,6 @@ namespace LiveSystem
             AllPoints.Add(ChinPoint);
             AllPoints.Add(LeftIrisPoint);
             AllPoints.Add(RightIrisPoint);
-
-            Debug.Log("on enable: " + AllPoints.Count);
         }
     }
 }
