@@ -12,10 +12,12 @@ using UnityEngine.AddressableAssets;
 namespace LiveSystem.Data
 {
     [Serializable]
-    public class ModelData
+    public class ModelAsset
     {
         [field: SerializeField]
-        public AssetReference ModelPrefab { get; private set; }
+        public AssetReferenceGameObject PrefabRef { get; private set; }
+        [field: SerializeField]
+        public AssetReferenceSprite SpriteRef { get; private set; }
     }
 }
 
