@@ -41,7 +41,7 @@ namespace LiveSystem
             //    landmarks[i].Z = filt.z;
             //}
             
-            //TODO:眼睛開合計算要在資料filt之前
+  
             var leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
             var rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
 
@@ -57,7 +57,6 @@ namespace LiveSystem
             leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
             rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
             var nose = landmarks[keyPoints.NosePoint];
-
             var eulerAngle = GetFaceEulerAngles(landmarks[keyPoints.FaceDirectionPoints[Direction.Mid]], landmarks[keyPoints.FaceDirectionPoints[Direction.Left]], landmarks[keyPoints.FaceDirectionPoints[Direction.Right]]);
 
             if (eulerAngle.y > 180)

@@ -19,7 +19,7 @@ namespace LiveSystem
 
         protected virtual void Start()
         {
-            //可能要考慮等solution、modelController都初始化完
+            //solution、modelController 初始化
         }
 
         protected virtual void Pause()
@@ -29,18 +29,12 @@ namespace LiveSystem
 
         protected virtual void Stop()
         {
-
+            
         }
 
         protected virtual void Update()
         {
             modelController.UpdateModel();
-        }
-
-        protected void FixedUpdate()
-        {
-            //Debug.Log(Time.fixedDeltaTime);
-            //Debug.Log(Time.fixedTime);
         }
 
         public void SetMode(LiveMode mode, ModelController controller)
