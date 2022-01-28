@@ -6,16 +6,19 @@
 
 namespace LiveSystem
 {
+    public enum ModelType
+    {
+        Live2D,
+        Home3D
+    }
 
-    [System.Serializable]
     public enum LiveMode
     {
-        Live2DFace,
+        Live2DFace = 0,
         Home3DFace,
         Home3DHolistic
     }
 
-    [System.Serializable]
     public enum ParamId
     {
         ParamAngleX = 0,
@@ -23,8 +26,10 @@ namespace LiveSystem
         ParamAngleZ,
         ParamEyeLOpen,
         ParamEyeROpen,
+        ParamEyeOpen,
         ParamEyeBallX,
         ParamEyeBallY,
+        ParamEyeBall,
         ParamMouthOpenY,
         ParamBodyAngleX,
         ParamBodyAngleY,
@@ -32,7 +37,6 @@ namespace LiveSystem
         ParamBreath
     }
 
-    [System.Serializable]
     public enum Direction
     {
         Up = 0,

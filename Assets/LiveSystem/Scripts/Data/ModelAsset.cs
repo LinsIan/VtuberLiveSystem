@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace LiveSystem.Data
-{
+{   
     [Serializable]
     public class ModelAsset
     {
