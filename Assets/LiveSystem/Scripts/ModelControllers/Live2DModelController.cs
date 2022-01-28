@@ -20,7 +20,7 @@ namespace LiveSystem
 
         private CubismModel cubismModel;
         private CubismHarmonicMotionController breathingController;
-        private Dictionary<Live2DParamId, CubismParameter> parameters;
+        private Dictionary<ParamId, CubismParameter> parameters;
         private FaceData currentFaceData;
         private Interpolator<FaceData> interpolator;
         private bool isStartOutputData;
@@ -55,13 +55,17 @@ namespace LiveSystem
 
         private void InitParameters()
         {
-            parameters = new Dictionary<Live2DParamId, CubismParameter>(Live2DParamIdComparer.Instance);
+            parameters = new Dictionary<ParamId, CubismParameter>(Live2DParamIdComparer.Instance);
             var modelParamteters = cubismModel.Parameters;
-            var values = (Live2DParamId[])Enum.GetValues(typeof(Live2DParamId));
+            var values = (ParamId[])Enum.GetValues(typeof(ParamId));
             foreach (var item in values)
             {
-                string id = Enum.GetName(typeof(Live2DParamId), item);
-                parameters.Add(item, modelParamteters.FindById(id));
+                string id = Enum.GetName(typeof(ParamId), item);
+                var param = modelParamteters.FindById(id);
+                if (param != null)
+                {
+                    parameters.Add(item, modelParamteters.FindById(id));
+                }
             }
         }
 
@@ -71,21 +75,21 @@ namespace LiveSystem
 
             currentFaceData = interpolator.GetCurrentData();
 
-            parameters[Live2DParamId.ParamAngleX].Value = currentFaceData.AngleX;
-            parameters[Live2DParamId.ParamAngleY].Value = currentFaceData.AngleY;
-            parameters[Live2DParamId.ParamAngleZ].Value = currentFaceData.AngleZ;
+            parameters[ParamId.ParamAngleX].Value = currentFaceData.AngleX;
+            parameters[ParamId.ParamAngleY].Value = currentFaceData.AngleY;
+            parameters[ParamId.ParamAngleZ].Value = currentFaceData.AngleZ;
 
-            parameters[Live2DParamId.ParamBodyAngleX].Value = currentFaceData.BodyAngleX;
-            parameters[Live2DParamId.ParamBodyAngleY].Value = currentFaceData.BodyAngleY;
-            parameters[Live2DParamId.ParamBodyAngleZ].Value = currentFaceData.BodyAngleZ;
+            parameters[ParamId.ParamBodyAngleX].Value = currentFaceData.BodyAngleX;
+            parameters[ParamId.ParamBodyAngleY].Value = currentFaceData.BodyAngleY;
+            parameters[ParamId.ParamBodyAngleZ].Value = currentFaceData.BodyAngleZ;
 
-            parameters[Live2DParamId.ParamEyeBallX].Value = currentFaceData.EyeBallX;
-            parameters[Live2DParamId.ParamEyeBallY].Value = currentFaceData.EyeBallY;
+            parameters[ParamId.ParamEyeBallX].Value = currentFaceData.EyeBallX;
+            parameters[ParamId.ParamEyeBallY].Value = currentFaceData.EyeBallY;
 
-            parameters[Live2DParamId.ParamEyeROpen].Value = currentFaceData.EyeROpen;
-            parameters[Live2DParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
+            parameters[ParamId.ParamEyeROpen].Value = currentFaceData.EyeROpen;
+            parameters[ParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
 
-            parameters[Live2DParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
+            parameters[ParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
 
         }
 

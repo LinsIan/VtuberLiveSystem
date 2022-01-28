@@ -9,18 +9,18 @@ using System.Collections.Generic;
 
 namespace LiveSystem
 {
-    public class Live2DParamIdComparer : IEqualityComparer<Live2DParamId>
+    public class Live2DParamIdComparer : IEqualityComparer<ParamId>
     {
         private static readonly Live2DParamIdComparer m_Instance = new Live2DParamIdComparer();
         
         public static Live2DParamIdComparer Instance { get { return m_Instance; } }
 
-        public bool Equals(Live2DParamId x, Live2DParamId y)
+        public bool Equals(ParamId x, ParamId y)
         {
             return ((int)x) == ((int)y);
         }
 
-        public int GetHashCode(Live2DParamId obj)
+        public int GetHashCode(ParamId obj)
         {
             return ((int)obj);
         }

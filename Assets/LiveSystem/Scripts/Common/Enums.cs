@@ -16,7 +16,7 @@ namespace LiveSystem
     }
 
     [System.Serializable]
-    public enum Live2DParamId
+    public enum ParamId
     {
         ParamAngleX = 0,
         ParamAngleY,
