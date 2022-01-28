@@ -18,7 +18,19 @@ MonoBehaviour:
   m_GUID: b9ff24ced72b0450386292c9659c911a
   m_SerializeEntries:
   - m_GUID: 76219ccafebfb40209e451274f3fb964
-    m_Address: Assets/Resource/haru.prefab
+    m_Address: haru
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 851e5890c6aa6463db75e334933c6f8b
+    m_Address: hiyori
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1614291e826934f3f9d6e5ddb266baa7
+    m_Address: koharu
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f8a0cde8a23504c69aed1f93286955b7
+    m_Address: natori
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

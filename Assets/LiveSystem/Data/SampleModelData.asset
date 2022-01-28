@@ -12,11 +12,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b6c567d9487e48cab50fcf6a876f16a, type: 3}
   m_Name: SampleModelData
   m_EditorClassIdentifier: 
-  <Assets>k__BackingField: []
+  <ID>k__BackingField: 0
+  <Description>k__BackingField: Sample Models
+  <ModelType>k__BackingField: 0
+  <CurrentAsset>k__BackingField: 0
+  <Assets>k__BackingField:
+  - <PrefabRef>k__BackingField:
+      m_AssetGUID: 76219ccafebfb40209e451274f3fb964
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    <SpriteRef>k__BackingField:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - <PrefabRef>k__BackingField:
+      m_AssetGUID: 851e5890c6aa6463db75e334933c6f8b
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    <SpriteRef>k__BackingField:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - <PrefabRef>k__BackingField:
+      m_AssetGUID: 1614291e826934f3f9d6e5ddb266baa7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    <SpriteRef>k__BackingField:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - <PrefabRef>k__BackingField:
+      m_AssetGUID: f8a0cde8a23504c69aed1f93286955b7
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    <SpriteRef>k__BackingField:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   <Sensitivities>k__BackingField:
   - <Id>k__BackingField: 0
     value: 1
-  - <Id>k__BackingField: 0
+  - <Id>k__BackingField: 1
     value: 1
-  <CurrentAsset>k__BackingField: 0
-  <BreathingRate>k__BackingField: 1
+  - <Id>k__BackingField: 2
+    value: 1
+  - <Id>k__BackingField: 5
+    value: 1
+  - <Id>k__BackingField: 8
+    value: 1
+  - <Id>k__BackingField: 9
+    value: 1
+  - <Id>k__BackingField: 10
+    value: 1
+  - <Id>k__BackingField: 11
+    value: 1
+  - <Id>k__BackingField: 12
+    value: 1
+  - <Id>k__BackingField: 13
+    value: 1
