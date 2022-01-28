@@ -14,9 +14,9 @@ namespace LiveSystem
 
     public enum LiveMode
     {
-        Live2DFace = 0,
-        Home3DFace,
-        Home3DHolistic
+        FaceOnly = 0,
+        UpperBody,
+        Holistic
     }
 
     public enum ParamId

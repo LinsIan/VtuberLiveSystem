@@ -16,6 +16,7 @@ namespace LiveSystem
     {
         public Action<FaceData> OnFaceModelDataOutput { get; set; }
 
+        private FaceModelDataCalculater faceModelCalculater;
         protected FaceLandmarkKeyPoints keyPoints;
         protected readonly List<ScalarKalmanFilter> filters;
 

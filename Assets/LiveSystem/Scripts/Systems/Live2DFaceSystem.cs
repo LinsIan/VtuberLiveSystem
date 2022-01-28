@@ -6,7 +6,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Mediapipe.Unity.IrisTracking;
+
 
 namespace LiveSystem
 {
@@ -19,6 +21,7 @@ namespace LiveSystem
 
         protected override void Start()
         {
+            //這段用一個builder？
             faceModelCalculater = new Live2DFaceModelDataCalculater(keyPoints);
             graph = solution?.GetComponent<IrisTrackingGraph>();
             graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
