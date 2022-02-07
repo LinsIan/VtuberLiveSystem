@@ -12,7 +12,7 @@ using LiveSystem.Data;
 
 namespace LiveSystem
 {
-    public class FaceModelDataCalculater : Calculater<NormalizedLandmarkList>
+    public class FaceModelDataCalculater : Calculater
     {
         public Action<FaceData> OnFaceModelDataOutput { get; set; }
 
