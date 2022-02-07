@@ -20,6 +20,7 @@ namespace LiveSystem
     {
         protected GameObject modelObj;
         protected AssetReferenceGameObject modelRef;
+        protected LiveMode liveMode;
 
         public virtual void Start()
         {
@@ -34,6 +35,11 @@ namespace LiveSystem
         public virtual void SetModel()
         {
             
+        }
+
+        public virtual void SetLiveMode(LiveMode mode)
+        {
+
         }
 
     }

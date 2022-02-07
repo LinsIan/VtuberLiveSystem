@@ -8,22 +8,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mediapipe;
 using Mediapipe.Unity;
+using UnityEngine.AddressableAssets;
+using System.Threading.Tasks;
 
 namespace LiveSystem
 {
-    /// <summary>
-    /// 策略、橋接模式，把LiveSystem與其他工具之間的互動方法寫在父類別，子類別負責實作方法
-    /// </summary>
-    public abstract class LiveSystem : MonoBehaviour
+
+    public class LiveSystem : MonoBehaviour
     {
-        [SerializeField] protected Solution solution; //抓graph、操作solution
-        [SerializeField] protected ModelController modelController;//2D、3D控制器
-        [SerializeField] protected ModelData modelData;
-        [SerializeField] protected LiveMode liveMode;
+        [SerializeField] protected SubsystemAssets subsystemAssets;
+        [SerializeField] protected FaceLandmarkKeyPoints keyPoints;
+        protected Solution solution;
+        protected ModelController modelController;
+        protected ModelData modelData;
+        protected LiveMode liveMode;
+        protected List<Calculater> calculaters = new List<Calculater>();
 
         protected virtual void Start()
         {
-            
         }
 
         protected virtual void Pause()
@@ -46,13 +48,31 @@ namespace LiveSystem
 
         public void SetLiveMode(LiveMode mode)
         {
+            modelController.SetLiveMode(mode);
         }
 
         public void BuildSubSystem()
         {
-            // SubSystemBuilder or 分開build?
-            //solution
-            //modelController
+              
+            var handler = subsystemAssets.GetSolutionRef(modelData.ModelType).InstantiateAsync();
+
+            switch (modelData.ModelType)
+            {
+                case ModelType.Live2D:
+                    solution = handler.Result.GetComponent<Mediapipe.Unity.IrisTracking.IrisTrackingSolution>();
+                    var faceModelCalculater = new Live2DFaceModelDataCalculater(keyPoints);
+                    calculaters.Add(faceModelCalculater);
+                    var graph = solution?.GetComponent<Mediapipe.Unity.IrisTracking.IrisTrackingGraph>();
+                    graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
+                    if (modelController is Live2DModelController controller)
+                    {
+                        faceModelCalculater.OnFaceModelDataOutput += controller.OnFaceModelDataOutput;
+                    }
+                    break;
+
+                case ModelType.Home3D:
+                    break;
+            }
         }
     }
 }
