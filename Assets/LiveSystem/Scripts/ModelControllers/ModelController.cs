@@ -15,6 +15,7 @@ namespace LiveSystem
 
     public class ModelController
     {
+        protected readonly float SensitivityConstant = 0.5f;
         protected ModelData modelData;
         protected GameObject modelObj;
         protected AssetReferenceGameObject modelRef;
@@ -62,9 +63,10 @@ namespace LiveSystem
             modelRef.ReleaseInstance(modelObj);
         }
 
-        protected float ApplySen(float value, float s)
+        protected void ApplySensitivity(ref float value, float sensitivity)
         {
-            return (s * value) - (0.5f * (s - 1));
+            value = (sensitivity * value) - ((sensitivity - 1) * SensitivityConstant);
+
         }
     }
 }
