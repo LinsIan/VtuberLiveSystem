@@ -23,7 +23,7 @@ namespace LiveSystem.Data
 
         public float Value
         {
-            get => this.value;
+            get => value;
             set => this.value = Mathf.Clamp(value, Min, Max);
         }
 
