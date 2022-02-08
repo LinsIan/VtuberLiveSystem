@@ -13,28 +13,58 @@ using LiveSystem.Data;
 namespace LiveSystem
 {
 
-    /// <summary>
-    /// 負責 AssetReference的載入、切換 & game object的操作
-    /// </summary>
     public class ModelController
     {
+        protected ModelData modelData;
         protected GameObject modelObj;
         protected AssetReferenceGameObject modelRef;
 
-        public virtual void Start()
+        public ModelController(ModelData data)
         {
+            modelData = data;
+        }
 
+        public virtual IEnumerator Init()
+        {
+            if (modelObj != null)
+            {
+                ReleaseModel();
+            }
+            yield return InstantiateModel();
         }
 
         public virtual void UpdateModel()
         {
-            
         }
 
-        public virtual void SetModel()
+        public IEnumerator SetData(ModelData newData)
         {
-            
+            modelData = newData;
+            yield return Init();
         }
 
+        public IEnumerator ChangeModel(int index)
+        {
+            modelData.CurrentAsset = index;
+            yield return Init();
+        }
+
+        protected IEnumerator InstantiateModel()
+        {
+            modelRef = modelData.Assets[modelData.CurrentAsset].PrefabRef;
+            var handle = modelRef.InstantiateAsync();
+            yield return handle;
+            modelObj = handle.Result;
+        }
+
+        protected void ReleaseModel()
+        {
+            modelRef.ReleaseInstance(modelObj);
+        }
+
+        protected float ApplySen(float value, float s)
+        {
+            return (s * value) - (0.5f * (s - 1));
+        }
     }
 }

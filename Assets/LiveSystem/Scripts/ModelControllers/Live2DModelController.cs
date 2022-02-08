@@ -15,9 +15,6 @@ namespace LiveSystem
 {
     public class Live2DModelController : ModelController
     {
-        [SerializeField, Range(0,10)]
-        private float breathingRate = 1;
-
         private CubismModel cubismModel;
         private CubismHarmonicMotionController breathingController;
         private Dictionary<ParamId, CubismParameter> parameters;
@@ -25,20 +22,24 @@ namespace LiveSystem
         private Interpolator<FaceData> interpolator;
         private bool isStartOutputData;
 
-        public override void Start()
+        public Live2DModelController(ModelData data) : base(data)
         {
-            base.Start();
+        }
+
+        public override IEnumerator Init()
+        {
+            yield return base.Init();
             interpolator = new Interpolator<FaceData>(FaceData.Lerp);
             cubismModel = modelObj.GetComponent<CubismModel>();
             breathingController = modelObj.GetComponent<CubismHarmonicMotionController>();
             InitParameters();
-            SetBreathingRate(breathingRate);
             isStartOutputData = false;
         }   
 
         public override void UpdateModel()
         {
             UpdateFaceData();
+            
         }
 
         //called from thread
@@ -48,17 +49,17 @@ namespace LiveSystem
             interpolator.UpdateData(data);
         }
 
-        public void SetBreathingRate(float rate)
+        protected void SetBreathingRate(float rate)
         {
             breathingController.ChannelTimescales[0] = rate;
         }
 
-        private void InitParameters()
+        protected void InitParameters()
         {
             parameters = new Dictionary<ParamId, CubismParameter>(Live2DParamIdComparer.Instance);
             var modelParamteters = cubismModel.Parameters;
             var values = (ParamId[])Enum.GetValues(typeof(ParamId));
-            foreach (var item in values)
+            foreach (ParamId item in values)
             {
                 string id = Enum.GetName(typeof(ParamId), item);
                 var param = modelParamteters.FindById(id);
@@ -69,7 +70,9 @@ namespace LiveSystem
             }
         }
 
-        private void UpdateFaceData()
+        
+
+        protected void UpdateFaceData()
         {
             if (!isStartOutputData) return;
 

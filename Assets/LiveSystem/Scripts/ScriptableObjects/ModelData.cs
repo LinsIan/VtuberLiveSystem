@@ -23,14 +23,25 @@ namespace LiveSystem
         public ModelType ModelType { get; private set; }
 
         [field: SerializeField]
-        public int CurrentAsset { get; private set; } = 0;
-
-        [field: SerializeField]
         public List<ModelAsset> Assets { get; private set; }
 
         [field: SerializeField]
         public List<Sensitivity> Sensitivities { get; private set; }
 
+        [SerializeField]
+        private int currentAsset = 0;
+
+        public int CurrentAsset
+        {
+            get => currentAsset;
+            set
+            {
+                if (value >= 0 && value < Assets.Count)
+                {
+                    currentAsset = value;
+                }
+            }
+        }
     }
 }
 
