@@ -4,22 +4,26 @@
 // license that can be found in the LICENSE file
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LiveSystem.Data
 {
     [Serializable]
-    public class Sensitivity
+    public class SettingValue
     {
         public static readonly float Default = 1;
         public static readonly float Min = 0;
-        public static readonly float Max = 2;
+        public static readonly float Max = 3;
 
         [field: SerializeField]
-        public ParamId Id { get; private set; }
+        public string Name { get; private set; }
 
-        [SerializeField, Range(0, 2)]
-        private float value;
+        [field: SerializeField]
+        public List<ParamId> EffectedParamIds { get; private set; }
+
+        [SerializeField, Range(0, 3)]
+        private float value = Default;
 
         public float Value
         {
@@ -27,7 +31,7 @@ namespace LiveSystem.Data
             set => this.value = Mathf.Clamp(value, Min, Max);
         }
 
-        public Sensitivity()
+        public SettingValue()
         {
             Reset();
         }
