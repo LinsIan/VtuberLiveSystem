@@ -15,12 +15,12 @@ namespace LiveSystem
 {
     public class Live2DModelController : ModelController
     {
-        private CubismModel cubismModel;
-        private CubismHarmonicMotionController breathingController;
-        private Dictionary<ParamId, CubismParameter> parameters;
-        private FaceData currentFaceData;
-        private Interpolator<FaceData> interpolator;
-        private bool isStartOutputData;
+        protected CubismModel cubismModel;
+        protected CubismHarmonicMotionController motionController;
+        public Dictionary<ParamId, CubismParameter> parameters;
+        protected FaceData currentFaceData;
+        protected Interpolator<FaceData> interpolator;
+        protected bool isStartOutputData;
 
         public Live2DModelController(ModelData data) : base(data)
         {
@@ -31,50 +31,16 @@ namespace LiveSystem
             yield return base.Init();
             interpolator = new Interpolator<FaceData>(FaceData.Lerp);
             cubismModel = modelObj.GetComponent<CubismModel>();
-            breathingController = modelObj.GetComponent<CubismHarmonicMotionController>();
+            motionController = modelObj.GetComponent<CubismHarmonicMotionController>();
             InitParameters();
+            SetMotionRate();
             isStartOutputData = false;
+            isPause = false;
         }   
 
         public override void UpdateModel()
         {
-            UpdateFaceData();
-            
-        }
-
-        //called from thread
-        public void OnFaceModelDataOutput(FaceData data)
-        {
-            isStartOutputData = true;
-            interpolator.UpdateData(data);
-        }
-
-        protected void SetBreathingRate(float rate)
-        {
-            breathingController.ChannelTimescales[0] = rate;
-        }
-
-        protected void InitParameters()
-        {
-            parameters = new Dictionary<ParamId, CubismParameter>(Live2DParamIdComparer.Instance);
-            var modelParamteters = cubismModel.Parameters;
-            var values = (ParamId[])Enum.GetValues(typeof(ParamId));
-            foreach (ParamId item in values)
-            {
-                string id = Enum.GetName(typeof(ParamId), item);
-                var param = modelParamteters.FindById(id);
-                if (param != null)
-                {
-                    parameters.Add(item, modelParamteters.FindById(id));
-                }
-            }
-        }
-
-        
-
-        protected void UpdateFaceData()
-        {
-            if (!isStartOutputData) return;
+            if (!isStartOutputData || isPause) return;
 
             currentFaceData = interpolator.GetCurrentData();
 
@@ -94,6 +60,50 @@ namespace LiveSystem
 
             parameters[ParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
 
+
+            foreach (var sensitivity in modelData.Sensitivities)
+            {
+                foreach (var id in sensitivity.EffectedParamIds)
+                {
+                    if (parameters.ContainsKey(id))
+                    {
+                        ApplySensitivity(ref parameters[id].Value, sensitivity.Value);
+                    }
+                }
+            }
+
+            cubismModel.ForceUpdateNow();
+        }
+
+        //called from thread
+        public void OnFaceModelDataOutput(FaceData data)
+        {
+            isStartOutputData = true;
+            interpolator.UpdateData(data);
+        }
+
+        public void SetMotionRate()
+        {
+            for (int i = 0; i < modelData.MotionRates.Count; i++)
+            {
+                motionController.ChannelTimescales[i] = modelData.MotionRates[i].Value;
+            }
+        }
+
+        protected void InitParameters()
+        {
+            parameters = new Dictionary<ParamId, CubismParameter>(Live2DParamIdComparer.Instance);
+            var modelParamteters = cubismModel.Parameters;
+            var values = (ParamId[])Enum.GetValues(typeof(ParamId));
+            foreach (ParamId item in values)
+            {
+                string id = Enum.GetName(typeof(ParamId), item);
+                var param = modelParamteters.FindById(id);
+                if (param != null)
+                {
+                    parameters.Add(item, modelParamteters.FindById(id));
+                }
+            }
         }
 
     }

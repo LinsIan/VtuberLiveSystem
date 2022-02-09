@@ -26,7 +26,10 @@ namespace LiveSystem
         public List<ModelAsset> Assets { get; private set; }
 
         [field: SerializeField]
-        public List<Sensitivity> Sensitivities { get; private set; }
+        public List<SettingValue> Sensitivities { get; private set; }
+
+        [field: SerializeField]
+        public List<SettingValue> MotionRates { get; private set; }
 
         [SerializeField]
         private int currentAsset = 0;

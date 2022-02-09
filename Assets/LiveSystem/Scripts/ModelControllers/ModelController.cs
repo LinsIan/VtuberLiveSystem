@@ -13,12 +13,13 @@ using LiveSystem.Data;
 namespace LiveSystem
 {
 
-    public class ModelController
+    public abstract class ModelController
     {
         protected readonly float SensitivityConstant = 0.5f;
         protected ModelData modelData;
         protected GameObject modelObj;
         protected AssetReferenceGameObject modelRef;
+        protected bool isPause = true;
 
         public ModelController(ModelData data)
         {
@@ -27,6 +28,7 @@ namespace LiveSystem
 
         public virtual IEnumerator Init()
         {
+            isPause = true;
             if (modelObj != null)
             {
                 ReleaseModel();
@@ -38,7 +40,7 @@ namespace LiveSystem
         {
         }
 
-        public IEnumerator SetData(ModelData newData)
+        public IEnumerator SetModelData(ModelData newData)
         {
             modelData = newData;
             yield return Init();
@@ -63,10 +65,9 @@ namespace LiveSystem
             modelRef.ReleaseInstance(modelObj);
         }
 
-        protected void ApplySensitivity(ref float value, float sensitivity)
+        protected void ApplySensitivity(ref float value, in float sensitivity)
         {
             value = (sensitivity * value) - ((sensitivity - 1) * SensitivityConstant);
-
         }
     }
 }

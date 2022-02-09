@@ -8,33 +8,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Mediapipe.Unity.IrisTracking;
-
+using System.Linq;
 
 namespace LiveSystem
 {
     public class Live2DFaceSystem : LiveSystem
     {
-        [SerializeField]
-        private FaceLandmarkKeyPoints keyPoints;
+        [SerializeField] private FaceLandmarkKeyPoints keyPoints;
         private IrisTrackingGraph graph;
         private FaceModelDataCalculater faceModelCalculater;
 
-        protected override void Start()
+        protected override IEnumerator InitSubSystem()
         {
-            //這段用一個builder？
-            faceModelCalculater = new Live2DFaceModelDataCalculater(keyPoints);
+            var newModelController = new Live2DModelController(modelData);
             graph = solution?.GetComponent<IrisTrackingGraph>();
-            graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
+            faceModelCalculater = new Live2DFaceModelDataCalculater(keyPoints);
 
-            //用強轉型給ModelController設delegate
-            if (modelController is Live2DModelController controller)
-            {
-                faceModelCalculater.OnFaceModelDataOutput += controller.OnFaceModelDataOutput;
-            }
-            else
-            {
-                //轉型失敗
-            }
+            graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
+            faceModelCalculater.OnFaceModelDataOutput += newModelController.OnFaceModelDataOutput;
+            modelController = newModelController;
+
+            yield return base.InitSubSystem();
         }
     }
 }

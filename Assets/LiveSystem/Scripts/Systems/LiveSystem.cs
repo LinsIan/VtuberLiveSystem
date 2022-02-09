@@ -3,6 +3,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,17 +12,15 @@ using Mediapipe.Unity;
 
 namespace LiveSystem
 {
-  
     public abstract class LiveSystem : MonoBehaviour
     {
         [SerializeField] protected Solution solution;
-        [SerializeField] protected ModelController modelController;
         [SerializeField] protected ModelData modelData;
-        [SerializeField] protected LiveMode liveMode;
+        protected ModelController modelController;
 
-        protected virtual void Start()
+        protected virtual IEnumerator Start()
         {
-            
+            yield return InitSubSystem();
         }
 
         protected virtual void Pause()
@@ -38,19 +37,20 @@ namespace LiveSystem
             modelController.UpdateModel();
         }
 
-        public void SetData(ModelData newData)
+        protected virtual IEnumerator InitSubSystem()
         {
+            yield return modelController.Init();
+        }
+
+        public IEnumerator SetModelData(ModelData newData, Action callback)
+        {
+            yield return modelController.SetModelData(newData);
+            callback.Invoke();
         }
 
         public void SetLiveMode(LiveMode mode)
         {
-        }   
 
-        public void BuildSubSystem()
-        {
-            // SubSystemBuilder or 分開build?
-            //solution
-            //modelController
-        }
+        }   
     }
 }
