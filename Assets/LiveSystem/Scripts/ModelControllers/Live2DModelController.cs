@@ -60,7 +60,6 @@ namespace LiveSystem
 
             parameters[ParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
 
-
             foreach (var sensitivity in modelData.Sensitivities)
             {
                 foreach (var id in sensitivity.EffectedParamIds)
@@ -73,6 +72,11 @@ namespace LiveSystem
             }
 
             cubismModel.ForceUpdateNow();
+        }
+
+        public override void SetLiveMode(LiveMode newMode)
+        {
+            liveMode = LiveMode.FaceOnly;
         }
 
         //called from thread
@@ -89,7 +93,7 @@ namespace LiveSystem
                 motionController.ChannelTimescales[i] = modelData.MotionRates[i].Value;
             }
         }
-
+       
         protected void InitParameters()
         {
             parameters = new Dictionary<ParamId, CubismParameter>(Live2DParamIdComparer.Instance);

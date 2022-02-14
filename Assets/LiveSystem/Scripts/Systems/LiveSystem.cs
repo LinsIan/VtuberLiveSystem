@@ -42,10 +42,16 @@ namespace LiveSystem
             yield return modelController.Init();
         }
 
-        public IEnumerator SetModelData(ModelData newData, Action callback)
+        public IEnumerator SetModelData(ModelData newData, Action callback = null)
         {
             yield return modelController.SetModelData(newData);
-            callback.Invoke();
+            callback?.Invoke();
+        }
+
+        public IEnumerator ChangeModel(int index, Action callback = null)
+        {
+            yield return modelController.ChangeModel(index);
+            callback?.Invoke();
         }
 
         public void SetLiveMode(LiveMode mode)

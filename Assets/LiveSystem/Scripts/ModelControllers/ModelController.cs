@@ -19,11 +19,13 @@ namespace LiveSystem
         protected ModelData modelData;
         protected GameObject modelObj;
         protected AssetReferenceGameObject modelRef;
+        protected LiveMode liveMode;
         protected bool isPause = true;
 
-        public ModelController(ModelData data)
+        public ModelController(ModelData data, LiveMode mode = LiveMode.FaceOnly)
         {
             modelData = data;
+            liveMode = mode;
         }
 
         public virtual IEnumerator Init()
@@ -37,6 +39,10 @@ namespace LiveSystem
         }
 
         public virtual void UpdateModel()
+        {
+        }
+
+        public virtual void SetLiveMode(LiveMode newMode)
         {
         }
 
