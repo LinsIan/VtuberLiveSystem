@@ -21,7 +21,7 @@ namespace LiveSystem
         protected FaceData currentFaceData;
         protected Interpolator<FaceData> interpolator;
         protected bool isStartOutputData;
-
+        
         public Live2DModelController(ModelData data) : base(data)
         {
         }
@@ -36,7 +36,7 @@ namespace LiveSystem
             SetMotionRate();
             isStartOutputData = false;
             isPause = false;
-        }   
+        }
 
         public override void UpdateModel()
         {
@@ -47,17 +47,13 @@ namespace LiveSystem
             parameters[ParamId.ParamAngleX].Value = currentFaceData.AngleX;
             parameters[ParamId.ParamAngleY].Value = currentFaceData.AngleY;
             parameters[ParamId.ParamAngleZ].Value = currentFaceData.AngleZ;
-
             parameters[ParamId.ParamBodyAngleX].Value = currentFaceData.BodyAngleX;
             parameters[ParamId.ParamBodyAngleY].Value = currentFaceData.BodyAngleY;
             parameters[ParamId.ParamBodyAngleZ].Value = currentFaceData.BodyAngleZ;
-
             parameters[ParamId.ParamEyeBallX].Value = currentFaceData.EyeBallX;
             parameters[ParamId.ParamEyeBallY].Value = currentFaceData.EyeBallY;
-
             parameters[ParamId.ParamEyeROpen].Value = currentFaceData.EyeROpen;
             parameters[ParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
-
             parameters[ParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
 
             foreach (var sensitivity in modelData.Sensitivities)
@@ -66,7 +62,7 @@ namespace LiveSystem
                 {
                     if (parameters.ContainsKey(id))
                     {
-                        ApplySensitivity(ref parameters[id].Value, sensitivity.Value);
+                        ApplySensitivity(id, ref parameters[id].Value, sensitivity.Value);
                     }
                 }
             }
@@ -93,7 +89,7 @@ namespace LiveSystem
                 motionController.ChannelTimescales[i] = modelData.MotionRates[i].Value;
             }
         }
-       
+
         protected void InitParameters()
         {
             parameters = new Dictionary<ParamId, CubismParameter>(Live2DParamIdComparer.Instance);

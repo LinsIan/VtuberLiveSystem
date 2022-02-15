@@ -71,9 +71,23 @@ namespace LiveSystem
             modelRef.ReleaseInstance(modelObj);
         }
 
-        protected void ApplySensitivity(ref float value, in float sensitivity)
+        protected void ApplySensitivity(ParamId id ,ref float value, float sensitivity)
         {
-            value = (sensitivity * value) - ((sensitivity - 1) * SensitivityConstant);
+            switch (id)
+            {
+                case ParamId.ParamEyeLOpen:
+                case ParamId.ParamEyeROpen:
+                case ParamId.ParamMouthOpenY:
+                    var constantRate = (sensitivity >= 1) ? (sensitivity - 1) : 0;
+                    value = (sensitivity * value) - (constantRate * SensitivityConstant);
+                    break;
+
+                default:
+                    value *= sensitivity;
+                    break;
+            }
+
+            
         }
     }
 }

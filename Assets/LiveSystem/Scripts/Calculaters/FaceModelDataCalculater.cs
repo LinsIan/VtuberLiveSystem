@@ -19,6 +19,11 @@ namespace LiveSystem
         private FaceModelDataCalculater faceModelCalculater;
         protected FaceLandmarkKeyPoints keyPoints;
         protected readonly List<ScalarKalmanFilter> filters;
+        protected readonly float landmarkScale = 100;
+        protected readonly float BodyRate = 3;
+        protected readonly float EyeOpenConstanst = 0.7f;
+        protected readonly float WinkEyeDistance = 0.3f;
+        protected readonly float MouthOpenConstanst = 0.4f;
 
         public FaceModelDataCalculater(FaceLandmarkKeyPoints points)
         {
@@ -43,7 +48,6 @@ namespace LiveSystem
 
         public override void OnMultiDataOutput(List<NormalizedLandmarkList> data)
         {
-
         }
 
         protected virtual FaceData Calculate(NormalizedLandmarkList data)

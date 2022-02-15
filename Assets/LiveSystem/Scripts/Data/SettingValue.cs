@@ -22,12 +22,15 @@ namespace LiveSystem.Data
         [field: SerializeField]
         public List<ParamId> EffectedParamIds { get; private set; }
 
+        [SerializeField]
+        private float basicValue = 1;
+
         [SerializeField, Range(0, 3)]
         private float value = Default;
 
         public float Value
         {
-            get => value;
+            get => value * basicValue;
             set => this.value = Mathf.Clamp(value, Min, Max);
         }
 

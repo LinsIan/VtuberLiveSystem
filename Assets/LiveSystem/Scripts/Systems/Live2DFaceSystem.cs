@@ -15,18 +15,18 @@ namespace LiveSystem
     public class Live2DFaceSystem : LiveSystem
     {
         [SerializeField] private FaceLandmarkKeyPoints keyPoints;
-        private IrisTrackingGraph graph;
-        private FaceModelDataCalculater faceModelCalculater;
+        private Calculater calculater;
 
         protected override IEnumerator InitSubSystem()
         {
             var newModelController = new Live2DModelController(modelData);
-            graph = solution?.GetComponent<IrisTrackingGraph>();
-            faceModelCalculater = new Live2DFaceModelDataCalculater(keyPoints);
+            var graph = solution?.GetComponent<IrisTrackingGraph>();
+            var faceModelCalculater = new Live2DFaceModelDataCalculater(keyPoints);
 
             graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
             faceModelCalculater.OnFaceModelDataOutput += newModelController.OnFaceModelDataOutput;
             modelController = newModelController;
+            calculater = faceModelCalculater;
 
             yield return base.InitSubSystem();
         }
