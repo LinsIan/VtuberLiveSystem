@@ -4,7 +4,7 @@ using Mediapipe;
 
 namespace LiveSystem.ExtensionMethods
 {
-    public static class MediapipeExtensions
+    internal static class MediapipeExtensionMethods
     {
         public static NormalizedLandmark Round(this NormalizedLandmark landmark, int digits)
         {
@@ -14,6 +14,5 @@ namespace LiveSystem.ExtensionMethods
             return landmark;
         }
     }
-
 }
 
