@@ -74,6 +74,35 @@ namespace LiveSystem.Data
 
             return new FaceData(angleX, angleY, angleZ, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
-    }
 
+        public static FaceData operator +(FaceData a, FaceData b)
+            => new FaceData(
+                a.AngleX + b.AngleX,
+                a.AngleY + b.AngleY,
+                a.AngleZ + b.AngleZ,
+                a.EyeLOpen + b.EyeLOpen,
+                a.EyeROpen + b.EyeROpen,
+                a.EyeBallX + b.EyeBallX,
+                a.EyeBallY + b.EyeBallY,
+                a.MouthOpenY + b.MouthOpenY,
+                a.BodyAngleX + b.BodyAngleX,
+                a.BodyAngleY + b.BodyAngleZ,
+                a.BodyAngleZ + b.BodyAngleZ
+            );
+
+        public static FaceData operator -(FaceData a, FaceData b)
+            => new FaceData(
+                a.AngleX - b.AngleX,
+                a.AngleY - b.AngleY,
+                a.AngleZ - b.AngleZ,
+                a.EyeLOpen - b.EyeLOpen,
+                a.EyeROpen - b.EyeROpen,
+                a.EyeBallX - b.EyeBallX,
+                a.EyeBallY - b.EyeBallY,
+                a.MouthOpenY - b.MouthOpenY,
+                a.BodyAngleX - b.BodyAngleX,
+                a.BodyAngleY - b.BodyAngleZ,
+                a.BodyAngleZ - b.BodyAngleZ
+            );
+    }
 }

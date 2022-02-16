@@ -42,6 +42,10 @@ namespace LiveSystem
         {
         }
 
+        public virtual void CalibrateModel()
+        {
+        }
+
         public virtual void SetLiveMode(LiveMode newMode)
         {
         }
@@ -71,7 +75,7 @@ namespace LiveSystem
             modelRef.ReleaseInstance(modelObj);
         }
 
-        protected void ApplySensitivity(ParamId id ,ref float value, float sensitivity)
+        protected void ApplySensitivity(ParamId id, ref float value, float sensitivity)
         {
             switch (id)
             {
@@ -81,7 +85,6 @@ namespace LiveSystem
                     var constantRate = (sensitivity >= 1) ? (sensitivity - 1) : 0;
                     value = (sensitivity * value) - (constantRate * SensitivityConstant);
                     break;
-
                 default:
                     value *= sensitivity;
                     break;

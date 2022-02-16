@@ -18,7 +18,8 @@ namespace LiveSystem
         protected CubismModel cubismModel;
         protected CubismHarmonicMotionController motionController;
         public Dictionary<ParamId, CubismParameter> parameters;
-        protected FaceData currentFaceData;
+        protected FaceData defaultFaceData;
+        protected FaceData calibrationFaceData;
         protected Interpolator<FaceData> interpolator;
         protected bool isStartOutputData;
         
@@ -36,25 +37,38 @@ namespace LiveSystem
             SetMotionRate();
             isStartOutputData = false;
             isPause = false;
+            defaultFaceData = new FaceData(
+                parameters[ParamId.ParamAngleX].DefaultValue,
+                parameters[ParamId.ParamAngleY].DefaultValue,
+                parameters[ParamId.ParamAngleZ].DefaultValue,
+                parameters[ParamId.ParamEyeLOpen].DefaultValue,
+                parameters[ParamId.ParamEyeROpen].DefaultValue,
+                parameters[ParamId.ParamEyeBallX].DefaultValue,
+                parameters[ParamId.ParamEyeBallY].DefaultValue,
+                parameters[ParamId.ParamMouthOpenY].DefaultValue,
+                parameters[ParamId.ParamBodyAngleX].DefaultValue,
+                parameters[ParamId.ParamBodyAngleY].DefaultValue,
+                parameters[ParamId.ParamBodyAngleZ].DefaultValue
+                );
         }
 
         public override void UpdateModel()
         {
             if (!isStartOutputData || isPause) return;
 
-            currentFaceData = interpolator.GetCurrentData();
+            FaceData currentFaceData = interpolator.GetCurrentData();
 
-            parameters[ParamId.ParamAngleX].Value = currentFaceData.AngleX;
-            parameters[ParamId.ParamAngleY].Value = currentFaceData.AngleY;
-            parameters[ParamId.ParamAngleZ].Value = currentFaceData.AngleZ;
-            parameters[ParamId.ParamBodyAngleX].Value = currentFaceData.BodyAngleX;
-            parameters[ParamId.ParamBodyAngleY].Value = currentFaceData.BodyAngleY;
-            parameters[ParamId.ParamBodyAngleZ].Value = currentFaceData.BodyAngleZ;
-            parameters[ParamId.ParamEyeBallX].Value = currentFaceData.EyeBallX;
-            parameters[ParamId.ParamEyeBallY].Value = currentFaceData.EyeBallY;
-            parameters[ParamId.ParamEyeROpen].Value = currentFaceData.EyeROpen;
-            parameters[ParamId.ParamEyeLOpen].Value = currentFaceData.EyeLOpen;
-            parameters[ParamId.ParamMouthOpenY].Value = currentFaceData.MouthOpenY;
+            UpdateParamter(ParamId.ParamAngleX, currentFaceData.AngleX, calibrationFaceData.AngleX);
+            UpdateParamter(ParamId.ParamAngleY, currentFaceData.AngleY, calibrationFaceData.AngleY);
+            UpdateParamter(ParamId.ParamAngleZ, currentFaceData.AngleZ, calibrationFaceData.AngleZ);
+            UpdateParamter(ParamId.ParamEyeLOpen, currentFaceData.EyeLOpen, calibrationFaceData.EyeLOpen);
+            UpdateParamter(ParamId.ParamEyeROpen, currentFaceData.EyeROpen, calibrationFaceData.EyeROpen);
+            UpdateParamter(ParamId.ParamEyeBallX, currentFaceData.EyeBallX);
+            UpdateParamter(ParamId.ParamEyeBallY, currentFaceData.EyeBallY);
+            UpdateParamter(ParamId.ParamMouthOpenY, currentFaceData.MouthOpenY, calibrationFaceData.MouthOpenY);
+            UpdateParamter(ParamId.ParamBodyAngleX, currentFaceData.BodyAngleX, calibrationFaceData.BodyAngleX);
+            UpdateParamter(ParamId.ParamBodyAngleY, currentFaceData.BodyAngleY, calibrationFaceData.BodyAngleY);
+            UpdateParamter(ParamId.ParamBodyAngleZ, currentFaceData.BodyAngleZ, calibrationFaceData.BodyAngleZ);
 
             foreach (var sensitivity in modelData.Sensitivities)
             {
@@ -68,6 +82,14 @@ namespace LiveSystem
             }
 
             cubismModel.ForceUpdateNow();
+        }
+
+        public override void CalibrateModel()
+        {
+            if (!isStartOutputData || isPause) return;
+            FaceData currentFaceData = interpolator.GetCurrentData();
+            calibrationFaceData = defaultFaceData - currentFaceData;
+
         }
 
         public override void SetLiveMode(LiveMode newMode)
@@ -90,6 +112,7 @@ namespace LiveSystem
             }
         }
 
+
         protected void InitParameters()
         {
             parameters = new Dictionary<ParamId, CubismParameter>(Live2DParamIdComparer.Instance);
@@ -106,6 +129,10 @@ namespace LiveSystem
             }
         }
 
+        protected void UpdateParamter(ParamId id, float currentValue, float calibrationValue = 0)
+        {
+            parameters[id].Value = currentValue + calibrationValue;
+        }
     }
 
 }
