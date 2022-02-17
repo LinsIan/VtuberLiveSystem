@@ -83,7 +83,7 @@ namespace LiveSystem
                 case ParamId.ParamEyeROpen:
                 case ParamId.ParamMouthOpenY:
                     var constantRate = (sensitivity >= 1) ? (sensitivity - 1) : 0;
-                    value = (sensitivity * value) - (constantRate * SensitivityConstant);
+                    value = Mathf.Clamp01((sensitivity * value) - (constantRate * SensitivityConstant));
                     break;
                 default:
                     value *= sensitivity;

@@ -3,7 +3,6 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file
 
-using UnityEngine;
 using Mediapipe;
 using LiveSystem.Data;
 
@@ -37,11 +36,8 @@ namespace LiveSystem
             //    landmarks[i].Z = filt.z;
             //}
 
-            var leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
             //var rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
             //clamp01可能不需要
-            //var eyeLOpen = Mathf.Clamp01((landmarks[keyPoints.LeftEyePoints[Direction.Down]].Y - landmarks[keyPoints.LeftEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst);
-            //var eyeROpen = Mathf.Clamp01((landmarks[keyPoints.RightEyePoints[Direction.Down]].Y - landmarks[keyPoints.RightEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst);
             var eyeLOpen = (landmarks[keyPoints.LeftEyePoints[Direction.Down]].Y - landmarks[keyPoints.LeftEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
             var eyeROpen = (landmarks[keyPoints.RightEyePoints[Direction.Down]].Y - landmarks[keyPoints.RightEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
             if (eyeLOpen - eyeROpen <= WinkEyeDistance && eyeROpen - eyeLOpen <= WinkEyeDistance)
@@ -51,7 +47,7 @@ namespace LiveSystem
             var mouthOpenY = (landmarks[keyPoints.InnerLipsPoints[Direction.Down]].Y - landmarks[keyPoints.InnerLipsPoints[Direction.Up]].Y) * landmarkScale - MouthOpenConstanst;
 
             FiltData(data);
-
+                
             //rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
             //var nose = landmarks[keyPoints.NosePoint];
             var eulerAngle = GetFaceEulerAngles(landmarks[keyPoints.FaceDirectionPoints[Direction.Mid]], landmarks[keyPoints.FaceDirectionPoints[Direction.Left]], landmarks[keyPoints.FaceDirectionPoints[Direction.Right]]);
@@ -73,6 +69,7 @@ namespace LiveSystem
                 eulerAngle.z += 360;
             }
 
+            var leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
             var eyeBallX = (landmarks[keyPoints.LeftIrisPoint].X - leftEye.x) * -landmarkScale;
             var eyeBallY = (landmarks[keyPoints.LeftIrisPoint].Y - leftEye.y) * -landmarkScale;
             var bodyAngleX = eulerAngle.x / BodyRate;
