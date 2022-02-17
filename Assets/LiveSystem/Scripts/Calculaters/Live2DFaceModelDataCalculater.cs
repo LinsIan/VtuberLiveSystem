@@ -37,9 +37,9 @@ namespace LiveSystem
             //}
 
             //var rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
-            //clamp01可能不需要
             var eyeLOpen = (landmarks[keyPoints.LeftEyePoints[Direction.Down]].Y - landmarks[keyPoints.LeftEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
             var eyeROpen = (landmarks[keyPoints.RightEyePoints[Direction.Down]].Y - landmarks[keyPoints.RightEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
+
             if (eyeLOpen - eyeROpen <= WinkEyeDistance && eyeROpen - eyeLOpen <= WinkEyeDistance)
             {
                 eyeROpen = eyeLOpen;

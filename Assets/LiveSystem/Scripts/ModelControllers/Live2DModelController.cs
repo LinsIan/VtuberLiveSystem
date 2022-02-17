@@ -65,7 +65,7 @@ namespace LiveSystem
             UpdateParamter(ParamId.ParamEyeROpen, currentFaceData.EyeROpen, calibrationFaceData.EyeROpen);
             UpdateParamter(ParamId.ParamEyeBallX, currentFaceData.EyeBallX);
             UpdateParamter(ParamId.ParamEyeBallY, currentFaceData.EyeBallY);
-            UpdateParamter(ParamId.ParamMouthOpenY, currentFaceData.MouthOpenY, calibrationFaceData.MouthOpenY);
+            UpdateParamter(ParamId.ParamMouthOpenY, currentFaceData.MouthOpenY);
             UpdateParamter(ParamId.ParamBodyAngleX, currentFaceData.BodyAngleX, calibrationFaceData.BodyAngleX);
             UpdateParamter(ParamId.ParamBodyAngleY, currentFaceData.BodyAngleY, calibrationFaceData.BodyAngleY);
             UpdateParamter(ParamId.ParamBodyAngleZ, currentFaceData.BodyAngleZ, calibrationFaceData.BodyAngleZ);
