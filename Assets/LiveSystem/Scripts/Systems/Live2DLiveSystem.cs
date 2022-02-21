@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace LiveSystem
 {
-    public class Live2DFaceSystem : LiveSystem
+    public class Live2DLiveSystem : LiveSystem
     {
         [SerializeField] private FaceLandmarkKeyPoints keyPoints;
         private Calculater calculater;
@@ -21,7 +21,7 @@ namespace LiveSystem
         {
             var newModelController = new Live2DModelController(modelData);
             var graph = solution?.GetComponent<IrisTrackingGraph>();
-            var faceModelCalculater = new Live2DFaceModelDataCalculater(keyPoints);
+            var faceModelCalculater = new FaceDataCalculater(keyPoints);
 
             graph.OnFaceLandmarksWithIrisOutput.AddListener(faceModelCalculater.OnDataOutput);
             faceModelCalculater.OnFaceModelDataOutput += newModelController.OnFaceModelDataOutput;

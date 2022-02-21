@@ -12,11 +12,10 @@ using LiveSystem.Data;
 
 namespace LiveSystem
 {
-    public class FaceModelDataCalculater : Calculater
+    public class FaceDataCalculater : Calculater
     {
         public Action<FaceData> OnFaceModelDataOutput { get; set; }
 
-        private FaceModelDataCalculater faceModelCalculater;
         protected FaceLandmarkKeyPoints keyPoints;
         protected readonly List<ScalarKalmanFilter> filters;
         protected readonly float landmarkScale = 100;
@@ -25,7 +24,7 @@ namespace LiveSystem
         protected readonly float WinkEyeDistance = 0.3f;
         protected readonly float MouthOpenConstanst = 0.4f;
 
-        public FaceModelDataCalculater(FaceLandmarkKeyPoints points)
+        public FaceDataCalculater(FaceLandmarkKeyPoints points)
         {
             keyPoints = points;
             filters = new List<ScalarKalmanFilter>();
@@ -52,22 +51,66 @@ namespace LiveSystem
 
         protected virtual FaceData Calculate(NormalizedLandmarkList data)
         {
-            var landmark = data.Landmark;
+            var landmarks = data.Landmark;
+
+            //if (isFirst)
+            //{
+            //    foreach (var mark in landmarks)
+            //    {
+            //        filters.Add(new ScalarKalmanFilter());
+            //    }
+            //    isFirst = false;
+            //}
+
+            //for (int i = 0; i < landmarks.Count; i++)
+            //{
+            //    Vector3 point = new Vector3(landmarks[i].X, landmarks[i].Y, landmarks[i].Z);
+            //    var filt = filters[i].Filt(point);
+            //    landmarks[i].X = filt.x;
+            //    landmarks[i].Y = filt.y;
+            //    landmarks[i].Z = filt.z;
+            //}
+
+            var eyeLOpen = (landmarks[keyPoints.LeftEyePoints[Direction.Down]].Y - landmarks[keyPoints.LeftEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
+            var eyeROpen = (landmarks[keyPoints.RightEyePoints[Direction.Down]].Y - landmarks[keyPoints.RightEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
+
+            if (eyeLOpen - eyeROpen <= WinkEyeDistance && eyeROpen - eyeLOpen <= WinkEyeDistance)
+            {
+                eyeROpen = eyeLOpen;
+            }
+            var mouthOpenY = (landmarks[keyPoints.InnerLipsPoints[Direction.Down]].Y - landmarks[keyPoints.InnerLipsPoints[Direction.Up]].Y) * landmarkScale - MouthOpenConstanst;
+
+            FiltData(data);
+
+            //rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
+            //var nose = landmarks[keyPoints.NosePoint];
+            var eulerAngle = GetFaceEulerAngles(landmarks[keyPoints.FaceDirectionPoints[Direction.Mid]], landmarks[keyPoints.FaceDirectionPoints[Direction.Left]], landmarks[keyPoints.FaceDirectionPoints[Direction.Right]]);
+
+            if (eulerAngle.y > 180)
+            {
+                eulerAngle.y -= 360;
+            }
+
+            eulerAngle.x *= -1;
+            if (eulerAngle.x < -180)
+            {
+                eulerAngle.x += 360;
+            }
+
+            eulerAngle.z *= -1;
+            if (eulerAngle.z < -180)
+            {
+                eulerAngle.z += 360;
+            }
 
             var leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
-            var rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
-            var nose = landmark[keyPoints.NosePoint];
+            var eyeBallX = (landmarks[keyPoints.LeftIrisPoint].X - leftEye.x) * -landmarkScale;
+            var eyeBallY = (landmarks[keyPoints.LeftIrisPoint].Y - leftEye.y) * -landmarkScale;
+            var bodyAngleX = eulerAngle.x / BodyRate;
+            var bodyAngleY = eulerAngle.y / BodyRate;
+            var bodyAngleZ = eulerAngle.z / BodyRate;
 
-            var angle = GetFaceEulerAngles(landmark[keyPoints.FaceDirectionPoints[Direction.Mid]], landmark[keyPoints.FaceDirectionPoints[Direction.Left]], landmark[keyPoints.FaceDirectionPoints[Direction.Right]]);
-            var eyeLOpen = 1f + landmark[keyPoints.LeftEyePoints[Direction.Up]].Y - landmark[keyPoints.LeftEyePoints[Direction.Down]].Y;
-            var eyeROpen = 1f + landmark[keyPoints.RightEyePoints[Direction.Up]].Y - landmark[keyPoints.RightEyePoints[Direction.Down]].Y;
-            var eyeBallX = landmark[keyPoints.LeftIrisPoint].X - leftEye.x;
-            var eyeBallY = landmark[keyPoints.LeftIrisPoint].Y - leftEye.y;
-            var mouthOpenY = landmark[keyPoints.InnerLipsPoints[Direction.Up]].Y - landmark[keyPoints.InnerLipsPoints[Direction.Down]].Y;
-            var bodyAngleX = angle.x / 3;
-            var bodyAngleY = angle.y / 3;
-            var bodyAngleZ = angle.z / 3;
-            return new FaceData(angle.x, angle.y, angle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
+            return new FaceData(eulerAngle.y, eulerAngle.x, eulerAngle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
 
         protected Vector3 GetCenterPoint(Dictionary<Direction,int> points, NormalizedLandmarkList data)
@@ -109,17 +152,6 @@ namespace LiveSystem
                 landmark.Y = filt.y;
                 landmark.Z = filt.z;
             }
-
-            //int i = 0;
-            //foreach (var point in keyPoints.FaceDirectionPoints)
-            //{
-            //    var landmark = landmarks[point.Value];
-            //    Vector3 filt = filters[i++].Filt(new Vector3(landmark.X, landmark.Y, landmark.Z));
-            //    landmark.X = filt.x;
-            //    landmark.Y = filt.y;
-            //    landmark.Z = filt.z;
-            //}
-
         }
     }
 }

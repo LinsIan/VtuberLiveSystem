@@ -33,6 +33,18 @@ MonoBehaviour:
     m_Address: natori
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 67acbf333c3914165a65cbb453cbf24e
+    m_Address: Assets/LiveSystem/Models/3D/fumiriya/fumiriya.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 334e9ae6b79a34ef0846fa53855069ba
+    m_Address: Assets/LiveSystem/Models/3D/miko/sakuramiko.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c7fa179501fb94687b26f30d5903f7d4
+    m_Address: Assets/LiveSystem/Models/3D/shino/shino.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 30b12cceb20b44f13bdb0a581c6a95ba, type: 2}
   m_SchemaSet:
