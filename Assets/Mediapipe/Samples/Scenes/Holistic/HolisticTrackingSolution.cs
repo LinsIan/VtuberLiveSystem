@@ -184,6 +184,7 @@ namespace Mediapipe.Unity.Holistic
 
     private void OnRightHandLandmarksOutput(NormalizedLandmarkList rightHandLandmarks)
     {
+            if (rightHandLandmarks == null) Debug.Log("null !!");
       _holisticAnnotationController.DrawRightHandLandmarkListLater(rightHandLandmarks);
     }
 
