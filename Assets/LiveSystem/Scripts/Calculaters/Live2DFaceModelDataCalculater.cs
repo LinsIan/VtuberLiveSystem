@@ -36,7 +36,6 @@ namespace LiveSystem
             //    landmarks[i].Z = filt.z;
             //}
 
-            //var rightEye = GetCenterPoint(keyPoints.RightEyePoints, data);
             var eyeLOpen = (landmarks[keyPoints.LeftEyePoints[Direction.Down]].Y - landmarks[keyPoints.LeftEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
             var eyeROpen = (landmarks[keyPoints.RightEyePoints[Direction.Down]].Y - landmarks[keyPoints.RightEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
 

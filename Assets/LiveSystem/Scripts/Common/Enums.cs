@@ -8,7 +8,7 @@ namespace LiveSystem
 {
     public enum ModelType
     {
-        Live2D,
+        Live2D = 0,
         Home3D
     }
 

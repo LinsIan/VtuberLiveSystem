@@ -14,17 +14,17 @@ namespace LiveSystem.UI
 {
     public class StartMenu : MonoBehaviour
     {
-        [SerializeField] private Dropdown liveModeDropdown;
+        [SerializeField] private Dropdown modelTypeDropdown;
         [SerializeField] private Button startButton;
 
         private void Start()
         {
-            foreach (var item in Enum.GetNames(typeof(LiveMode)))
+            foreach (var item in Enum.GetNames(typeof(ModelType)))
             {
-                liveModeDropdown.options.Add(new Dropdown.OptionData(item));
+                modelTypeDropdown.options.Add(new Dropdown.OptionData(item));
             }
-            liveModeDropdown.RefreshShownValue();
-            startButton.onClick.AddListener(() => { StartCoroutine(LoadSceneAsync(liveModeDropdown.value + 1)); });
+            modelTypeDropdown.RefreshShownValue();
+            startButton.onClick.AddListener(() => { StartCoroutine(LoadSceneAsync(modelTypeDropdown.value + 1)); });
         }
 
         private IEnumerator LoadSceneAsync(int sceneBuildIndex)

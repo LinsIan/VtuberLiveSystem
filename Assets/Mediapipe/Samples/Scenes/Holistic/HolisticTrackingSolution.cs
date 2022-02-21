@@ -13,10 +13,10 @@ namespace Mediapipe.Unity.Holistic
   public class HolisticTrackingSolution : Solution
   {
     [SerializeField] private RawImage _screen;
-    [SerializeField] private RectTransform _worldAnnotationArea;
+    //[SerializeField] private RectTransform _worldAnnotationArea;
     [SerializeField] private DetectionAnnotationController _poseDetectionAnnotationController;
     [SerializeField] private HolisticLandmarkListAnnotationController _holisticAnnotationController;
-    [SerializeField] private PoseWorldLandmarkListAnnotationController _poseWorldLandmarksAnnotationController;
+    //[SerializeField] private PoseWorldLandmarkListAnnotationController _poseWorldLandmarksAnnotationController;
     [SerializeField] private NormalizedRectAnnotationController _poseRoiAnnotationController;
     [SerializeField] private HolisticTrackingGraph _graphRunner;
     [SerializeField] private TextureFramePool _textureFramePool;
@@ -93,7 +93,7 @@ namespace Mediapipe.Unity.Holistic
       // NOTE: The _screen will be resized later, keeping the aspect ratio.
       SetupScreen(_screen, imageSource);
       _screen.texture = imageSource.GetCurrentTexture();
-      _worldAnnotationArea.localEulerAngles = imageSource.rotation.Reverse().GetEulerAngles();
+      //_worldAnnotationArea.localEulerAngles = imageSource.rotation.Reverse().GetEulerAngles();
 
       Logger.LogInfo(TAG, $"Model Complexity = {modelComplexity}");
       Logger.LogInfo(TAG, $"Smooth Landmarks = {smoothLandmarks}");
@@ -132,7 +132,7 @@ namespace Mediapipe.Unity.Holistic
 
       SetupAnnotationController(_poseDetectionAnnotationController, imageSource);
       SetupAnnotationController(_holisticAnnotationController, imageSource);
-      SetupAnnotationController(_poseWorldLandmarksAnnotationController, imageSource);
+      //SetupAnnotationController(_poseWorldLandmarksAnnotationController, imageSource);
       SetupAnnotationController(_poseRoiAnnotationController, imageSource);
 
       while (true)
@@ -154,7 +154,7 @@ namespace Mediapipe.Unity.Holistic
           var value = _graphRunner.FetchNextValue();
           _poseDetectionAnnotationController.DrawNow(value.poseDetection);
           _holisticAnnotationController.DrawNow(value.faceLandmarks, value.poseLandmarks, value.leftHandLandmarks, value.rightHandLandmarks, value.leftIrisLandmarks, value.rightIrisLandmarks);
-          _poseWorldLandmarksAnnotationController.DrawNow(value.poseWorldLandmarks);
+          //_poseWorldLandmarksAnnotationController.DrawNow(value.poseWorldLandmarks);
           _poseRoiAnnotationController.DrawNow(value.poseRoi);
         }
 
@@ -199,7 +199,7 @@ namespace Mediapipe.Unity.Holistic
 
     private void OnPoseWorldLandmarksOutput(LandmarkList poseWorldLandmarks)
     {
-      _poseWorldLandmarksAnnotationController.DrawLater(poseWorldLandmarks);
+      //_poseWorldLandmarksAnnotationController.DrawLater(poseWorldLandmarks);
     }
 
     private void OnPoseRoiOutput(NormalizedRect roiFromLandmarks)
