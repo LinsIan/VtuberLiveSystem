@@ -21,7 +21,6 @@ namespace LiveSystem
         protected FaceData defaultFaceData;
         protected FaceData calibrationFaceData;
         protected Interpolator<FaceData> interpolator;
-        protected bool isStartOutputData;
         
         public Live2DModelController(ModelData data) : base(data)
         {
@@ -35,7 +34,6 @@ namespace LiveSystem
             motionController = modelObj.GetComponent<CubismHarmonicMotionController>();
             InitParameters();
             SetMotionRate();
-            isStartOutputData = false;
             isPause = false;
             defaultFaceData = new FaceData(
                 parameters[ParamId.ParamAngleX].DefaultValue,
@@ -49,12 +47,12 @@ namespace LiveSystem
                 parameters[ParamId.ParamBodyAngleX].DefaultValue,
                 parameters[ParamId.ParamBodyAngleY].DefaultValue,
                 parameters[ParamId.ParamBodyAngleZ].DefaultValue
-                );
+           );
         }
 
         public override void UpdateModel()
         {
-            if (!isStartOutputData || isPause) return;
+            if (!interpolator.HasInputData || isPause) return;
 
             FaceData currentFaceData = interpolator.GetCurrentData();
 
@@ -86,7 +84,7 @@ namespace LiveSystem
 
         public override void CalibrateModel()
         {
-            if (!isStartOutputData || isPause) return;
+            if (!interpolator.HasInputData || isPause) return;
             FaceData currentFaceData = interpolator.GetCurrentData();
             calibrationFaceData = defaultFaceData - currentFaceData;
 
@@ -98,9 +96,8 @@ namespace LiveSystem
         }
 
         //called from thread
-        public void OnFaceModelDataOutput(FaceData data)
+        public void OnFaceDataOutput(FaceData data)
         {
-            isStartOutputData = true;
             interpolator.UpdateData(data);
         }
 
@@ -111,7 +108,6 @@ namespace LiveSystem
                 motionController.ChannelTimescales[i] = modelData.MotionRates[i].Value;
             }
         }
-
 
         protected void InitParameters()
         {

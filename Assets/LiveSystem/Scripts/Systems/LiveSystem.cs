@@ -16,7 +16,9 @@ namespace LiveSystem
     {
         [SerializeField] protected Solution solution;
         [SerializeField] protected ModelData modelData;
+        [SerializeField] protected FaceLandmarkKeyPoints keyPoints;
         protected ModelController modelController;
+        protected List<Calculater> calculaters = new List<Calculater>();
 
         protected virtual IEnumerator Start()
         {
@@ -56,7 +58,7 @@ namespace LiveSystem
 
         public void SetLiveMode(LiveMode mode)
         {
-
+            modelController.SetLiveMode(mode);
         }   
     }
 }

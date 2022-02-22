@@ -1,18 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LiveSystem.Data;
 
-public class Home3DModelController : MonoBehaviour
+namespace LiveSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Home3DModelController : ModelController
     {
-        
-    }
+        protected Interpolator<FaceData> faceDataInterpolator;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public Home3DModelController(ModelData data, LiveMode mode) : base(data, mode)
+        {
+        }
+
+        public override IEnumerator Init()
+        {
+            yield return base.Init();
+            faceDataInterpolator = new Interpolator<FaceData>(FaceData.Lerp);
+        }
+
+        public override void UpdateModel()
+        {
+            //face only
+            //upper body
+            //lower body
+        }
+
+        public override void SetLiveMode(LiveMode newMode)
+        {
+            liveMode = LiveMode.FaceOnly;
+        }
+
+        public override void CalibrateModel()
+        {
+        }
+
+        //called from thread
+        public void OnFaceDataOutput(FaceData data)
+        {
+            faceDataInterpolator.UpdateData(data);
+        }
+
     }
 }

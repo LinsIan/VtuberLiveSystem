@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mediapipe.Unity.Holistic;
 
-public class Hom3DLiveSystem : MonoBehaviour
+namespace LiveSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Hom3DLiveSystem : LiveSystem
     {
-        
-    }
+        protected override IEnumerator InitSubSystem()
+        {
+            var newModelController = new Home3DModelController(modelData, LiveMode.FaceOnly);
+            var graph = solution?.GetComponent<HolisticTrackingGraph>();
+            var faceDataCalculater = new FaceDataCalculater(keyPoints);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            graph.OnFaceLandmarksOutput.AddListener(faceDataCalculater.OnLandmarkDataOutput);
+            faceDataCalculater.OnFaceDataOutput += newModelController.OnFaceDataOutput;
+            calculaters.Add(faceDataCalculater);
+            modelController = newModelController;
+
+            yield return base.InitSubSystem();
+        }
     }
 }

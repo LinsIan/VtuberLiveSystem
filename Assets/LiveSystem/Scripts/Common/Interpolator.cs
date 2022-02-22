@@ -12,6 +12,8 @@ namespace LiveSystem
     {
         public delegate TData LerpMethod(in TData a, in TData b, float t);
         public float InterpolationFactor { get; private set; }
+        public bool HasInputData { get; private set; }
+
 
         private readonly int MaxArrayNum = 2;
         private LerpMethod Lerp;
@@ -28,6 +30,7 @@ namespace LiveSystem
             lastUpdateTimes = new double[MaxArrayNum];
             lastData = new TData[MaxArrayNum];
             newIndex = 0;
+            HasInputData = false;
         }
 
         public void UpdateData(in TData data)
@@ -37,6 +40,7 @@ namespace LiveSystem
                     newIndex = GetOldIndex();
                     lastData[newIndex] = data;
                     lastUpdateTimes[newIndex] = stopwatch.Elapsed.TotalSeconds;
+                    HasInputData = true;
                 }
         }
 

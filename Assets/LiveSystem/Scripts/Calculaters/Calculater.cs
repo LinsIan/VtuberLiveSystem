@@ -11,11 +11,11 @@ namespace LiveSystem
     public abstract class Calculater
     {
 
-        public virtual void OnDataOutput(NormalizedLandmarkList data)
+        public virtual void OnLandmarkDataOutput(NormalizedLandmarkList data)
         {
         }
 
-        public virtual void OnMultiDataOutput(List<NormalizedLandmarkList> data)
+        public virtual void OnMultiLandmarkDataOutput(List<NormalizedLandmarkList> data)
         {
         }
 

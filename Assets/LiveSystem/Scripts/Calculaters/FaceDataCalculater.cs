@@ -14,7 +14,7 @@ namespace LiveSystem
 {
     public class FaceDataCalculater : Calculater
     {
-        public Action<FaceData> OnFaceModelDataOutput { get; set; }
+        public Action<FaceData> OnFaceDataOutput { get; set; }
 
         protected FaceLandmarkKeyPoints keyPoints;
         protected readonly List<ScalarKalmanFilter> filters;
@@ -35,17 +35,17 @@ namespace LiveSystem
             }
         }
         
-        public override void OnDataOutput(NormalizedLandmarkList data)
+        public override void OnLandmarkDataOutput(NormalizedLandmarkList data)
         {
             if (data == null)
             {
                 return;
             }
 
-            OnFaceModelDataOutput?.Invoke(Calculate(data));
+            OnFaceDataOutput?.Invoke(Calculate(data));
         }
 
-        public override void OnMultiDataOutput(List<NormalizedLandmarkList> data)
+        public override void OnMultiLandmarkDataOutput(List<NormalizedLandmarkList> data)
         {
         }
 
