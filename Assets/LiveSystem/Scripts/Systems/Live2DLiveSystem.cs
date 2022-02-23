@@ -18,7 +18,7 @@ namespace LiveSystem
         {
             var newModelController = new Live2DModelController(modelData);
             var graph = solution?.GetComponent<IrisTrackingGraph>();
-            var faceDataCalculater = new FaceDataCalculater(keyPoints);
+            var faceDataCalculater = new Live2DFaceDataCalculater(keyPoints);
 
             graph.OnFaceLandmarksWithIrisOutput.AddListener(faceDataCalculater.OnLandmarkDataOutput);
             faceDataCalculater.OnFaceDataOutput += newModelController.OnFaceDataOutput;

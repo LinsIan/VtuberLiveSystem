@@ -17,6 +17,7 @@ namespace LiveSystem
         {
             yield return base.Init();
             faceDataInterpolator = new Interpolator<FaceData>(FaceData.Lerp);
+            isPause = false;
         }
 
         public override void UpdateModel()

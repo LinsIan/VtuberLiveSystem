@@ -52,7 +52,7 @@ namespace LiveSystem
 
         public override void UpdateModel()
         {
-            if (!interpolator.HasInputData || isPause) return;
+            if (isPause || !interpolator.HasInputData) return;
 
             FaceData currentFaceData = interpolator.GetCurrentData();
 
