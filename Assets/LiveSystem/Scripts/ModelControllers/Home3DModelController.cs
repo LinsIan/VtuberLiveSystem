@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LiveSystem.Data;
+using VRM;
 
 namespace LiveSystem
 {

@@ -14,7 +14,19 @@ namespace LiveSystem
 {
     public class Home3DFaceDataCalculater : FaceDataCalculater
     {
+        protected Vector2 leftIris;
+        
+
         public Home3DFaceDataCalculater(FaceLandmarkKeyPoints points) : base(points)
+        {
+        }
+
+        public void OnLeftIrisLandmarksOutput(NormalizedLandmarkList data)
+        {
+            var landmarks = data.Landmark;
+        }
+
+        public void OnRightIrisLandmarksOutput(NormalizedLandmarkList data)
         {
         }
 
@@ -29,13 +41,14 @@ namespace LiveSystem
                 eyeROpen = eyeLOpen;
             }
 
+
             FiltData(data);
 
             var eulerAngle = GetFaceEulerAngles(landmarks[keyPoints.FaceDirectionPoints[Direction.Mid]], landmarks[keyPoints.FaceDirectionPoints[Direction.Left]], landmarks[keyPoints.FaceDirectionPoints[Direction.Right]]);
 
             if (eulerAngle.y > 180)
             {
-                eulerAngle.y -= 360; 
+                eulerAngle.y -= 360;
             }
 
             eulerAngle.x *= -1;
@@ -51,13 +64,13 @@ namespace LiveSystem
             }
 
             /*
-            body:
-                X軸左到右1 ~ 0
-                Z軸遠到近 0 ~ -1
-                Y軸 1/5的facez
+                body:
+                    X軸左到右1 ~ 0
+                    Z軸遠到近 0 ~ -1
+                    Y軸 1/5的facez
 
-                基準點 (0.5, 0, -0.5)
-            */
+                    基準點 (0.5, 0, -0.5)
+             */
 
             var nose = landmarks[keyPoints.NosePoint];
             var noseDirectoin = new Vector3(nose.X - 0.5f, nose.Y, nose.Z + 0.5f);

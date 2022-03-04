@@ -17,18 +17,18 @@ namespace LiveSystem
 
         public BlendShapeClip clip;
 
-        //public BlendShapeBinding binding; 
+        //public BlendShapeBinding binding;
 
         protected override IEnumerator InitSubSystem()
         {
             var newModelController = new Home3DModelController(modelData, LiveMode.FaceOnly);
             var graph = solution?.GetComponent<HolisticTrackingGraph>();
             var faceDataCalculater = new Home3DFaceDataCalculater(keyPoints);
+            //leftiris、rightiris
             //lefthand、righthand
             //pose (world?)
-            //leftiris、rightiris
 
-            graph.OnFaceLandmarksOutput.AddListener(faceDataCalculater.OnLandmarkDataOutput);
+            graph.OnFaceLandmarksOutput.AddListener(faceDataCalculater.OnLandmarksOutput);
             faceDataCalculater.OnFaceDataOutput += newModelController.OnFaceDataOutput;
             calculaters.Add(faceDataCalculater);
             modelController = newModelController;

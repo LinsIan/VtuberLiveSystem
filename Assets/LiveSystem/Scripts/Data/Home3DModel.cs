@@ -1,18 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRM;
 
-public class Home3DModel : MonoBehaviour
+namespace LiveSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Home3DModel : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private Transform neck;
+        [SerializeField] private Transform spine;
+        [SerializeField] private VRMBlendShapeProxy blendShapeProxy;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void RotateNeck(Quaternion rotatoin)
+        {
+            neck.rotation = rotatoin;
+        }
+
+        public void RotateSpine(Quaternion rotation)
+        {
+            spine.rotation = rotation;
+        }
+
+        public void SetBlendShapeValue(BlendShapePreset blendShape, float value)
+        {
+            BlendShapeAvatar avatar = blendShapeProxy.BlendShapeAvatar;
+            blendShapeProxy.ImmediatelySetValue(avatar.GetClip(blendShape).Key, value);
+        }
+
+        public void SetBlendShapeValueSmoothly(BlendShapePreset blendShape, float value)
+        {
+            //TODO:表情功能變化
+        }
     }
 }

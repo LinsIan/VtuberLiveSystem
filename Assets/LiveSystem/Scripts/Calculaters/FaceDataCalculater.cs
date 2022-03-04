@@ -35,7 +35,7 @@ namespace LiveSystem
             }
         }
         
-        public override void OnLandmarkDataOutput(NormalizedLandmarkList data)
+        public override void OnLandmarksOutput(NormalizedLandmarkList data)
         {
             if (data == null)
             {
@@ -45,7 +45,7 @@ namespace LiveSystem
             OnFaceDataOutput?.Invoke(Calculate(data));
         }
 
-        public override void OnMultiLandmarkDataOutput(List<NormalizedLandmarkList> data)
+        public override void OnMultiLandmarksOutput(List<NormalizedLandmarkList> data)
         {
         }
 
@@ -105,6 +105,10 @@ namespace LiveSystem
             for (int i = 0; i < keyPoints.AllPoints.Count; i++)
             {
                 var point = keyPoints.AllPoints[i];
+                if (point >= landmarks.Count)
+                {
+                    continue;
+                }
                 var landmark = landmarks[point];
                 Vector3 filt = filters[i].Filt(new Vector3(landmark.X, landmark.Y, landmark.Z));
                 landmark.X = filt.x;
