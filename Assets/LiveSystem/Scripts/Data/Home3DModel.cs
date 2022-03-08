@@ -1,3 +1,8 @@
+// Copyright (c) 2021 Lins Ian
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,16 +14,28 @@ namespace LiveSystem
     {
         [SerializeField] private Transform neck;
         [SerializeField] private Transform spine;
+        [SerializeField] private Transform leftEye;
+        [SerializeField] private Transform rightEye;
         [SerializeField] private VRMBlendShapeProxy blendShapeProxy;
 
-        public void RotateNeck(Quaternion rotatoin)
+        public void SetNeckRotation(Quaternion rotatoin)
         {
             neck.rotation = rotatoin;
         }
 
-        public void RotateSpine(Quaternion rotation)
+        public void SetSpineRotation(Quaternion rotation)
         {
             spine.rotation = rotation;
+        }
+
+        public void SetLeftEyeRotation(Quaternion rotation)
+        {
+            
+        }
+
+        public void SetRightEyeRotation(Quaternion rotation)
+        {
+
         }
 
         public void SetBlendShapeValue(BlendShapePreset blendShape, float value)

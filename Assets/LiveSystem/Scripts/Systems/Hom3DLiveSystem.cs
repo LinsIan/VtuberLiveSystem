@@ -24,11 +24,12 @@ namespace LiveSystem
             var newModelController = new Home3DModelController(modelData, LiveMode.FaceOnly);
             var graph = solution?.GetComponent<HolisticTrackingGraph>();
             var faceDataCalculater = new Home3DFaceDataCalculater(keyPoints);
-            //leftiris、rightiris
             //lefthand、righthand
             //pose (world?)
 
             graph.OnFaceLandmarksOutput.AddListener(faceDataCalculater.OnLandmarksOutput);
+            graph.OnLeftIrisLandmarksOutput.AddListener(faceDataCalculater.OnLeftIrisLandmarksOutput);
+            graph.OnRightHandLandmarksOutput.AddListener(faceDataCalculater.OnRightIrisLandmarksOutput);
             faceDataCalculater.OnFaceDataOutput += newModelController.OnFaceDataOutput;
             calculaters.Add(faceDataCalculater);
             modelController = newModelController;

@@ -14,34 +14,38 @@ namespace LiveSystem
 {
     public class Home3DFaceDataCalculater : FaceDataCalculater
     {
-        protected Vector2 leftIris;
+        protected Vector2 leftIris = Vector2.zero;
         
-
         public Home3DFaceDataCalculater(FaceLandmarkKeyPoints points) : base(points)
         {
         }
 
         public void OnLeftIrisLandmarksOutput(NormalizedLandmarkList data)
         {
-            var landmarks = data.Landmark;
+            if (data == null)
+            {
+                return;
+            }
+            var leftIrisLandmark = data.Landmark[keyPoints.LeftIrisPoint - keyPoints.FaceMeshCount];
+            leftIris = new Vector2(leftIrisLandmark.X, leftIrisLandmark.Y);
         }
 
         public void OnRightIrisLandmarksOutput(NormalizedLandmarkList data)
         {
         }
-
+        
         protected override FaceData Calculate(NormalizedLandmarkList data)
         {
             var landmarks = data.Landmark;
             var eyeLOpen = (landmarks[keyPoints.LeftEyePoints[Direction.Down]].Y - landmarks[keyPoints.LeftEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
             var eyeROpen = (landmarks[keyPoints.RightEyePoints[Direction.Down]].Y - landmarks[keyPoints.RightEyePoints[Direction.Up]].Y) * landmarkScale - EyeOpenConstanst;
             var mouthOpenY = (landmarks[keyPoints.InnerLipsPoints[Direction.Down]].Y - landmarks[keyPoints.InnerLipsPoints[Direction.Up]].Y) * landmarkScale - MouthOpenConstanst;
+            
             if (eyeLOpen - eyeROpen <= WinkEyeDistance && eyeROpen - eyeLOpen <= WinkEyeDistance)
             {
                 eyeROpen = eyeLOpen;
             }
-
-
+            
             FiltData(data);
 
             var eulerAngle = GetFaceEulerAngles(landmarks[keyPoints.FaceDirectionPoints[Direction.Mid]], landmarks[keyPoints.FaceDirectionPoints[Direction.Left]], landmarks[keyPoints.FaceDirectionPoints[Direction.Right]]);
@@ -68,9 +72,12 @@ namespace LiveSystem
                     X軸左到右1 ~ 0
                     Z軸遠到近 0 ~ -1
                     Y軸 1/5的facez
-
                     基準點 (0.5, 0, -0.5)
              */
+
+            var leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
+            var eyeBallX = (leftIris.x - leftEye.x) * -landmarkScale;
+            var eyeBallY = (leftIris.y - leftEye.y) * -landmarkScale;
 
             var nose = landmarks[keyPoints.NosePoint];
             var noseDirectoin = new Vector3(nose.X - 0.5f, nose.Y, nose.Z + 0.5f);
@@ -80,9 +87,7 @@ namespace LiveSystem
             var bodyAngleY = eulerAngle.y / BodyRate;
             var bodyAngleZ = bodyAngle.z;
 
-            Debug.Log((bodyAngleX, bodyAngleY, bodyAngleZ));
-
-            return new FaceData(eulerAngle.y, eulerAngle.x, eulerAngle.z, eyeLOpen, eyeROpen, 0, 0, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
+            return new FaceData(eulerAngle.x, eulerAngle.z, eulerAngle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
         }
     }
 }

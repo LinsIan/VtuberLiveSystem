@@ -33,8 +33,8 @@ namespace LiveSystem
         //protected readonly int LeftPupilPoint = 468;
         //protected readonly int RightPupilPoint = 473;
 
-        //protected readonly int FaceMeshCount = 468;
-        //protected readonly int IrisCount = 5;
+        public readonly int FaceMeshCount = 468;
+        public readonly int IrisCount = 5;
 
         [SerializeField]
         private List<LandmarkPoint> faceDirectionPoints;
