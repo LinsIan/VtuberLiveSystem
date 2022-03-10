@@ -10,12 +10,15 @@ using VRM;
 
 namespace LiveSystem
 {
+    //runtime home 3d model
     public class Home3DModel : MonoBehaviour
     {
         [SerializeField] private Transform neck;
         [SerializeField] private Transform spine;
         [SerializeField] private Transform leftEye;
         [SerializeField] private Transform rightEye;
+        [SerializeField] private Quaternion d;
+
         [SerializeField] private VRMBlendShapeProxy blendShapeProxy;
 
         public void SetNeckRotation(Quaternion rotatoin)
@@ -30,12 +33,12 @@ namespace LiveSystem
 
         public void SetLeftEyeRotation(Quaternion rotation)
         {
-            
+            leftEye.rotation = rotation;
         }
 
         public void SetRightEyeRotation(Quaternion rotation)
         {
-
+            rightEye.rotation = rotation;
         }
 
         public void SetBlendShapeValue(BlendShapePreset blendShape, float value)
