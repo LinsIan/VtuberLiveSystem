@@ -23,14 +23,14 @@ namespace LiveSystem.Data
         public List<ParamId> EffectedParamIds { get; private set; }
 
         [SerializeField]
-        private float basicValue = 1;
+        private float basicRatio = 1;
 
         [SerializeField, Range(0, 3)]
         private float value = Default;
 
         public float Value
         {
-            get => value * basicValue;
+            get => value * basicRatio;
             set => this.value = Mathf.Clamp(value, Min, Max);
         }
 

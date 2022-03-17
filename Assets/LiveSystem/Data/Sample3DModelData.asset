@@ -49,27 +49,27 @@ MonoBehaviour:
   <Sensitivities>k__BackingField:
   - <Name>k__BackingField: FaceX
     <EffectedParamIds>k__BackingField: 0000000008000000
-    basicValue: 1
+    basicRatio: 1
     value: 1
   - <Name>k__BackingField: FaceY
     <EffectedParamIds>k__BackingField: 0100000009000000
-    basicValue: 1
+    basicRatio: 1
     value: 1
   - <Name>k__BackingField: FaceZ
     <EffectedParamIds>k__BackingField: 020000000a000000
-    basicValue: 1
+    basicRatio: 1
     value: 1
   - <Name>k__BackingField: EyeBall
     <EffectedParamIds>k__BackingField: 0500000006000000
-    basicValue: 2
+    basicRatio: 2
     value: 1
   - <Name>k__BackingField: EyeOpen
     <EffectedParamIds>k__BackingField: 0300000004000000
-    basicValue: 3
+    basicRatio: 3
     value: 1
   - <Name>k__BackingField: Mouth
     <EffectedParamIds>k__BackingField: 07000000
-    basicValue: 1
+    basicRatio: 1
     value: 1
   <MotionRates>k__BackingField: []
   currentAsset: 0
