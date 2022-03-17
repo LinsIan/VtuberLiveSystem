@@ -9,11 +9,11 @@ using System.Collections.Generic;
 
 namespace LiveSystem
 {
-    public class Live2DParamIdComparer : IEqualityComparer<ParamId>
+    public class ParamIdComparer : IEqualityComparer<ParamId>
     {
-        private static readonly Live2DParamIdComparer m_Instance = new Live2DParamIdComparer();
+        private static readonly ParamIdComparer m_Instance = new ParamIdComparer();
         
-        public static Live2DParamIdComparer Instance { get { return m_Instance; } }
+        public static ParamIdComparer Instance { get { return m_Instance; } }
 
         public bool Equals(ParamId x, ParamId y)
         {
