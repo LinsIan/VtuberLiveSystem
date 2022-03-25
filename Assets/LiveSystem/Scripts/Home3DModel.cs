@@ -7,38 +7,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRM;
+using LiveSystem.Data;
 
 namespace LiveSystem
 {
     //runtime home 3d model
     public class Home3DModel : MonoBehaviour
     {
-        [SerializeField] private Transform neck;
-        [SerializeField] private Transform spine;
-        [SerializeField] private Transform leftEye;
-        [SerializeField] private Transform rightEye;
-        [SerializeField] private Quaternion d;
+        [SerializeField] private BoneParameter neck;
+        [SerializeField] private BoneParameter spine;
+        [SerializeField] private BoneParameter leftEye;
+        [SerializeField] private BoneParameter rightEye;
+
+        private Dictionary<ParamId, BoneParameter> parameters;
 
         [SerializeField] private VRMBlendShapeProxy blendShapeProxy;
 
-        public void SetNeckRotation(Quaternion rotatoin)
+        private void Awake()
         {
-            neck.rotation = rotatoin;
+            parameters = new Dictionary<ParamId, BoneParameter>(ParamIdComparer.Instance)
+            {
+                { ParamId.ParamNeck, neck },
+                { ParamId.ParamSpine, spine },
+                { ParamId.ParamLeftEye, leftEye },
+                { ParamId.ParamRightEye, rightEye }
+            };
         }
 
-        public void SetSpineRotation(Quaternion rotation)
+        public void SetBoneRotation(ParamId paramId, Vector3 rotation)
         {
-            spine.rotation = rotation;
-        }
-
-        public void SetLeftEyeRotation(Quaternion rotation)
-        {
-            leftEye.rotation = rotation;
-        }
-
-        public void SetRightEyeRotation(Quaternion rotation)
-        {
-            rightEye.rotation = rotation;
+            parameters[paramId].SetBoneRotation(rotation);
         }
 
         public void SetBlendShapeValue(BlendShapePreset blendShape, float value)

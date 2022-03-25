@@ -32,7 +32,11 @@ namespace LiveSystem
         ParamBodyAngleX,
         ParamBodyAngleY,
         ParamBodyAngleZ,
-        ParamBreath
+        ParamBreath,
+        ParamNeck,
+        ParamSpine,
+        ParamRightEye,
+        ParamLeftEye
     }
 
     public enum Direction

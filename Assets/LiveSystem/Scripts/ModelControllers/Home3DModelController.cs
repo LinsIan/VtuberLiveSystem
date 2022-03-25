@@ -14,7 +14,8 @@ namespace LiveSystem
     public class Home3DModelController : ModelController
     {
         protected Interpolator<FaceData> faceDataInterpolator;
-        protected Home3DModel home3DModel;
+        protected Home3DModel model;
+        protected FaceData calibrationFaceData = default;
 
         public Home3DModelController(ModelData data, LiveMode mode) : base(data, mode)
         {
@@ -22,9 +23,9 @@ namespace LiveSystem
 
         public override IEnumerator Init()
         {
-            yield return base.Init();
+            yield return base.Init();   
             faceDataInterpolator = new Interpolator<FaceData>(FaceData.Lerp);
-            home3DModel = modelObj.GetComponent<Home3DModel>();
+            model = modelObj.GetComponent<Home3DModel>();
             isPause = false;
         }
 
@@ -33,14 +34,20 @@ namespace LiveSystem
             if (isPause || !faceDataInterpolator.HasInputData) return;
 
             var currentFaceData = faceDataInterpolator.GetCurrentData();
-            var faceAngle = new Vector3(currentFaceData.AngleX, currentFaceData.AngleY, currentFaceData.AngleZ);
-            var bodyAngle = new Vector3(currentFaceData.BodyAngleX, currentFaceData.BodyAngleY, currentFaceData.BodyAngleZ);
-            home3DModel.SetNeckRotation(Quaternion.Euler(faceAngle));
-            home3DModel.SetSpineRotation(Quaternion.Euler(bodyAngle));
-            home3DModel.SetBlendShapeValue(BlendShapePreset.Blink_L, currentFaceData.EyeLOpen);
-            home3DModel.SetBlendShapeValue(BlendShapePreset.Blink_R, currentFaceData.EyeROpen);
-            //vrm的瞳孔是骨架
+            var faceAngle = new Vector3(currentFaceData.AngleX + calibrationFaceData.AngleX, currentFaceData.AngleY + calibrationFaceData.AngleY, currentFaceData.AngleZ + calibrationFaceData.AngleZ);
+            var bodyAngle = new Vector3(currentFaceData.BodyAngleX + calibrationFaceData.BodyAngleX, currentFaceData.BodyAngleY + calibrationFaceData.BodyAngleY, currentFaceData.BodyAngleZ + calibrationFaceData.BodyAngleZ);
+            var eyeAngle = new Vector3(currentFaceData.EyeBallX + calibrationFaceData.EyeBallX, currentFaceData.EyeBallY + calibrationFaceData.EyeBallY, 0);
+            var eyeLOpen = currentFaceData.EyeLOpen + calibrationFaceData.EyeLOpen;
+            var eyeROpen = currentFaceData.EyeROpen + calibrationFaceData.EyeROpen;
 
+            model.SetBoneRotation(ParamId.ParamNeck, faceAngle);
+            model.SetBoneRotation(ParamId.ParamSpine, bodyAngle);
+            model.SetBoneRotation(ParamId.ParamLeftEye, eyeAngle);
+            model.SetBoneRotation(ParamId.ParamRightEye, eyeAngle);
+            model.SetBlendShapeValue(BlendShapePreset.Blink_L, eyeLOpen);
+            model.SetBlendShapeValue(BlendShapePreset.Blink_R, eyeROpen);
+            //嘴型偵測 model.SetBlendShapeValue(BlendShapePreset.A, currentFaceData.MouthOpenY);
+            
         }
 
         public override void SetLiveMode(LiveMode newMode)
@@ -50,6 +57,9 @@ namespace LiveSystem
 
         public override void CalibrateModel()
         {
+            if (!faceDataInterpolator.HasInputData || isPause) return;
+            FaceData currentFaceData = faceDataInterpolator.GetCurrentData();
+            calibrationFaceData = -currentFaceData;
         }
 
         //called from thread

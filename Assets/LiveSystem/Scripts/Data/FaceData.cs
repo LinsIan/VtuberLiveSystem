@@ -104,5 +104,20 @@ namespace LiveSystem.Data
                 a.BodyAngleY - b.BodyAngleZ,
                 a.BodyAngleZ - b.BodyAngleZ
             );
+
+        public static FaceData operator -(FaceData a)
+            => new FaceData(
+                -a.AngleX,
+                -a.AngleY,
+                -a.AngleZ,
+                -a.EyeLOpen,
+                -a.EyeROpen,
+                -a.EyeBallX,
+                -a.EyeBallY,
+                -a.MouthOpenY,
+                -a.BodyAngleX,
+                -a.BodyAngleY,
+                -a.BodyAngleZ
+            );
     }
 }

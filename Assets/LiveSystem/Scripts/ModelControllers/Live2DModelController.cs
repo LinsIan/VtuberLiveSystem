@@ -17,7 +17,7 @@ namespace LiveSystem
     {
         protected CubismModel cubismModel;
         protected CubismHarmonicMotionController motionController;
-        public Dictionary<ParamId, CubismParameter> parameters;
+        protected Dictionary<ParamId, CubismParameter> parameters;
         protected FaceData defaultFaceData;
         protected FaceData calibrationFaceData;
         protected Interpolator<FaceData> interpolator;
@@ -41,7 +41,7 @@ namespace LiveSystem
                 parameters[ParamId.ParamAngleZ].DefaultValue,
                 parameters[ParamId.ParamEyeLOpen].DefaultValue,
                 parameters[ParamId.ParamEyeROpen].DefaultValue,
-                parameters[ParamId.ParamEyeBallX].DefaultValue,
+                parameters[ParamId.ParamEyeBallX].DefaultValue, 
                 parameters[ParamId.ParamEyeBallY].DefaultValue,
                 parameters[ParamId.ParamMouthOpenY].DefaultValue,
                 parameters[ParamId.ParamBodyAngleX].DefaultValue,
@@ -87,7 +87,6 @@ namespace LiveSystem
             if (!interpolator.HasInputData || isPause) return;
             FaceData currentFaceData = interpolator.GetCurrentData();
             calibrationFaceData = defaultFaceData - currentFaceData;
-
         }
 
         public override void SetLiveMode(LiveMode newMode)
