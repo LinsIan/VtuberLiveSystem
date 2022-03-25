@@ -628,9 +628,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 6695265524886457749}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: 0.00031971931, y: 0.8137515, z: -0.0069019496}
+    m_Extent: {x: 0.69199985, y: 0.81391376, z: 0.14588796}
+  m_DirtyAABB: 0
 --- !u!1 &530463949658922731
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,9 +644,7 @@ GameObject:
   - component: {fileID: 5802224898203352843}
   - component: {fileID: 4706106025022137305}
   - component: {fileID: 1520899186569693775}
-  - component: {fileID: 3516332636015866829}
-  - component: {fileID: 4471064418526442586}
-  - component: {fileID: 3935985873963973513}
+  - component: {fileID: -2984800540554332240}
   m_Layer: 0
   m_Name: shino
   m_TagString: Untagged
@@ -732,7 +730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlendShapeAvatar: {fileID: 11400000, guid: 4a9070bcee5ad4ecf8c2d8d41cdbe813, type: 2}
---- !u!114 &3516332636015866829
+--- !u!114 &-2984800540554332240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -741,195 +739,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 530463949658922731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dedba1309bdf12b42af2362f52eea134, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f94281e46da44821b84cc6986ea764b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FirstPersonBone: {fileID: 8612988332661911789}
-  FirstPersonOffset: {x: 0, y: 0.06, z: 0}
-  Renderers:
-  - Renderer: {fileID: 5518069308249963181}
-    FirstPersonFlag: 0
-  - Renderer: {fileID: 2044512933098876256}
-    FirstPersonFlag: 0
-  - Renderer: {fileID: 4394043553058681927}
-    FirstPersonFlag: 0
---- !u!114 &4471064418526442586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 530463949658922731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0a1a470564f16f4f94acb4b9ef56367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DrawGizmo: 1
-  UpdateType: 1
-  Target: {fileID: 0}
-  Head: {fileID: 0}
-  m_yaw: 0
-  m_pitch: 0
---- !u!114 &3935985873963973513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 530463949658922731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8b72334adf6f7948bd98b4f0a873949, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DrawGizmo: 0
-  LeftEye:
-    Transform: {fileID: 8605282412520350173}
-    OffsetRotation:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  RightEye:
-    Transform: {fileID: 3892585319936979085}
-    OffsetRotation:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  HorizontalOuter:
-    Curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    CurveXRangeDegree: 90
-    CurveYRangeDegree: 12
-  HorizontalInner:
-    Curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    CurveXRangeDegree: 90
-    CurveYRangeDegree: 8
-  VerticalDown:
-    Curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    CurveXRangeDegree: 90
-    CurveYRangeDegree: 10
-  VerticalUp:
-    Curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 1
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 1
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    CurveXRangeDegree: 90
-    CurveYRangeDegree: 10
+  neck:
+    <Bone>k__BackingField: {fileID: 5421601521705508197}
+    <MaxRotation>k__BackingField: {x: 45, y: 45, z: 45}
+    <MinRoataion>k__BackingField: {x: -45, y: -45, z: -45}
+  spine:
+    <Bone>k__BackingField: {fileID: 2845101629511878081}
+    <MaxRotation>k__BackingField: {x: 45, y: 45, z: 45}
+    <MinRoataion>k__BackingField: {x: -45, y: -45, z: -45}
+  leftEye:
+    <Bone>k__BackingField: {fileID: 8605282412520350173}
+    <MaxRotation>k__BackingField: {x: 5, y: 5, z: 5}
+    <MinRoataion>k__BackingField: {x: -5, y: -5, z: -5}
+  rightEye:
+    <Bone>k__BackingField: {fileID: 3892585319936979085}
+    <MaxRotation>k__BackingField: {x: 5, y: 5, z: 5}
+    <MinRoataion>k__BackingField: {x: -5, y: -5, z: -5}
+  blendShapeProxy: {fileID: 1520899186569693775}
 --- !u!1 &532608193840363957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,9 +1228,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 6695265524886457749}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: 0.007392384, y: 1.3601823, z: -0.04485564}
+    m_Extent: {x: 0.18831751, y: 0.2851007, z: 0.15651}
+  m_DirtyAABB: 0
 --- !u!1 &969012723058252895
 GameObject:
   m_ObjectHideFlags: 0
@@ -2902,9 +2731,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 6695265524886457749}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: 0.00031571835, y: 1.4999111, z: 0.03372615}
+    m_Extent: {x: 0.108729124, y: 0.11659324, z: 0.07424205}
+  m_DirtyAABB: 0
 --- !u!1 &3446387686609450886
 GameObject:
   m_ObjectHideFlags: 0
