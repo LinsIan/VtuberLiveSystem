@@ -34,7 +34,7 @@ namespace LiveSystem
             {
                 eulerAngle.y -= 360;
             }
-
+             
             eulerAngle.x *= -1;
             if (eulerAngle.x < -180)
             {
@@ -51,8 +51,8 @@ namespace LiveSystem
             var leftEye = GetCenterPoint(keyPoints.LeftEyePoints, data);
             var eyeBallX = (landmarks[keyPoints.LeftIrisPoint].X - leftEye.x) * -landmarkScale;
             var eyeBallY = (landmarks[keyPoints.LeftIrisPoint].Y - leftEye.y) * -landmarkScale;
-            var bodyAngleX = eulerAngle.x / BodyRate;
-            var bodyAngleY = eulerAngle.y / BodyRate;
+            var bodyAngleX = eulerAngle.y / BodyRate;
+            var bodyAngleY = eulerAngle.x / BodyRate;
             var bodyAngleZ = eulerAngle.z / BodyRate;
 
             return new FaceData(eulerAngle.y, eulerAngle.x, eulerAngle.z, eyeLOpen, eyeROpen, eyeBallX, eyeBallY, mouthOpenY, bodyAngleX, bodyAngleY, bodyAngleZ);
